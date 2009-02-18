@@ -24,6 +24,10 @@ into config/locales
 Create a folder for each locale you want to use e.g. `locale/en`
 
     #environment.rb
+    Rails::Initializer.run do |config|
+      ...
+      config.gem "gettext", :version => '2.0.0', :lib => 'gettext', :source=>"download and install from github"
+    end
     GetText.bindtextdomain 'app', :path => File.join(RAILS_ROOT, 'locale')
     GetText.available_locales = ['en','de']
 
