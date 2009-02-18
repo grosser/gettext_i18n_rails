@@ -17,10 +17,11 @@ We need the new gettext, it has to be installed by `rake gem && sudo gem install
  - install [gettext 2.0](http://github.com/mutoh/gettext)
  - install [gettext_activerecord 0.1](http://github.com/mutoh/gettext) (only needed for parsing)
 
-    Copy default locales you want from e.g. http://github.com/svenfuchs/rails-i18n/rails/locale/de.yml
-    into config/locales
+then:
+Copy default locales you want from e.g. http://github.com/svenfuchs/rails-i18n/rails/locale/de.yml  
+into config/locales
 
-    Create a folder for each locale you want to use e.g. `locale/en`
+Create a folder for each locale you want to use e.g. `locale/en`
 
     #environment.rb
     GetText.bindtextdomain 'app', :path => File.join(RAILS_ROOT, 'locale')
