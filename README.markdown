@@ -7,13 +7,14 @@ that are not needed for simple applications.
 The idea is simple: use Rails I18n::Simple for all default translations,  
 and do our own translations with GetText!
 
-Framework does: I18n.t('weir.rails.syntax.i.hate')  
-We do: _('Just translate my damn text!')
+Rails does: `I18n.t('weir.rails.syntax.i.hate')`  
+We do: `_('Just translate my damn text!')`
 
 Setup
 =====
-    install [gettext 2.0](http://github.com/mutoh/gettext)
-    install [gettext_activerecord 0.1](http://github.com/mutoh/gettext) (only needed for parsing)
+We need the new gettext, it has to be installed by `rake gem && sudo gem install pkg/*`
+ - install [gettext 2.0](http://github.com/mutoh/gettext)
+ - install [gettext_activerecord 0.1](http://github.com/mutoh/gettext) (only needed for parsing)
 
     Copy default locales you want from e.g. http://github.com/svenfuchs/rails-i18n/rails/locale/de.yml
     into config/locales
