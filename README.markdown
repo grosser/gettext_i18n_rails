@@ -43,7 +43,9 @@ Translating
  - use some _('translations')
  - run `rake gettext:find`, to let GetText find all translations used
  - if this is your first translation: `cp locale/app.pot locale/de/app.po` for every locale you want to use
- - translate messages in 'locale/de/app.po' (leave msgstr blank and msgstr == msgid)
+ - translate messages in 'locale/de/app.po' (leave msgstr blank and msgstr == msgid)  
+new translations will be mared "fuzzy", search for this and remove it, so that they will be used
+obsolete translations are marked with ~#, they usually can be removed since they are no longer needed  
  - run `rake gettext:pack` to write GetText format translation files
 
 Namespaces
@@ -58,3 +60,19 @@ Plurals
 GetText supports pluralization
     n_('Apple','Apples',3) == 'Apples'
     ns_('Fruit|Apple','Fruit|Apples',1) == 'Apple' #when no translation was found
+
+Unfound translations
+====================
+Sometimes GetText cannot find a translation like `_("x"+"u")`,  
+for this cases either add `N_('xu')` somewhere else in the code,  
+where it can be seen by GetText, or even in a totally seperate file like  
+`unfound_translations.rb`, or use the [gettext_test_log rails plugin ](http://github.com/grosser/gettext_test_log)  
+to find all translations that where used while testing.  
+
+Author
+======
+GetText -> Masao Mutoh, from whom i learned how the internals work :)
+
+Michael Grosser  
+grosser.michael@gmail.com  
+Hereby placed under public domain, do what you want, just do not hold me accountable...  
