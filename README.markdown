@@ -1,4 +1,4 @@
-Simple Gettext/Rails integration that is somewhat-*threadsafe* and *fast*!
+Simple Gettext/Rails integration that is somewhat-**threadsafe** and **fast**!
 
 This contains a lot of monkey-patching,  
 since GetText normaly does lots of wacky/costly things,
@@ -12,24 +12,24 @@ We do: _('Just translate my damn text!')
 
 Setup
 =====
-  install [gettext 2.0](http://github.com/mutoh/gettext)
-  install [gettext_activerecord 0.1](http://github.com/mutoh/gettext) (only needed for parsing)
+    install [gettext 2.0](http://github.com/mutoh/gettext)
+    install [gettext_activerecord 0.1](http://github.com/mutoh/gettext) (only needed for parsing)
 
-  Copy default locales you want from e.g. http://github.com/svenfuchs/rails-i18n/rails/locale/de.yml
-  into config/locales
+    Copy default locales you want from e.g. http://github.com/svenfuchs/rails-i18n/rails/locale/de.yml
+    into config/locales
 
-  Create a folder for each locale you want to use e.g. `locale/en`
+    Create a folder for each locale you want to use e.g. `locale/en`
 
-  #environment.rb
-  GetText.bindtextdomain 'app', :path => File.join(RAILS_ROOT, 'locale')
-  GetText.available_locales = ['en','de']
+    #environment.rb
+    GetText.bindtextdomain 'app', :path => File.join(RAILS_ROOT, 'locale')
+    GetText.available_locales = ['en','de']
 
-  #application_controller
-  include GetText
-  before_filter :set_locale
+    #application_controller
+    include GetText
+    before_filter :set_locale
 
-  #application_helper
-  include GetText
+    #application_helper
+    include GetText
 
 Translating
 ===========
@@ -44,10 +44,10 @@ Namespaces
 Car|Model means Model in namespace Car.  
 You do not have to translate this into english "Model", if you use the
 namespace-aware translation
-  s_('Car|Model') == 'Model'#when no translation was found
+    s_('Car|Model') == 'Model'#when no translation was found
 
 Plurals
 =======
 GetText supports pluralization
-  n_('Apple','Apples',3) == 'Apples'
-  ns_('Fruit|Apple','Fruit|Apples',1) == 'Apple' #when no translation was found
+    n_('Apple','Apples',3) == 'Apples'
+    ns_('Fruit|Apple','Fruit|Apples',1) == 'Apple' #when no translation was found
