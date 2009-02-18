@@ -13,6 +13,7 @@ We do: `_('Just translate my damn text!')`
 Setup
 =====
 We need the new gettext, it has to be installed by `rake gem && sudo gem install pkg/*`
+
  - install [gettext 2.0](http://github.com/mutoh/gettext)
  - install [gettext_activerecord 0.1](http://github.com/mutoh/gettext) (only needed for parsing)
 
