@@ -1,0 +1,1 @@
+require 'gettext_i18n_rails'
