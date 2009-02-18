@@ -42,7 +42,7 @@ Translating
 ===========
  - use some _('translations')
  - run `rake gettext:find`, to let GetText find all translations used
- - `cp locale/app.pot locale/de/app.po` for every locale you want to use
+ - if this is your first translation: `cp locale/app.pot locale/de/app.po` for every locale you want to use
  - translate messages in 'locale/de/app.po' (leave msgstr blank and msgstr == msgid)
  - run `rake gettext:pack` to write GetText format translation files
 
