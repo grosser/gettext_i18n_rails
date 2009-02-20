@@ -5,7 +5,7 @@ require 'gettext_i18n_rails/gettext_hacks'
 class ActionController::Base
   def set_gettext_locale
     requested_locale = params[:locale] || session[:locale] || cookies[:locale] ||  requested_locales_from_header
-    session[:locale] = GetText.locale = requested_locale
+    session[:locale] = FastGettext.locale = requested_locale
   end
 
   private

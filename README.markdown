@@ -1,21 +1,20 @@
-Simple Gettext/Rails integration that is somewhat-**threadsafe** and **fast**!
-
-This contains a lot of monkey-patching,  
-since GetText normaly does lots of wacky/costly things,
-that are not needed for simple applications.
+Simple [FastGettext](http://github.com/grosser/fast_gettext) / Rails integration.
 
 The idea is simple: use Rails I18n::Simple for all default translations,  
-and do our own translations with GetText!
+and do our own translations with FastGettext!
 
 Rails does: `I18n.t('weir.rails.syntax.i.hate')`  
 We do: `_('Just translate my damn text!')`
 
 Setup
 =====
-We need the new gettext, it has to be installed by `rake gem && sudo gem install pkg/*`
+We need the new gettext for message parsing, it has to be installed by `rake gem && sudo gem install pkg/*`
 
  - install [gettext 2.0](http://github.com/mutoh/gettext)
- - install [gettext_activerecord 0.1](http://github.com/mutoh/gettext) (only needed for parsing)
+ - install [gettext_activerecord 0.1](http://github.com/mutoh/gettext)
+
+And we need [FastGettext  0.2.4](http://github.com/grosser/fast_gettext) for translation.
+    sudo gem install grosser-fast_gettext -s http://gems.github.com/
 
 then:
 Copy default locales you want from e.g. http://github.com/svenfuchs/rails-i18n/rails/locale/de.yml  
@@ -26,17 +25,26 @@ Create a folder for each locale you want to use e.g. `locale/en`
     #environment.rb
     Rails::Initializer.run do |config|
       ...
-      config.gem "gettext", :version => '2.0.0', :lib => 'gettext', :source=>"download and install from github"
+      config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '0.2.1', :source=>"http://gems.github.com/"
     end
-    GetText.bindtextdomain 'app', :path => File.join(RAILS_ROOT, 'locale')
-    GetText.available_locales = ['en','de']
+    FastGettext.add_text_domain 'app', :path => File.join(RAILS_ROOT, 'locale')
 
     #application_controller
-    include GetText
-    before_filter :set_locale
+    FastGettext.text_domain= 'app'
+    FastGettext.available_locales = ['en','de']
+    class ApplicationController < ...
+      include FastGettext
+
+      before_filter :set_gettext_locale
+      def set_gettext_locale
+        FastGettext.text_domain= 'app'
+        FastGettext.available_locales = ['en','de']
+        super
+      end
 
     #application_helper
-    include GetText
+    module ApplicationHelper
+      include FastGettext
 
 Translating
 ===========
@@ -59,7 +67,6 @@ Plurals
 =======
 GetText supports pluralization
     n_('Apple','Apples',3) == 'Apples'
-    ns_('Fruit|Apple','Fruit|Apples',1) == 'Apple' #when no translation was found
 
 Unfound translations
 ====================
@@ -69,9 +76,20 @@ where it can be seen by GetText, or even in a totally seperate file like
 `unfound_translations.rb`, or use the [gettext_test_log rails plugin ](http://github.com/grosser/gettext_test_log)  
 to find all translations that where used while testing.  
 
+###Improving Rails translations
+You certanly want to add at least:
+    #de.yml
+    active_record:
+      models:
+        car: 'Auto'
+        ...
+So that error messages use the translated version of your model.
+Further help can be found [here](http://iain.nl/2008/09/translating-activerecord)
+
 Author
 ======
 GetText -> Masao Mutoh, from whom i learned how the internals work :)
+FastGettext -> Me
 
 Michael Grosser  
 grosser.michael@gmail.com  
