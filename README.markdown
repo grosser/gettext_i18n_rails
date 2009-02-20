@@ -18,27 +18,25 @@ And we need [FastGettext  0.2.4](http://github.com/grosser/fast_gettext) for tra
 
 then:
 Copy default locales you want from e.g. http://github.com/svenfuchs/rails-i18n/rails/locale/de.yml  
-into config/locales
+into 'config/locales'
 
-Create a folder for each locale you want to use e.g. `locale/en`
+Create a folder for each locale you want to use in 'locale' e.g. 'locale/en' (NOT in config/locales)
 
     #environment.rb
     Rails::Initializer.run do |config|
       ...
-      config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '0.2.1', :source=>"http://gems.github.com/"
+      config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '0.2.4', :source=>"http://gems.github.com/"
     end
     FastGettext.add_text_domain 'app', :path => File.join(RAILS_ROOT, 'locale')
 
     #application_controller
-    FastGettext.text_domain= 'app'
-    FastGettext.available_locales = ['en','de']
     class ApplicationController < ...
       include FastGettext
 
       before_filter :set_gettext_locale
       def set_gettext_locale
-        FastGettext.text_domain= 'app'
-        FastGettext.available_locales = ['en','de']
+        FastGettext.text_domain = 'app'
+        FastGettext.available_locales = ['en','de'] #all you want to allow
         super
       end
 
@@ -52,8 +50,8 @@ Translating
  - run `rake gettext:find`, to let GetText find all translations used
  - if this is your first translation: `cp locale/app.pot locale/de/app.po` for every locale you want to use
  - translate messages in 'locale/de/app.po' (leave msgstr blank and msgstr == msgid)  
-new translations will be mared "fuzzy", search for this and remove it, so that they will be used
-obsolete translations are marked with ~#, they usually can be removed since they are no longer needed  
+new translations will be marked "fuzzy", search for this and remove it, so that they will be used.
+Obsolete translations are marked with ~#, they usually can be removed since they are no longer needed
  - run `rake gettext:pack` to write GetText format translation files
 
 Namespaces
@@ -61,7 +59,7 @@ Namespaces
 Car|Model means Model in namespace Car.  
 You do not have to translate this into english "Model", if you use the
 namespace-aware translation
-    s_('Car|Model') == 'Model'#when no translation was found
+    s_('Car|Model') == 'Model' #when no translation was found
 
 Plurals
 =======
@@ -83,8 +81,8 @@ You certanly want to add at least:
       models:
         car: 'Auto'
         ...
-So that error messages use the translated version of your model.
-Further help can be found [here](http://iain.nl/2008/09/translating-activerecord)
+So that Rails error messages use the translated version of your model.
+[more help](http://iain.nl/2008/09/translating-activerecord)
 
 Author
 ======
