@@ -20,8 +20,6 @@ then:
 Copy default locales you want from e.g. http://github.com/svenfuchs/rails-i18n/rails/locale/de.yml  
 into 'config/locales'
 
-Create a folder for each locale you want to use in 'locale' e.g. 'locale/en' (NOT in config/locales)
-
     #environment.rb
     Rails::Initializer.run do |config|
       ...
