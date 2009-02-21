@@ -13,7 +13,7 @@ We need the new gettext for message parsing, it has to be installed by `rake gem
  - install [gettext 2.0](http://github.com/mutoh/gettext)
  - install [gettext_activerecord 0.1](http://github.com/mutoh/gettext)
 
-And we need [FastGettext  0.2.4](http://github.com/grosser/fast_gettext) for translation.
+And we need [FastGettext  0.2.6](http://github.com/grosser/fast_gettext) for translation.
     sudo gem install grosser-fast_gettext -s http://gems.github.com/
 
 then:
@@ -23,13 +23,13 @@ into 'config/locales'
     #environment.rb
     Rails::Initializer.run do |config|
       ...
-      config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '0.2.4', :source=>"http://gems.github.com/"
+      config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '0.2.6', :source=>"http://gems.github.com/"
     end
     FastGettext.add_text_domain 'app', :path => File.join(RAILS_ROOT, 'locale')
 
     #application_controller
     class ApplicationController < ...
-      include FastGettext
+      include FastGettext::Translation
 
       before_filter :set_gettext_locale
       def set_gettext_locale
@@ -40,7 +40,7 @@ into 'config/locales'
 
     #application_helper
     module ApplicationHelper
-      include FastGettext
+      include FastGettext::Translation
 
 Translating
 ===========
