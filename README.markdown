@@ -6,6 +6,8 @@ and do our own translations with FastGettext!
 Rails does: `I18n.t('weir.rails.syntax.i.hate')`  
 We do: `_('Just translate my damn text!')`
 
+[See it working in the example application.](https://github.com/grosser/gettext_i18n_rails_example)
+
 Setup
 =====
 We need the new gettext for message parsing, it has to be installed by `rake gem && sudo gem install pkg/*`
@@ -13,8 +15,11 @@ We need the new gettext for message parsing, it has to be installed by `rake gem
  - install [gettext 2.0](http://github.com/mutoh/gettext)
  - install [gettext_activerecord 0.1](http://github.com/mutoh/gettext)
 
-And we need [FastGettext  0.2.6](http://github.com/grosser/fast_gettext) for translation.
+We need [FastGettext 0.2.6](http://github.com/grosser/fast_gettext) for translation.
     sudo gem install grosser-fast_gettext -s http://gems.github.com/
+
+And we need this plugin.
+    ./script/plugin install git://github.com/grosser/gettext_i18n_rails.git
 
 then:
 Copy default locales you want from e.g. http://github.com/svenfuchs/rails-i18n/rails/locale/de.yml  
