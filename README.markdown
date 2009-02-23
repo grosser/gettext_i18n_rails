@@ -31,18 +31,12 @@ into 'config/locales'
 
     #application_controller
     class ApplicationController < ...
-      include FastGettext::Translation
-
       before_filter :set_gettext_locale
       def set_gettext_locale
         FastGettext.text_domain = 'app'
         FastGettext.available_locales = ['en','de'] #all you want to allow
         super
       end
-
-    #application_helper
-    module ApplicationHelper
-      include FastGettext::Translation
 
 Translating
 ===========

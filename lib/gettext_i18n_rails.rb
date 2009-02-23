@@ -1,7 +1,17 @@
-I18n.backend = I18n::Backend::Simple.new
+# include translations into all the places it needs to go...
+[ActiveRecord::Base,ActionController::Base,ActionView::Base,ActionMailer::Base].each do |clas|
+  clas.send(:include,FastGettext::Translation)
+end
+module ApplicationHelper
+  include FastGettext::Translation
+end
 
+#link i18n and FastGettext.locale
+I18n.backend = I18n::Backend::Simple.new
 require 'gettext_i18n_rails/gettext_hacks'
 
+#method that will set the locale from cookies/session/header/params
+#recommended in FIRST before_filter
 class ActionController::Base
   def set_gettext_locale
     requested_locale = params[:locale] || session[:locale] || cookies[:locale] ||  requested_locales_from_header
