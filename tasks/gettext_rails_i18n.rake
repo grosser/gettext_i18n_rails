@@ -27,4 +27,24 @@ namespace :gettext do
       :msgmerge=>['--sort-output']
     )
   end
+
+  desc 'tries to install gettext & gettext_activerecord from git'
+  task :install do
+    [
+      ['gettext','2.0.0'],
+      ['gettext_activerecord','0.1']
+    ].each do |lib,version|
+      begin
+        gem lib, ">=#{version}"
+        puts "#{lib} version >=#{version} exists!"
+      rescue LoadError
+        puts "installing #{lib}...."
+        raise "a folder named #{lib} already exists, aborting!!" if File.exist?(lib)
+        `git clone git://github.com/mutoh/#{lib}.git`
+        `cd #{lib} && rake gem`
+        `sudo gem install #{lib}/pkg/#{lib}*.gem`
+        `rm -rf #{lib}`
+      end
+    end
+  end
 end
