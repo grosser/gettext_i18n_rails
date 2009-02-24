@@ -21,7 +21,7 @@ namespace :gettext do
 
     GetText.update_pofiles_org(
       "app",
-      Dir.glob("{app,lib,config}/**/*.{rb,erb}"),
+      Dir.glob("{app,lib,config,locale}/**/*.{rb,erb}"),
       "version 0.0.1",
       :po_root => 'locale',
       :msgmerge=>['--sort-output']

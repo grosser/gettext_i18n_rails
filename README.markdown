@@ -65,7 +65,7 @@ Unfound translations
 Sometimes GetText cannot find a translation like `_("x"+"u")`,  
 for this cases either add `N_('xu')` somewhere else in the code,  
 where it can be seen by GetText, or even in a totally seperate file like  
-`unfound_translations.rb`, or use the [gettext_test_log rails plugin ](http://github.com/grosser/gettext_test_log)  
+`locale/unfound_translations.rb`, or use the [gettext_test_log rails plugin ](http://github.com/grosser/gettext_test_log)
 to find all translations that where used while testing.  
 
 ###Improving Rails translations
