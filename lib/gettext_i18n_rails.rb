@@ -24,6 +24,6 @@ class ActionController::Base
 
   def requested_locales_from_header
     #yeah wtf, weird shit stolen from gettext...
-    request.env['HTTP_ACCEPT_LANGUAGE'].gsub(/\s/, "").split(/,/).map{|v| v.split(";q=")}.map{|j| [j[0], j[1] ? j[1].to_f : 1.0]}.sort{|a,b| -(a[1] <=> b[1])}.map{|x|x[0].to_s.sub('-','_')}
+    request.env['HTTP_ACCEPT_LANGUAGE'].to_s.gsub(/\s/, "").split(/,/).map{|v| v.split(";q=")}.map{|j| [j[0], j[1] ? j[1].to_f : 1.0]}.sort{|a,b| -(a[1] <=> b[1])}.map{|x|x[0].to_s.sub('-','_')}
   end
 end
