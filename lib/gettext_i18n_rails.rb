@@ -1,7 +1,8 @@
+gem 'fast_gettext', '>=0.2.9'
+
 # include translations into all the places it needs to go...
 [ActiveRecord::Base,ActionController::Base,ActionView::Base,ActionMailer::Base].each do |clas|
   clas.send(:include,FastGettext::Translation)
-  clas.send(:extend,FastGettext::Translation) #remove when fast_gettext 0.2.8 is availble
 end
 
 I18n.backend = I18n::Backend::Simple.new

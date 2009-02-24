@@ -15,7 +15,7 @@ This plugin:
     ./script/plugin install git://github.com/grosser/gettext_i18n_rails.git
 [FastGettext](http://github.com/grosser/fast_gettext):
     sudo gem install grosser-fast_gettext -s http://gems.github.com/
-[GetText 2.0](http://github.com/mutoh/gettext) & [GetText::ActiveRecord 0.1](http://github.com/mutoh/gettext):
+[GetText 2.0](http://github.com/mutoh/gettext):
     rake gettext:install
 
 ### Locales & initialisation
@@ -25,7 +25,7 @@ into 'config/locales'
     #environment.rb
     Rails::Initializer.run do |config|
       ...
-      config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '0.2.6', :source=>"http://gems.github.com/"
+      config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '0.2.9', :source=>"http://gems.github.com/"
     end
     FastGettext.add_text_domain 'app', :path => File.join(RAILS_ROOT, 'locale')
 
@@ -67,16 +67,6 @@ for this cases either add `N_('xu')` somewhere else in the code,
 where it can be seen by GetText, or even in a totally seperate file like  
 `locale/unfound_translations.rb`, or use the [gettext_test_log rails plugin ](http://github.com/grosser/gettext_test_log)
 to find all translations that where used while testing.  
-
-###Improving Rails translations
-You certanly want to add at least:
-    #de.yml
-    active_record:
-      models:
-        car: 'Auto'
-        ...
-So that Rails error messages use the translated version of your model.
-[more help](http://iain.nl/2008/09/translating-activerecord)
 
 Author
 ======
