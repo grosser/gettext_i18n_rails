@@ -25,7 +25,7 @@ into 'config/locales'
     #environment.rb
     Rails::Initializer.run do |config|
       ...
-      config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '0.2.9', :source=>"http://gems.github.com/"
+      config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '0.2.10', :source=>"http://gems.github.com/"
     end
     FastGettext.add_text_domain 'app', :path => File.join(RAILS_ROOT, 'locale')
 
@@ -47,6 +47,16 @@ Translating
 new translations will be marked "fuzzy", search for this and remove it, so that they will be used.
 Obsolete translations are marked with ~#, they usually can be removed since they are no longer needed
  - run `rake gettext:pack` to write GetText format translation files
+
+### ActiveRecord
+ActiveRecord error messages are translated through Rails::I18n, but
+model names and model attributes are translated through FastGettext.
+Therefore a validation error on a BigCar's and wheels_size needs `_('big car')` and `_('BigCar|Wheels size')`
+to display localized.
+
+These translations are found through `rake gettext:store_model_attributes`,
+which by default runs automatically with gettext:find and ignores some commonly untranslated columns (id,type,xxx_count,...).
+It is recommended to use individual ignores, e.g. ignore whole tables, to do that copy/manipulate the rake task.
 
 Namespaces
 ==========
