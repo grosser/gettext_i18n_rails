@@ -1,4 +1,5 @@
 gem 'fast_gettext', '>=0.2.10'
+require 'fast_gettext'
 
 # include translations into all the places it needs to go...
 [ActiveRecord::Base,ActionController::Base,ActionView::Base,ActionMailer::Base].each do |clas|

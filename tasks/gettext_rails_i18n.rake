@@ -41,10 +41,12 @@ namespace :gettext do
   task :store_model_attributes => :environment do
     FastGettext.silence_errors
     require 'gettext_i18n_rails/model_attributes_finder'
+    storage_file = 'locale/model_attributes.rb'
+    puts "writing model translations to: #{storage_file}"
     GettextI18nRails.store_model_attributes(
-      :to=>'locale/model_attributes.rb',
-      :ignore_columns=>[/_id$/,/_type$/,/_count$/,'id','type','created_at','updated_at'],
-      :ignore_tables=>[/^sitemap_/,/_versions$/]
+      :to=>storage_file,
+      :ignore_columns=>[/_id$/,'id','type','created_at','updated_at'],
+      :ignore_tables=>[/^sitemap_/,/_versions$/,'schema_migrations']
     )
   end
 

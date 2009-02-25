@@ -7,7 +7,7 @@ end
 
 describe ActiveRecord::Base do
   it "has a human name that is translated through FastGettext" do
-    CarSeat.expects(:_).with('CarSeat').returns('Autositz')
+    CarSeat.expects(:_).with('car seat').returns('Autositz')
     CarSeat.human_name.should == 'Autositz'
   end
   it "translates attributes through FastGettext" do

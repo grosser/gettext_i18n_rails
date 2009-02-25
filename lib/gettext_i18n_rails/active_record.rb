@@ -4,14 +4,14 @@ class ActiveRecord::Base
     s_(gettext_translation_for_attribute_name(attribute))
   end
 
-  # CarDealer -> _('CarDealer')
+  # CarDealer -> _('car dealer')
   def self.human_name
-    _(self.to_s)
+    _(self.to_s.underscore.gsub('_',' '))
   end
 
   private
 
-  def self.gettext_translation_for_attribute_name(attribute,clas=self)
-    "#{clas}|#{attribute.to_s.gsub('_',' ').capitalize}"
+  def self.gettext_translation_for_attribute_name(attribute)
+    "#{self}|#{attribute.to_s.gsub('_',' ').capitalize}"
   end
 end

@@ -6,12 +6,12 @@ module GettextI18nRails
       f.puts "#DO NOT MODIFY! AUTOMATICALLY GENERATED FILE!"
       ModelAttributesFinder.new.find(options).each do |table_name,column_names|
         #model name
-        model_name = table_name.singularize.camelcase
-        f.puts("_('#{model_name}')")#
+        model = table_name.singularize.camelcase.constantize
+        f.puts("_('#{model.to_s.underscore.gsub('_',' ')}')") #!Keep in sync with ActiveRecord::Base.human_name
         
         #all columns namespaced under the model
         column_names.each do |attribute|
-          translation = ActiveRecord::Base.gettext_translation_for_attribute_name(attribute,model_name)
+          translation = model.gettext_translation_for_attribute_name(attribute)
           f.puts("_('#{translation}')")
         end
       end
