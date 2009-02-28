@@ -15,7 +15,8 @@ This plugin:
     ./script/plugin install git://github.com/grosser/gettext_i18n_rails.git
 [FastGettext](http://github.com/grosser/fast_gettext):
     sudo gem install grosser-fast_gettext -s http://gems.github.com/
-[GetText 2.0](http://github.com/mutoh/gettext):
+[GetText 1.93 or 2.0](http://github.com/mutoh/gettext):
+    !!GetText 2.0 will render 1.93 unusable, so only install if you do not have apps that use 1.93!!
     rake gettext:install
 
 ### Locales & initialisation
@@ -25,7 +26,7 @@ into 'config/locales'
     #environment.rb
     Rails::Initializer.run do |config|
       ...
-      config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '0.2.10', :source=>"http://gems.github.com/"
+      config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '~>0.2.10', :source=>"http://gems.github.com/"
     end
     FastGettext.add_text_domain 'app', :path => File.join(RAILS_ROOT, 'locale')
 
@@ -55,7 +56,7 @@ Therefore a validation error on a BigCar's and wheels_size needs `_('big car')` 
 to display localized.
 
 These translations are found through `rake gettext:store_model_attributes`,
-which by default runs automatically with gettext:find and ignores some commonly untranslated columns (id,type,xxx_count,...).
+which ignores some commonly untranslated columns (id,type,xxx_count,...).
 It is recommended to use individual ignores, e.g. ignore whole tables, to do that copy/manipulate the rake task.
 
 Namespaces
@@ -80,9 +81,6 @@ to find all translations that where used while testing.
 
 Author
 ======
-GetText -> Masao Mutoh, from whom i learned how the internals work :)
-FastGettext -> Me
-
 Michael Grosser  
 grosser.michael@gmail.com  
 Hereby placed under public domain, do what you want, just do not hold me accountable...  
