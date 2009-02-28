@@ -12,10 +12,10 @@ Setup
 =====
 ###Installation
 This plugin: `  script/plugin install git://github.com/grosser/gettext_i18n_rails.git  `
+
 [FastGettext](http://github.com/grosser/fast_gettext): `  sudo gem install grosser-fast_gettext -s http://gems.github.com/  `
 
-GetText 1.93: `  sudo gem install gettext  `
-
+GetText 1.93: `  sudo gem install gettext  `  
 Or [GetText 2.0](http://github.com/mutoh/gettext): `  rake gettext:install  `  
 GetText 2.0 will render 1.93 unusable, so only install if you do not have apps that use 1.93!
 
