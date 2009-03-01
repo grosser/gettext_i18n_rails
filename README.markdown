@@ -48,6 +48,11 @@ new translations will be marked "fuzzy", search for this and remove it, so that 
 Obsolete translations are marked with ~#, they usually can be removed since they are no longer needed
  - run `rake gettext:pack` to write GetText format translation files
 
+###I18n
+Through Ruby magic:
+    I18n.locale is the same as FastGettext.locale.to_sym
+    I18n.locale = :de  is the same as FastGettext.locale = 'de'
+
 ### ActiveRecord
 ActiveRecord error messages are translated through Rails::I18n, but
 model names and model attributes are translated through FastGettext.
@@ -57,6 +62,7 @@ to display localized.
 These translations are found through `rake gettext:store_model_attributes`,
 which by default runs automatically with gettext:find and ignores some commonly untranslated columns (id,type,xxx_count,...).
 It is recommended to use individual ignores, e.g. ignore whole tables, to do that copy/manipulate the rake task.
+
 
 Namespaces
 ==========
@@ -80,7 +86,6 @@ to find all translations that where used while testing.
 
 Author
 ======
-GetText -> Masao Mutoh, from whom i learned how the internals work :)
 FastGettext -> Me
 
 Michael Grosser  
