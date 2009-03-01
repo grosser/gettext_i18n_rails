@@ -11,23 +11,24 @@ We do: `_('Just translate my damn text!')`
 Setup
 =====
 ###Installation
-This plugin:
-    ./script/plugin install git://github.com/grosser/gettext_i18n_rails.git
-[FastGettext](http://github.com/grosser/fast_gettext):
-    sudo gem install grosser-fast_gettext -s http://gems.github.com/
-[GetText 2.0](http://github.com/mutoh/gettext):
-    rake gettext:install
+This plugin: `  script/plugin install git://github.com/grosser/gettext_i18n_rails.git  `
+
+[FastGettext](http://github.com/grosser/fast_gettext): `  sudo gem install grosser-fast_gettext -s http://gems.github.com/  `
+
+GetText 1.93: `  sudo gem install gettext  `  
+Or [GetText 2.0](http://github.com/mutoh/gettext): `  rake gettext:install  `  
+GetText 2.0 will render 1.93 unusable, so only install if you do not have apps that use 1.93!
 
 ### Locales & initialisation
-Copy default locales you want from e.g. http://github.com/svenfuchs/rails-i18n/rails/locale/de.yml  
-into 'config/locales'
+Copy default locales you want from e.g.
+[rails i18n](http://github.com/svenfuchs/rails-i18n): rails/locale/de.yml into 'config/locales'
 
     #environment.rb
     Rails::Initializer.run do |config|
       ...
-      config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '0.2.10', :source=>"http://gems.github.com/"
+      config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '~>0.2.10', :source=>"http://gems.github.com/"
     end
-    FastGettext.add_text_domain 'app', :path => File.join(RAILS_ROOT, 'locale')
+    FastGettext.add_text_domain 'app', :path => 'locale'
 
     #application_controller
     class ApplicationController < ...
@@ -42,6 +43,7 @@ Translating
 ===========
  - use some _('translations')
  - run `rake gettext:find`, to let GetText find all translations used
+ - (optional) run `rake gettext:store_model_attributes`, to parse the database for columns that can be translated
  - if this is your first translation: `cp locale/app.pot locale/de/app.po` for every locale you want to use
  - translate messages in 'locale/de/app.po' (leave msgstr blank and msgstr == msgid)  
 new translations will be marked "fuzzy", search for this and remove it, so that they will be used.
@@ -59,8 +61,8 @@ model names and model attributes are translated through FastGettext.
 Therefore a validation error on a BigCar's and wheels_size needs `_('big car')` and `_('BigCar|Wheels size')`
 to display localized.
 
-These translations are found through `rake gettext:store_model_attributes`,
-which by default runs automatically with gettext:find and ignores some commonly untranslated columns (id,type,xxx_count,...).
+These translations can be found through `rake gettext:store_model_attributes`,
+which ignores some commonly untranslated columns (id,type,xxx_count,...).
 It is recommended to use individual ignores, e.g. ignore whole tables, to do that copy/manipulate the rake task.
 
 
@@ -86,8 +88,6 @@ to find all translations that where used while testing.
 
 Author
 ======
-FastGettext -> Me
-
 Michael Grosser  
 grosser.michael@gmail.com  
 Hereby placed under public domain, do what you want, just do not hold me accountable...  

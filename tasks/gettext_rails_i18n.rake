@@ -1,6 +1,5 @@
 namespace :gettext do
   def load_gettext
-    gem 'gettext', '>=2.0.0'
     require 'gettext'
     require 'gettext/utils'
   end
@@ -12,16 +11,36 @@ namespace :gettext do
   end
 
   desc "Update pot/po files."
-  task :find => :store_model_attributes do
+  task :find do
     load_gettext
 
-    GetText.update_pofiles_org(
-      "app",
-      Dir.glob("{app,lib,config,locale}/**/*.{rb,erb}"),
-      "version 0.0.1",
-      :po_root => 'locale',
-      :msgmerge=>['--sort-output']
-    )
+    if GetText.respond_to? :update_pofiles_org
+      GetText.update_pofiles_org(
+        "app",
+        Dir.glob("{app,lib,config,locale}/**/*.{rb,erb}"),
+        "version 0.0.1",
+        :po_root => 'locale',
+        :msgmerge=>['--sort-output']
+      )
+    else
+      puts "install new GetText with gettext:install to gain more features..."
+      #kill ar parser...
+      require 'gettext/parser/active_record'
+      module GetText
+        module ActiveRecordParser
+          module_function
+          def init(x);end
+        end
+      end
+
+      #parse files.. (models are simply parsed as ruby files)
+      GetText.update_pofiles(
+        "app",
+        Dir.glob("{app,lib,config,locale}/**/*.{rb,erb}"),
+        "version 0.0.1",
+        'locale'
+      )
+    end
   end
 
   # This is more of an example, ignoring
@@ -33,7 +52,7 @@ namespace :gettext do
   #
   # You can get your translations from GetText::ActiveRecord
   # by adding this to you gettext:find task
-  # 
+  #
   # require 'activerecord'
   # gem "gettext_activerecord", '>=0.1.0' #download and install from github
   # require 'gettext_activerecord/parser'
@@ -57,6 +76,15 @@ namespace :gettext do
       gem lib, ">=#{version}"
       puts "#{lib} version >=#{version} exists!"
     rescue LoadError
+      #check if locale gem is installed, since gettext install will fail without it
+      begin
+        require 'locale'
+      rescue LoadError
+        puts "first install locale gem: sudo gem install locale"
+        exit
+      end
+
+      #install by checking out from github
       puts "installing #{lib}...."
       raise "a folder named #{lib} already exists, aborting!!" if File.exist?(lib)
       `git clone git://github.com/mutoh/#{lib}.git`
