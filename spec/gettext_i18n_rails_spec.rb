@@ -31,12 +31,12 @@ describe GettextI18nRails do
       I18n.locale.should == :de
     end
 
-    pending_it "links I18n.locale and FastGettext.locale" do
+    it "links I18n.locale and FastGettext.locale" do
       I18n.locale = :yy
       FastGettext.locale.should == 'yy'
     end
 
-    pending_it "does not set a non-available locale thorugh I18n.locale" do
+    it "does not set a non-available locale thorugh I18n.locale" do
       FastGettext.available_locales = ['de']
       I18n.locale = :xx
       FastGettext.locale.should == 'de'

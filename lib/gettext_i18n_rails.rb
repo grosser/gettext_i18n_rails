@@ -11,7 +11,7 @@ end
 
 I18n.backend = I18n::Backend::Simple.new
 
-require 'gettext_i18n_rails/gettext_hacks'
+require 'gettext_i18n_rails/i18n_hacks'
 require 'gettext_i18n_rails/active_record'
 require 'gettext_i18n_rails/action_controller'
 
