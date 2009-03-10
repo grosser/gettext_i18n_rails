@@ -26,7 +26,7 @@ Copy default locales you want from e.g.
     #environment.rb
     Rails::Initializer.run do |config|
       ...
-      config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '~>0.2.10', :source=>"http://gems.github.com/"
+      config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '~>0.3.0', :source=>"http://gems.github.com/"
     end
     FastGettext.add_text_domain 'app', :path => 'locale'
 
