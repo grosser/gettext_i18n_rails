@@ -86,8 +86,12 @@ where it can be seen by GetText, or even in a totally seperate file like
 `locale/unfound_translations.rb`, or use the [gettext_test_log rails plugin ](http://github.com/grosser/gettext_test_log)
 to find all translations that where used while testing.  
 
+TODO
+====
+ - Haml parser does not work, because Gettext::Rubyparser does not find translations in converted haml code...
+
 Author
 ======
-Michael Grosser  
+[Michael Grosser](http://pragmatig.wordpress.com)  
 grosser.michael@gmail.com  
 Hereby placed under public domain, do what you want, just do not hold me accountable...  
