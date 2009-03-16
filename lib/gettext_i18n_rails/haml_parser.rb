@@ -15,7 +15,7 @@ module GettextI18nRails
     end
 
     def parse(file, msgids = [])
-      load_haml
+      return msgids unless load_haml
       text = IO.readlines(file).join
 
       #first pass with real haml
@@ -25,7 +25,7 @@ module GettextI18nRails
 
       #second pass with hacky haml parser
       code = HamlTranslationExtractor.parse(text)
-      msgids = GetText::RubyParser.parse_lines(file, code, msgids)
+      GetText::RubyParser.parse_lines(file, code, msgids)
     end
 
     def load_haml
@@ -36,7 +36,8 @@ module GettextI18nRails
         begin
           require 'haml'  # From gem
         rescue LoadError
-          raise 'A haml file was found, but haml library could not be found...'
+          puts "A haml file was found, but haml library could not be found, so nothing will be parsed..."
+          return false
         end
       end
       @haml_loaded = true
