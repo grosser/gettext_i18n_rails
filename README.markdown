@@ -88,7 +88,7 @@ to find all translations that where used while testing.
 
 TODO
 ====
- - Haml parser does not work, because Gettext::Rubyparser does not find translations in converted haml code...
+ - HamlParser could be improved... (Gettext::Rubyparser does not find translations in converted haml code, so I monkeypatched it to work somewhat)
 
 Author
 ======

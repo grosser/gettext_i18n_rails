@@ -5,6 +5,7 @@ rescue LoadError #version prior to 2.0
   require 'gettext/rgettext'
 end
 
+require 'gettext_i18n_rails/haml_translation_extractor'
 module GettextI18nRails
   module HamlParser
     module_function
@@ -15,9 +16,16 @@ module GettextI18nRails
 
     def parse(file, msgids = [])
       load_haml
-      haml = Haml::Engine.new(IO.readlines(file).join)
+      text = IO.readlines(file).join
+
+      #first pass with real haml
+      haml = Haml::Engine.new(text)
       code = haml.precompiled.split(/$/)
-      GetText::RubyParser.parse_lines(file, code, msgids)
+      msgids = GetText::RubyParser.parse_lines(file, code, msgids)
+
+      #second pass with hacky haml parser
+      code = HamlTranslationExtractor.parse(text)
+      msgids = GetText::RubyParser.parse_lines(file, code, msgids)
     end
 
     def load_haml
