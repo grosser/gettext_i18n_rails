@@ -29,7 +29,7 @@ module GettextI18nRails
     end
 
     def load_haml
-      return if @haml_loaded
+      return true if @haml_loaded
       begin
         require "#{RAILS_ROOT}/vendor/plugins/haml/lib/haml"
       rescue LoadError
