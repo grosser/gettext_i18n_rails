@@ -70,29 +70,4 @@ namespace :gettext do
       :ignore_tables=>[/^sitemap_/,/_versions$/,'schema_migrations']
     )
   end
-
-  desc 'tries to install gettext from git'
-  task :install do
-    lib,version = 'gettext','2.0.0'
-    begin
-      gem lib, ">=#{version}"
-      puts "#{lib} version >=#{version} exists!"
-    rescue LoadError
-      #check if locale gem is installed, since gettext install will fail without it
-      begin
-        require 'locale'
-      rescue LoadError
-        puts "first install locale gem: sudo gem install locale"
-        exit
-      end
-
-      #install by checking out from github
-      puts "installing #{lib}...."
-      raise "a folder named #{lib} already exists, aborting!!" if File.exist?(lib)
-      `git clone git://github.com/mutoh/#{lib}.git`
-      `cd #{lib} && rake gem`
-      `sudo gem install #{lib}/pkg/#{lib}*.gem`
-      `rm -rf #{lib}`
-    end
-  end
 end

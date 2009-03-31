@@ -15,8 +15,7 @@ This plugin: `  script/plugin install git://github.com/grosser/gettext_i18n_rail
 
 [FastGettext](http://github.com/grosser/fast_gettext): `  sudo gem install grosser-fast_gettext -s http://gems.github.com/  `
 
-GetText 1.93: `  sudo gem install gettext  `  
-Or [GetText 2.0](http://github.com/mutoh/gettext): `  rake gettext:install  `  
+GetText 1.93 or GetText 2.0: `  sudo gem install gettext  `
 GetText 2.0 will render 1.93 unusable, so only install if you do not have apps that use 1.93!
 
 ### Locales & initialisation
@@ -27,6 +26,8 @@ Copy default locales you want from e.g.
     Rails::Initializer.run do |config|
       ...
       config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '~>0.3.0', :source=>"http://gems.github.com/"
+      #only used for mo/po file generation in development, !do not load(:lib=>false)! since it will only eat 7mb ram
+      config.gem "gettext", :lib => false, :version => '>=1.9.3'
     end
     FastGettext.add_text_domain 'app', :path => 'locale'
 
