@@ -66,6 +66,17 @@ These translations can be found through `rake gettext:store_model_attributes`,
 which ignores some commonly untranslated columns (id,type,xxx_count,...).
 It is recommended to use individual ignores, e.g. ignore whole tables, to do that copy/manipulate the rake task.
 
+Error messages are translated through Rails I18n framework, since i do not want to mess with this atm.
+E.g. if your rating model needs a custom validation on rating, it would look like this:
+    en:
+      activerecord:
+        errors:
+          models:
+            rating:
+              attributes:
+                rating:
+                  inclusion: " -- please choose!"
+Best have a look at the [rails I18n guide](http://guides.rubyonrails.org/i18n.html)
 
 Namespaces
 ==========
@@ -81,14 +92,16 @@ GetText supports pluralization
 
 Unfound translations
 ====================
-Sometimes GetText cannot find a translation like `_("x"+"u")`,  
-for this cases either add `N_('xu')` somewhere else in the code,  
-where it can be seen by GetText, or even in a totally seperate file like  
-`locale/unfound_translations.rb`, or use the [gettext_test_log rails plugin ](http://github.com/grosser/gettext_test_log)
-to find all translations that where used while testing.  
+Sometimes translations like `_("x"+"u")` cannot be fond. You have 4 options:
+ - add `N_('xu')` somewhere else in the code, so the parser sees it
+ - add `N_('xu')` in a totally seperate file like `locale/unfound_translations.rb`, so the parser sees it
+ - use the [gettext_test_log rails plugin ](http://github.com/grosser/gettext_test_log) to find all translations that where used while testing
+ - add a Logger to a translation Chain, so every unfound translations is logged ([example]((http://github.com/grosser/fast_gettext)))
+
 
 TODO
 ====
+ - AR error messages that equal msgids could be translated automatically
  - HamlParser could be improved... (Gettext::Rubyparser does not find translations in converted haml code, so I monkeypatched it to work somewhat)
 
 Author
