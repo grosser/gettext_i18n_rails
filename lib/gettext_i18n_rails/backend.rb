@@ -28,7 +28,7 @@ module GettextI18nRails
     protected
 
     def flatten_key key, options
-      scope = options[:scope] || []
+      scope = [*(options[:scope] || [])]
       scope.empty? ? key.to_s : "#{scope*'.'}.#{key}"
     end
   end

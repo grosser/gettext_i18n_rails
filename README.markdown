@@ -1,10 +1,10 @@
 Simple [FastGettext](http://github.com/grosser/fast_gettext) / Rails integration.
 
-The idea is simple: use Rails I18n::Simple for all default translations,  
-and do our own translations with FastGettext!
+Do all translations you want with FastGettext, use any other I18n backend as extension/fallback.
 
 Rails does: `I18n.t('weir.rails.syntax.i.hate')`  
-We do: `_('Just translate my damn text!')`
+We do: `_('Just translate my damn text!')`  
+To use I18n calls define a `weir.rails.syntax.i.hate` translation.  
 
 [See it working in the example application.](https://github.com/grosser/gettext_i18n_rails_example)
 
@@ -25,7 +25,7 @@ Copy default locales you want from e.g.
     #environment.rb
     Rails::Initializer.run do |config|
       ...
-      config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '~>0.3.0', :source=>"http://gems.github.com/"
+      config.gem "grosser-fast_gettext", :lib => 'fast_gettext', :version => '~>0.4.8', :source=>"http://gems.github.com/"
       #only used for mo/po file generation in development, !do not load(:lib=>false)! since it will only eat 7mb ram
       config.gem "gettext", :lib => false, :version => '>=1.9.3'
     end
@@ -42,6 +42,8 @@ Copy default locales you want from e.g.
 
 Translating
 ===========
+###Getting started
+####Option A: Traditional mo/po files
  - use some _('translations')
  - run `rake gettext:find`, to let GetText find all translations used
  - (optional) run `rake gettext:store_model_attributes`, to parse the database for columns that can be translated
@@ -51,10 +53,24 @@ new translations will be marked "fuzzy", search for this and remove it, so that 
 Obsolete translations are marked with ~#, they usually can be removed since they are no longer needed
  - run `rake gettext:pack` to write GetText format translation files
 
+####Option B: Database
+This is the most scalable method, since all translators can work simultanousely and online,
+it is new, so please give me feedback!
+
+Most easy to use with the [translation database Rails engine](http://github.com/grosser/translation_db_engine).
+FastGettext setup would look like:
+    include FastGettext::TranslationRepository::Db.require_models #load and include default models
+    FastGettext.add_text_domain 'app', :type=>:db, :model=>TranslationKey
+Translations can be edited under `/translation_keys`
+
+
+
 ###I18n
 Through Ruby magic:
     I18n.locale is the same as FastGettext.locale.to_sym
     I18n.locale = :de  is the same as FastGettext.locale = 'de'
+
+Any call to I18n that matches a gettext key will be translated through gettext.
 
 ### ActiveRecord
 ActiveRecord error messages are translated through Rails::I18n, but
@@ -66,8 +82,13 @@ These translations can be found through `rake gettext:store_model_attributes`,
 which ignores some commonly untranslated columns (id,type,xxx_count,...).
 It is recommended to use individual ignores, e.g. ignore whole tables, to do that copy/manipulate the rake task.
 
-Error messages are translated through Rails I18n framework, since i do not want to mess with this atm.
-E.g. if your rating model needs a custom validation on rating, it would look like this:
+Error messages are translated through Rails I18n framework.
+E.g. your rating model needs a custom validation on rating:
+####Option A:
+Define a translation for `activerecord.errors.models.rating.attributes.rating.inclusion`
+
+####Option B:
+Add a translation to each config/locales/*.yml files
     en:
       activerecord:
         errors:
@@ -101,7 +122,6 @@ Sometimes translations like `_("x"+"u")` cannot be fond. You have 4 options:
 
 TODO
 ====
- - AR error messages that equal msgids could be translated automatically
  - HamlParser could be improved... (Gettext::Rubyparser does not find translations in converted haml code, so I monkeypatched it to work somewhat)
 
 Author

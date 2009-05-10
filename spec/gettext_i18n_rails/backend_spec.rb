@@ -24,6 +24,16 @@ describe GettextI18nRails::Backend do
       subject.translate('xx','u',:scope=>['xy','z']).should == 'a'
     end
 
+    it "can translate with gettext using symbols" do
+      FastGettext.expects(:current_repository).returns 'xy.z.u'=>'a'
+      subject.translate('xx',:u ,:scope=>['xy','z']).should == 'a'
+    end
+
+    it "can translate with gettext using a flat scope" do
+      FastGettext.expects(:current_repository).returns 'xy.z.u'=>'a'
+      subject.translate('xx',:u ,:scope=>'xy.z').should == 'a'
+    end
+
     it "uses the super when the key is not translateable" do
       lambda{subject.translate('xx','u',:scope=>['xy','z'])}.should raise_error(I18n::MissingTranslationData)
     end
