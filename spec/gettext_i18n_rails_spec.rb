@@ -3,15 +3,12 @@ require File.expand_path("spec_helper", File.dirname(__FILE__))
 FastGettext.silence_errors
 
 describe GettextI18nRails do
-  it "extends important rails classes with fast_gettext" do
-    ActionController::Base._('x')
-    ActiveRecord::Base._('x')
-    ActionMailer::Base._('x')
-    ActionView::Base._('x')
+  it "extends all classes with fast_gettext" do
+    _('test')
   end
 
-  it "sets up the I18n::Backend::Simple" do
-    I18n.backend.is_a?(I18n::Backend::Simple).should be_true
+  it "sets up out backend" do
+    I18n.backend.is_a?(GettextI18nRails::Backend).should be_true
   end
 
   describe 'FastGettext I18n interaction' do
