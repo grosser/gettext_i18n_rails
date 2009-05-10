@@ -1,11 +1,3 @@
-unless defined? FastGetext.key_exist?
-  module FastGettext
-    def key_exist?(key)
-      !!current_repository[key]
-    end
-  end
-end
-
 module GettextI18nRails
   #translates i18n calls to gettext calls
   class Backend

@@ -3,9 +3,9 @@ module GettextI18nRails
 end
 
 begin
-  gem 'grosser-fast_gettext', '>=0.2.10'
+  gem 'fast_gettext', '>=0.4.8'
 rescue LoadError
-  gem 'fast_gettext', '>=0.2.10'
+  gem 'grosser-fast_gettext', '>=0.4.8'
 end
 
 # include translations into all the places it needs to go...
