@@ -1,8 +1,10 @@
 module GettextI18nRails
   #translates i18n calls to gettext calls
   class Backend
+    attr_accessor :backend
+
     def initialize(*args)
-      @backend = I18n::Backend::Simple.new(*args)
+      self.backend = I18n::Backend::Simple.new(*args)
     end
 
     def available_locales
@@ -15,12 +17,12 @@ module GettextI18nRails
         raise "no yet build..." if options[:locale]
         _(flat_key)
       else
-        @backend.translate locale, key, options
+        backend.translate locale, key, options
       end
     end
 
     def method_missing(method, *args)
-      @backend.call(method, *args)
+      backend.send(method, *args)
     end
 
     protected

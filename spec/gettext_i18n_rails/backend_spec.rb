@@ -1,6 +1,11 @@
 require File.expand_path("../spec_helper", File.dirname(__FILE__))
 
 describe GettextI18nRails::Backend do
+  it "redirects calls to another I18n backend" do
+    subject.backend.expects(:xxx).with(1,2)
+    subject.xxx(1,2)
+  end
+
   describe :available_locales do
     it "maps them to FastGettext" do
       FastGettext.expects(:available_locales).returns [:xxx]
