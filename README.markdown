@@ -29,6 +29,8 @@ Copy default locales you want from e.g.
       #only used for mo/po file generation in development, !do not load(:lib=>false)! since it will only eat 7mb ram
       config.gem "gettext", :lib => false, :version => '>=1.9.3'
     end
+
+    #config/initialisers/fast_gettext.rb
     FastGettext.add_text_domain 'app', :path => 'locale'
 
     #application_controller
