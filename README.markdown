@@ -65,8 +65,6 @@ FastGettext setup would look like:
     FastGettext.add_text_domain 'app', :type=>:db, :model=>TranslationKey
 Translations can be edited under `/translation_keys`
 
-
-
 ###I18n
 Through Ruby magic:
     I18n.locale is the same as FastGettext.locale.to_sym
@@ -74,22 +72,36 @@ Through Ruby magic:
 
 Any call to I18n that matches a gettext key will be translated through gettext.
 
-### ActiveRecord
+Namespaces
+==========
+Car|Model means Model in namespace Car.  
+You do not have to translate this into english "Model", if you use the
+namespace-aware translation
+    s_('Car|Model') == 'Model' #when no translation was found
+
+ActiveRecord - error messages
+=============================
 ActiveRecord error messages are translated through Rails::I18n, but
 model names and model attributes are translated through FastGettext.
-Therefore a validation error on a BigCar's and wheels_size needs `_('big car')` and `_('BigCar|Wheels size')`
+Therefore a validation error on a BigCar's wheels_size needs `_('big car')` and `_('BigCar|Wheels size')`
 to display localized.
 
-These translations can be found through `rake gettext:store_model_attributes`,
-which ignores some commonly untranslated columns (id,type,xxx_count,...).
-It is recommended to use individual ignores, e.g. ignore whole tables, to do that copy/manipulate the rake task.
+The model/attribute translations can be found through `rake gettext:store_model_attributes`,
+(which ignores some commonly untranslated columnslike id,type,xxx_count,...).
 
-Error messages are translated through Rails I18n framework.
-E.g. your rating model needs a custom validation on rating:
+Error messages can be translated through FastGrttext, if the ':message' has a translation or the Rails I18n key is translated.
+In any other case they go through the SimpleBackend.
+
 ####Option A:
-Define a translation for `activerecord.errors.models.rating.attributes.rating.inclusion`
+Define a translation for "I need my rating!" and use it as message.
+    validates_inclusion_of :rating, :in=>1..5, :message=>N_('I need my rating!')
 
 ####Option B:
+Do not use :message
+    validates_inclusion_of :rating, :in=>1..5
+and make a translation for the I18n key: `activerecord.errors.models.rating.attributes.rating.inclusion`
+
+####Option C:
 Add a translation to each config/locales/*.yml files
     en:
       activerecord:
@@ -99,14 +111,7 @@ Add a translation to each config/locales/*.yml files
               attributes:
                 rating:
                   inclusion: " -- please choose!"
-Best have a look at the [rails I18n guide](http://guides.rubyonrails.org/i18n.html)
-
-Namespaces
-==========
-Car|Model means Model in namespace Car.  
-You do not have to translate this into english "Model", if you use the
-namespace-aware translation
-    s_('Car|Model') == 'Model' #when no translation was found
+The [rails I18n guide](http://guides.rubyonrails.org/i18n.html) can help with Option B and C.
 
 Plurals
 =======

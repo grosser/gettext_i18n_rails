@@ -1,6 +1,8 @@
 module GettextI18nRails
   #translates i18n calls to gettext calls
   class Backend
+    @@translate_defaults = true
+    cattr_accessor :translate_defaults
     attr_accessor :backend
 
     def initialize(*args)
@@ -17,6 +19,11 @@ module GettextI18nRails
         raise "no yet build..." if options[:locale]
         _(flat_key)
       else
+        if self.class.translate_defaults
+          options[:default].to_a.each do |default|
+            return FastGettext._(default) if FastGettext.key_exist?(default)
+          end
+        end
         backend.translate locale, key, options
       end
     end
