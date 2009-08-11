@@ -15,8 +15,10 @@ This plugin: `  script/plugin install git://github.com/grosser/gettext_i18n_rail
 
 [FastGettext](http://github.com/grosser/fast_gettext): `  sudo gem install grosser-fast_gettext -s http://gems.github.com/  `
 
-GetText 1.93 or GetText 2.0: `  sudo gem install gettext  `
+GetText 1.93 or GetText 2.0: `  sudo gem install gettext  `  
 GetText 2.0 will render 1.93 unusable, so only install if you do not have apps that use 1.93!
+
+RubyParser if you want to parse ruby files for gettext calls. `  sudo gem install ruby_parser  `
 
 ### Locales & initialisation
 Copy default locales you want from e.g.
@@ -121,18 +123,17 @@ GetText supports pluralization
 Unfound translations
 ====================
 Sometimes translations like `_("x"+"u")` cannot be fond. You have 4 options:
+
  - add `N_('xu')` somewhere else in the code, so the parser sees it
  - add `N_('xu')` in a totally seperate file like `locale/unfound_translations.rb`, so the parser sees it
  - use the [gettext_test_log rails plugin ](http://github.com/grosser/gettext_test_log) to find all translations that where used while testing
  - add a Logger to a translation Chain, so every unfound translations is logged ([example]((http://github.com/grosser/fast_gettext)))
 
 
-TODO
-====
- - HamlParser could be improved... (Gettext::Rubyparser does not find translations in converted haml code, so I monkeypatched it to work somewhat)
-
 Author
 ======
+ - [ruby gettext extractor](http://github.com/retoo/ruby_gettext_extractor/tree/master) from [retoo](http://github.com/retoo)
+
 [Michael Grosser](http://pragmatig.wordpress.com)  
 grosser.michael@gmail.com  
 Hereby placed under public domain, do what you want, just do not hold me accountable...  
