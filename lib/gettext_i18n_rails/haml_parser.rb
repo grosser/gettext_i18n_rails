@@ -19,10 +19,9 @@ module GettextI18nRails
 
       text = IO.readlines(file).join
 
-      #first pass with real haml
       haml = Haml::Engine.new(text)
-      code = haml.precompiled.split(/$/)
-      GetText::RubyParser.parse_lines(file, code, msgids)
+      code = haml.precompiled
+      return RubyGettextExtractor.parse_string(code, file, msgids)
     end
 
     def load_haml
