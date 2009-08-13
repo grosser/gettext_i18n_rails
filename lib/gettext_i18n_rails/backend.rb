@@ -21,7 +21,8 @@ module GettextI18nRails
       else
         if self.class.translate_defaults
           options[:default].to_a.each do |default|
-            return FastGettext._(default) if FastGettext.key_exist?(default)
+            flat_key = flatten_key default, options
+            return FastGettext._(flat_key) if FastGettext.key_exist?(flat_key)
           end
         end
         backend.translate locale, key, options
