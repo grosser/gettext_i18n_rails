@@ -8,12 +8,6 @@
 require 'rubygems'
 require 'ruby_parser'
 
-begin
-  require 'gettext/tools/rgettext'
-rescue LoadError #version prior to 2.0
-  require 'gettext/rgettext'
-end
-
 module RubyGettextExtractor
   extend self
 
@@ -25,7 +19,7 @@ module RubyGettextExtractor
   def parse_string(content, file, targets=[])
     # file is just for information in error messages
     parser = Extractor.new(file, targets)
-    results = parser.run(content)
+    parser.run(content)
   end
 
   def target?(file)  # :nodoc:
@@ -73,7 +67,7 @@ module RubyGettextExtractor
 
           return nil if second_part.nil?
 
-          return first_part + second_part
+          return first_part.to_s + second_part.to_s
         else
           raise "uuh?"
         end
@@ -140,5 +134,3 @@ module RubyGettextExtractor
     end
   end
 end
-
-GetText::RGetText.add_parser(RubyGettextExtractor)
