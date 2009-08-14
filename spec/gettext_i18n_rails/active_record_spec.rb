@@ -18,6 +18,10 @@ class CarSeat < ActiveRecord::Base
 end
 
 describe ActiveRecord::Base do
+  before do
+    FastGettext.current_cache = {}
+  end
+
   it "has a human name that is translated through FastGettext" do
     CarSeat.expects(:_).with('car seat').returns('Autositz')
     CarSeat.human_name.should == 'Autositz'
@@ -34,6 +38,13 @@ describe ActiveRecord::Base do
     c = CarSeat.new
     c.valid?
     c.errors.on(:seat_color).should == "Übersetz mich!"
+  end
 
+  it "translates scoped error messages" do
+    FastGettext.stubs(:current_repository).returns('activerecord.errors.translate me'=>"Übersetz mich!")
+    FastGettext._('activerecord.errors.translate me').should == "Übersetz mich!"
+    c = CarSeat.new
+    c.valid?
+    c.errors.on(:seat_color).should == "Übersetz mich!"
   end
 end
