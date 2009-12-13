@@ -55,7 +55,7 @@ namespace :gettext do
   # You can get your translations from GetText::ActiveRecord
   # by adding this to you gettext:find task
   #
-  # require 'activerecord'
+  # require 'active_record'
   # gem "gettext_activerecord", '>=0.1.0' #download and install from github
   # require 'gettext_activerecord/parser'
   desc "write the locale/model_attributes.rb"
