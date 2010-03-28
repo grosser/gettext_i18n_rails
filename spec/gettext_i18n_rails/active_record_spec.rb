@@ -23,17 +23,17 @@ describe ActiveRecord::Base do
   end
 
   it "has a human name that is translated through FastGettext" do
-    CarSeat.expects(:_).with('car seat').returns('Autositz')
+    CarSeat.should_receive(:_).with('car seat').and_return('Autositz')
     CarSeat.human_name.should == 'Autositz'
   end
 
   it "translates attributes through FastGettext" do
-    CarSeat.expects(:s_).with('CarSeat|Seat color').returns('Sitz farbe')
+    CarSeat.should_receive(:s_).with('CarSeat|Seat color').and_return('Sitz farbe')
     CarSeat.human_attribute_name(:seat_color).should == 'Sitz farbe'
   end
 
   it "translates error messages" do
-    FastGettext.stubs(:current_repository).returns('translate me'=>"Übersetz mich!")
+    FastGettext.stub!(:current_repository).and_return('translate me'=>"Übersetz mich!")
     FastGettext._('translate me').should == "Übersetz mich!"
     c = CarSeat.new
     c.valid?
@@ -41,7 +41,7 @@ describe ActiveRecord::Base do
   end
 
   it "translates scoped error messages" do
-    FastGettext.stubs(:current_repository).returns('activerecord.errors.translate me'=>"Übersetz mich!")
+    FastGettext.stub!(:current_repository).and_return('activerecord.errors.translate me'=>"Übersetz mich!")
     FastGettext._('activerecord.errors.translate me').should == "Übersetz mich!"
     c = CarSeat.new
     c.valid?

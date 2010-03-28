@@ -29,7 +29,7 @@ describe ActionController::Base do
   end
 
   it "reads the locale from the HTTP_ACCEPT_LANGUAGE" do
-    @c.request.stubs(:env).returns 'HTTP_ACCEPT_LANGUAGE'=>'de-de,de;q=0.8,en-us;q=0.5,en;q=0.3'
+    @c.request.stub!(:env).and_return 'HTTP_ACCEPT_LANGUAGE'=>'de-de,de;q=0.8,en-us;q=0.5,en;q=0.3'
     @c.set_gettext_locale
     FastGettext.locale.should == 'en'
   end
