@@ -41,6 +41,7 @@ describe ActiveRecord::Base do
   end
 
   it "translates scoped error messages" do
+    pending 'scope is no longer added in 3.x' if ActiveRecord::VERSION::MAJOR >= 3 
     FastGettext.stub!(:current_repository).and_return('activerecord.errors.translate me'=>"Übersetz mich!")
     FastGettext._('activerecord.errors.translate me').should == "Übersetz mich!"
     c = CarSeat.new
