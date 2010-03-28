@@ -130,9 +130,10 @@ Sometimes translations like `_("x"+"u")` cannot be fond. You have 4 options:
  - add a Logger to a translation Chain, so every unfound translations is logged ([example]((http://github.com/grosser/fast_gettext)))
 
 
-Author
+Contributors
 ======
  - [ruby gettext extractor](http://github.com/retoo/ruby_gettext_extractor/tree/master) from [retoo](http://github.com/retoo)
+ - [Paul McMahon](http://github.com/pwim)
 
 [Michael Grosser](http://pragmatig.wordpress.com)  
 grosser.michael@gmail.com  
