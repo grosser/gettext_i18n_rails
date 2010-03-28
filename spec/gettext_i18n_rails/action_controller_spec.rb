@@ -6,8 +6,12 @@ describe ActionController::Base do
   before do
     #controller
     @c = ActionController::Base.new
-    @c.params = @c.session = {}
-    @c.request = stub(:env=>{},:cookies=>{})
+    fake_session = {}
+    @c.stub!(:session).and_return fake_session
+    fake_cookies = {}
+    @c.stub!(:cookies).and_return fake_cookies
+    @c.params = {}
+    @c.request = stub(:env => {})
 
     #locale
     FastGettext.available_locales = nil
