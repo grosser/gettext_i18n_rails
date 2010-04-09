@@ -20,7 +20,7 @@ module GettextI18nRails
         _(flat_key)
       else
         if self.class.translate_defaults
-          options[:default].to_a.each do |default|
+          [*options[:default]].each do |default|
             #try the more specific key first e.g. 'activerecord.errors.my custom message'
             flat_key = flatten_key default, options
             return FastGettext._(flat_key) if FastGettext.key_exist?(flat_key)
