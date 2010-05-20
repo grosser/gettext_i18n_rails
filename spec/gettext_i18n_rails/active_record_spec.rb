@@ -1,3 +1,4 @@
+# coding: utf-8
 require File.expand_path("../spec_helper", File.dirname(__FILE__))
 
 FastGettext.silence_errors
