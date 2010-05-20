@@ -23,6 +23,7 @@ begin
     gem.email = "grosser.michael@gmail.com"
     gem.homepage = "http://github.com/grosser/#{project_name}"
     gem.authors = ["Michael Grosser"]
+    gem.add_dependency 'fast_gettext'
   end
 
   Jeweler::GemcutterTasks.new
