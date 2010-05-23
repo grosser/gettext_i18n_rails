@@ -11,6 +11,10 @@ describe GettextI18nRails do
     I18n.backend.is_a?(GettextI18nRails::Backend).should be_true
   end
 
+  it "has a VERSION" do
+    GettextI18nRails::VERSION.should =~ /^\d+\.\d+\.\d+$/
+  end
+
   describe 'FastGettext I18n interaction' do
     before do
       FastGettext.available_locales = nil

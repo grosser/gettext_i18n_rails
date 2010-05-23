@@ -13,7 +13,7 @@ namespace :gettext do
   desc "Update pot/po files."
   task :find do
     load_gettext
-    $LOAD_PATH << File.join(File.dirname(__FILE__),'..','lib')
+    $LOAD_PATH << File.join(File.dirname(__FILE__),'..','..','lib')
     require 'gettext_i18n_rails/haml_parser'
 
     if GetText.respond_to? :update_pofiles_org

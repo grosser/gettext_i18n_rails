@@ -11,7 +11,8 @@ To use I18n calls define a `weir.rails.syntax.i.hate` translation.
 Setup
 =====
 ###Installation
-This plugin: `  script/plugin install git://github.com/grosser/gettext_i18n_rails.git  `
+As plugin: `  script/plugin install git://github.com/grosser/gettext_i18n_rails.git  `
+Or Gem: ` sudo gem install gettext_i18n_rails `
 
 [FastGettext](http://github.com/grosser/fast_gettext): `  sudo gem install fast_gettext  `
 
