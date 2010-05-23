@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
     "README.markdown",
      "Rakefile",
      "VERSION",
+     "gettext_i18n_rails.gemspec",
      "lib/gettext_i18n_rails.rb",
      "lib/gettext_i18n_rails/action_controller.rb",
      "lib/gettext_i18n_rails/active_record.rb",
@@ -52,9 +53,12 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<fast_gettext>, [">= 0"])
     else
+      s.add_dependency(%q<fast_gettext>, [">= 0"])
     end
   else
+    s.add_dependency(%q<fast_gettext>, [">= 0"])
   end
 end
 
