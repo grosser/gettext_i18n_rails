@@ -7,7 +7,7 @@ module GettextI18nRails
       ModelAttributesFinder.new.find(options).each do |table_name,column_names|
         #model name
         model = table_name.singularize.camelcase.constantize
-        f.puts("_('#{model.to_s.underscore.gsub('_',' ')}')") #!Keep in sync with ActiveRecord::Base.human_name
+        f.puts("_('#{model.human_name_without_translation}')") #!Keep in sync with ActiveRecord::Base.human_name
         
         #all columns namespaced under the model
         column_names.each do |attribute|

@@ -6,7 +6,11 @@ class ActiveRecord::Base
 
   # CarDealer -> _('car dealer')
   def self.human_name(*args)
-    _(self.to_s.underscore.gsub('_',' '))
+    _(self.human_name_without_translation)
+  end
+
+  def self.human_name_without_translation
+    self.to_s.underscore.gsub('_',' ')
   end
 
   private
