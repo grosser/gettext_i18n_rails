@@ -133,6 +133,7 @@ Contributors
  - [ruby gettext extractor](http://github.com/retoo/ruby_gettext_extractor/tree/master) from [retoo](http://github.com/retoo)
  - [Paul McMahon](http://github.com/pwim)
  - [Duncan Mac-Vicar P](http://duncan.mac-vicar.com/blog/)
+ - [Ramihajamalala Hery](http://my.rails-royce.org/)
 
 [Michael Grosser](http://pragmatig.wordpress.com)  
 grosser.michael@gmail.com  
