@@ -32,6 +32,9 @@ Copy default locales with dates/sentence-connectors/AR-errors you want from e.g.
       config.gem "fast_gettext", :version => '>=0.4.8'
       #only used for mo/po file generation in development, !do not load(:lib=>false), will needlessly eat ram!
       config.gem "gettext", :lib => false, :version => '>=1.9.3'
+      # with bundler this would be
+      # gem "fast_gettext", '>=0.4.8'
+      # gem '>=1.9.3', "gettext", :require => false
     end
 
     #config/initialisers/fast_gettext.rb
