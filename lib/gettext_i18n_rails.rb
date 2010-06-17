@@ -4,10 +4,9 @@ module GettextI18nRails
   extend self
 end
 
-begin
-  gem 'fast_gettext', '>=0.4.8'
-rescue LoadError
-  gem 'grosser-fast_gettext', '>=0.4.8'
+require 'fast_gettext'
+if Gem::Version.new(FastGettext::VERSION) < Gem::Version.new("0.4.8")
+  raise "Please upgrade fast_gettext"
 end
 
 # include translations into all the places it needs to go...

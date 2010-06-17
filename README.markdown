@@ -29,7 +29,7 @@ Copy default locales with dates/sentence-connectors/AR-errors you want from e.g.
     #environment.rb
     Rails::Initializer.run do |config|
       ...
-      config.gem "fast_gettext", :version => '~>0.4.17'
+      config.gem "fast_gettext", :version => '>=0.4.8'
       #only used for mo/po file generation in development, !do not load(:lib=>false), will needlessly eat ram!
       config.gem "gettext", :lib => false, :version => '>=1.9.3'
     end
