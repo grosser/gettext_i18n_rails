@@ -16,9 +16,12 @@ namespace :gettext do
     $LOAD_PATH << File.join(File.dirname(__FILE__),'..','..','lib')
     require 'gettext_i18n_rails/haml_parser'
 
+    textdomain = (ENV['TEXTDOMAIN'] || "app")
+
+
     if GetText.respond_to? :update_pofiles_org
       GetText.update_pofiles_org(
-        "app",
+        textdomain,
         Dir.glob("{app,lib,config,locale}/**/*.{rb,erb,haml}"),
         "version 0.0.1",
         :po_root => 'locale',
@@ -37,7 +40,7 @@ namespace :gettext do
 
       #parse files.. (models are simply parsed as ruby files)
       GetText.update_pofiles(
-        "app",
+        textdomain,
         Dir.glob("{app,lib,config,locale}/**/*.{rb,erb,haml}"),
         "version 0.0.1",
         'locale'
