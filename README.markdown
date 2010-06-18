@@ -28,7 +28,7 @@ Copy default locales with dates/sentence-connectors/AR-errors you want from e.g.
 
 If you are not using bundler:
 
-    #environment.rb
+    #config/environment.rb
     Rails::Initializer.run do |config|
       ...
       config.gem "fast_gettext", :version => '>=0.4.8'
@@ -38,11 +38,13 @@ If you are not using bundler:
 
 If you are using bundler:
 
+    #Gemfile
     gem "fast_gettext", '>=0.4.8'
     gem '>=1.9.3', "gettext", :require => false
 
 If you installed it as a gem add to your Rakefile
 
+    #Rakefile
     begin
       require "gettext_i18n_rails/tasks"
     rescue LoadError
@@ -58,7 +60,7 @@ To initialize:
 
 And in your application:
 
-    #application_controller
+    #app/controllers/application_controller.rb
     class ApplicationController < ...
       before_filter :set_gettext_locale
 
