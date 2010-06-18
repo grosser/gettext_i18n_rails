@@ -6,7 +6,12 @@ module GettextI18nRails
       f.puts "#DO NOT MODIFY! AUTOMATICALLY GENERATED FILE!"
       ModelAttributesFinder.new.find(options).each do |table_name,column_names|
         #model name
-        model = table_name.singularize.camelcase.constantize
+        begin
+          model = table_name.singularize.camelcase.constantize
+        rescue NameError
+          # Some tables are not models, for example: translation tables created by globalize2.
+          next
+        end
         f.puts("_('#{model.human_name_without_translation}')")
         
         #all columns namespaced under the model
