@@ -137,6 +137,7 @@ Contributors
  - [Paul McMahon](http://github.com/pwim)
  - [Duncan Mac-Vicar P](http://duncan.mac-vicar.com/blog/)
  - [Ramihajamalala Hery](http://my.rails-royce.org/)
+ - [J. Pablo Fernández](http://pupeno.com/)
 
 [Michael Grosser](http://pragmatig.wordpress.com)  
 grosser.michael@gmail.com  
