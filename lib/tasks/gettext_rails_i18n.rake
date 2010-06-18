@@ -72,6 +72,28 @@ namespace :gettext do
       :ignore_tables => ignore_tables
     )
   end
+
+  desc "add a new language"
+  task :add_languange, [:language] => :environment do |_, args|
+    language = args.language || ENV["LANGUAGE"]
+    if language.nil?
+      puts "You need to specify the language to add. Either 'LANGUAGE=eo rake gettext:add_languange' or 'rake gettext:add_languange[eo]'"
+    else
+      dir = [locale_path, language].join(File::SEPARATOR)
+      puts "Creating directory #{dir}"
+      Dir.mkdir dir
+
+      pot = [locale_path, "#{text_domain}.pot"].join(File::SEPARATOR)
+      new_po = [locale_path, language, "#{text_domain}.po"].join(File::SEPARATOR)
+      puts "Initializing #{new_po} from #{pot}."
+      system "msginit --locale=#{language} --input=#{pot} --output=#{new_po}"
+    end
+  end
+
+  def locale_path
+    FastGettext.translation_repositories[text_domain].instance_variable_get(:@options)[:path] || [RAILS_ROOT, "locale"].join(File::SEPARATOR)
+  end
+
   def text_domain
     ENV['TEXTDOMAIN'] || FastGettext.text_domain || "app"
   end
