@@ -2,9 +2,9 @@ Simple [FastGettext](http://github.com/grosser/fast_gettext) / Rails integration
 
 Do all translations you want with FastGettext, use any other I18n backend as extension/fallback.
 
-Rails does: `I18n.t('weir.rails.syntax.i.hate')`  
-We do: `_('Just translate my damn text!')`  
-To use I18n calls define a `weir.rails.syntax.i.hate` translation.  
+Rails does: `I18n.t('weir.rails.syntax.i.hate')`
+We do: `_('Just translate my damn text!')`
+To use I18n calls define a `weir.rails.syntax.i.hate` translation.
 
 [See it working in the example application.](https://github.com/grosser/gettext_i18n_rails_example)
 
@@ -17,7 +17,7 @@ Or Gem: ` sudo gem install gettext_i18n_rails `
 [FastGettext](http://github.com/grosser/fast_gettext): `  sudo gem install fast_gettext  `
 
 ### Want to find used messages in your ruby files ?
-GetText 1.93 or GetText 2.0: `  sudo gem install gettext  `  
+GetText 1.93 or GetText 2.0: `  sudo gem install gettext  `
 GetText 2.0 will render 1.93 unusable, so only install if you do not have apps that use 1.93!
 
 `  sudo gem install ruby_parser  `
@@ -26,25 +26,42 @@ GetText 2.0 will render 1.93 unusable, so only install if you do not have apps t
 Copy default locales with dates/sentence-connectors/AR-errors you want from e.g.
 [rails i18n](http://github.com/svenfuchs/rails-i18n/tree/master/rails/locale/) into 'config/locales'
 
+If you are not using bundler:
+
     #environment.rb
     Rails::Initializer.run do |config|
       ...
       config.gem "fast_gettext", :version => '>=0.4.8'
       #only used for mo/po file generation in development, !do not load(:lib=>false), will needlessly eat ram!
       config.gem "gettext", :lib => false, :version => '>=1.9.3'
-      # with bundler this would be
-      # gem "fast_gettext", '>=0.4.8'
-      # gem '>=1.9.3', "gettext", :require => false
     end
+
+If you are using bundler:
+
+    gem "fast_gettext", '>=0.4.8'
+    gem '>=1.9.3', "gettext", :require => false
+
+If you installed it as a gem add to your Rakefile
+
+    begin
+      require "gettext_i18n_rails/tasks"
+    rescue LoadError
+      puts "gettext_i18n_rails is not installed, you probably should run 'rake gems:install' or 'bundle install'."
+    end
+
+To initialize:
 
     #config/initialisers/fast_gettext.rb
     FastGettext.add_text_domain 'app', :path => 'locale'
     FastGettext.default_available_locales = ['en','de'] #all you want to allow
     FastGettext.default_text_domain = 'app'
 
+And in your application:
+
     #application_controller
     class ApplicationController < ...
       before_filter :set_gettext_locale
+
 
 Translating
 ===========
@@ -54,7 +71,7 @@ Translating
  - run `rake gettext:find`, to let GetText find all translations used
  - (optional) run `rake gettext:store_model_attributes`, to parse the database for columns that can be translated
  - if this is your first translation: `cp locale/app.pot locale/de/app.po` for every locale you want to use
- - translate messages in 'locale/de/app.po' (leave msgstr blank and msgstr == msgid)  
+ - translate messages in 'locale/de/app.po' (leave msgstr blank and msgstr == msgid)
 new translations will be marked "fuzzy", search for this and remove it, so that they will be used.
 Obsolete translations are marked with ~#, they usually can be removed since they are no longer needed
  - run `rake gettext:pack` to write GetText format translation files
@@ -77,7 +94,7 @@ Any call to I18n that matches a gettext key will be translated through FastGette
 
 Namespaces
 ==========
-Car|Model means Model in namespace Car.  
+Car|Model means Model in namespace Car.
 You do not have to translate this into english "Model", if you use the
 namespace-aware translation
     s_('Car|Model') == 'Model' #when no translation was found
@@ -139,6 +156,6 @@ Contributors
  - [Ramihajamalala Hery](http://my.rails-royce.org/)
  - [J. Pablo Fernández](http://pupeno.com/)
 
-[Michael Grosser](http://pragmatig.wordpress.com)  
-grosser.michael@gmail.com  
-Hereby placed under public domain, do what you want, just do not hold me accountable...  
+[Michael Grosser](http://pragmatig.wordpress.com)
+grosser.michael@gmail.com
+Hereby placed under public domain, do what you want, just do not hold me accountable...
