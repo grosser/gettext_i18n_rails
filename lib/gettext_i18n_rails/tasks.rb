@@ -74,7 +74,7 @@ namespace :gettext do
   end
 
   desc "add a new language"
-  task :add_languange, [:language] => :environment do |_, args|
+  task :add_language, [:language] => :environment do |_, args|
     language = args.language || ENV["LANGUAGE"]
     if language.nil?
       puts "You need to specify the language to add. Either 'LANGUAGE=eo rake gettext:add_languange' or 'rake gettext:add_languange[eo]'"
