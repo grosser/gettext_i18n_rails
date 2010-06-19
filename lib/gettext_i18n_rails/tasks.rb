@@ -76,22 +76,37 @@ namespace :gettext do
   desc "add a new language"
   task :add_language, [:language] => :environment do |_, args|
     language = args.language || ENV["LANGUAGE"]
+
+    # Let's do some pre-verification of the environment.
     if language.nil?
       puts "You need to specify the language to add. Either 'LANGUAGE=eo rake gettext:add_languange' or 'rake gettext:add_languange[eo]'"
-    else
-      dir = [locale_path, language].join(File::SEPARATOR)
-      puts "Creating directory #{dir}"
-      Dir.mkdir dir
-
-      pot = [locale_path, "#{text_domain}.pot"].join(File::SEPARATOR)
-      new_po = [locale_path, language, "#{text_domain}.po"].join(File::SEPARATOR)
-      puts "Initializing #{new_po} from #{pot}."
-      system "msginit --locale=#{language} --input=#{pot} --output=#{new_po}"
+      next
     end
+    pot = File.join(locale_path, "#{text_domain}.pot")
+    if !File.exists? pot
+      puts "You don't have a pot file yet, you probably should run 'rake gettext:find' at least once. Tried '#{pot}'."
+      next
+    end
+
+    # Create the directory for the new language.
+    dir = File.join(locale_path, language)
+    puts "Creating directory #{dir}"
+    Dir.mkdir dir
+
+    # Create the po file for the new language.
+    new_po = File.join(locale_path, language, "#{text_domain}.po")
+    puts "Initializing #{new_po} from #{pot}."
+    system "msginit --locale=#{language} --input=#{pot} --output=#{new_po}"
   end
 
   def locale_path
-    FastGettext.translation_repositories[text_domain].instance_variable_get(:@options)[:path] || [RAILS_ROOT, "locale"].join(File::SEPARATOR)
+    if FastGettext.translation_repositories.has_key?(text_domain) &&
+            FastGettext.translation_repositories[text_domain].instance_variable_defined?(:@options) &&
+            FastGettext.translation_repositories[text_domain].instance_variable_get(:@options).has_key?(:path)
+      FastGettext.translation_repositories[text_domain].instance_variable_get(:@options)[:path]
+    else
+      File.join(RAILS_ROOT, "locale")
+    end
   end
 
   def text_domain
