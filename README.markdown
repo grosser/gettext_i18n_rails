@@ -2,8 +2,8 @@ Simple [FastGettext](http://github.com/grosser/fast_gettext) / Rails integration
 
 Do all translations you want with FastGettext, use any other I18n backend as extension/fallback.
 
-Rails does: `I18n.t('weir.rails.syntax.i.hate')`
-We do: `_('Just translate my damn text!')`
+Rails does: `I18n.t('weir.rails.syntax.i.hate')`  
+We do: `_('Just translate my damn text!')`  
 To use I18n calls define a `weir.rails.syntax.i.hate` translation.
 
 [See it working in the example application.](https://github.com/grosser/gettext_i18n_rails_example)
@@ -158,6 +158,6 @@ Contributors
  - [Ramihajamalala Hery](http://my.rails-royce.org/)
  - [J. Pablo Fernández](http://pupeno.com/)
 
-[Michael Grosser](http://pragmatig.wordpress.com)
-grosser.michael@gmail.com
+[Michael Grosser](http://pragmatig.wordpress.com)  
+grosser.michael@gmail.com  
 Hereby placed under public domain, do what you want, just do not hold me accountable...
