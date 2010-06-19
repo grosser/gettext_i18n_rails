@@ -17,7 +17,7 @@ Or Gem: ` sudo gem install gettext_i18n_rails `
 [FastGettext](http://github.com/grosser/fast_gettext): `  sudo gem install fast_gettext  `
 
 ### Want to find used messages in your ruby files ?
-GetText 1.93 or GetText 2.0: `  sudo gem install gettext  `
+GetText 1.93 or GetText 2.0: `  sudo gem install gettext  `  
 GetText 2.0 will render 1.93 unusable, so only install if you do not have apps that use 1.93!
 
 `  sudo gem install ruby_parser  `
@@ -73,7 +73,7 @@ Translating
  - run `rake gettext:find`, to let GetText find all translations used
  - (optional) run `rake gettext:store_model_attributes`, to parse the database for columns that can be translated
  - if this is your first translation: `cp locale/app.pot locale/de/app.po` for every locale you want to use
- - translate messages in 'locale/de/app.po' (leave msgstr blank and msgstr == msgid)
+ - translate messages in 'locale/de/app.po' (leave msgstr blank and msgstr == msgid)  
 new translations will be marked "fuzzy", search for this and remove it, so that they will be used.
 Obsolete translations are marked with ~#, they usually can be removed since they are no longer needed
  - run `rake gettext:pack` to write GetText format translation files
@@ -96,7 +96,7 @@ Any call to I18n that matches a gettext key will be translated through FastGette
 
 Namespaces
 ==========
-Car|Model means Model in namespace Car.
+Car|Model means Model in namespace Car.  
 You do not have to translate this into english "Model", if you use the
 namespace-aware translation
     s_('Car|Model') == 'Model' #when no translation was found
