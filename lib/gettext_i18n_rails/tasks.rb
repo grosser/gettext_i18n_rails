@@ -100,13 +100,9 @@ namespace :gettext do
   end
 
   def locale_path
-    if FastGettext.translation_repositories.has_key?(text_domain) &&
-            FastGettext.translation_repositories[text_domain].instance_variable_defined?(:@options) &&
-            FastGettext.translation_repositories[text_domain].instance_variable_get(:@options).has_key?(:path)
-      FastGettext.translation_repositories[text_domain].instance_variable_get(:@options)[:path]
-    else
-      File.join(RAILS_ROOT, "locale")
-    end
+    FastGettext.translation_repositories[text_domain].instance_variable_get(:@options)[:path]
+  rescue
+    File.join(RAILS_ROOT, "locale")
   end
 
   def text_domain
