@@ -5,18 +5,16 @@
 
 Gem::Specification.new do |s|
   s.name = %q{gettext_i18n_rails}
-  s.version = "0.1.5"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Grosser"]
   s.date = %q{2010-06-19}
   s.email = %q{grosser.michael@gmail.com}
-  s.extra_rdoc_files = [
-    "README.markdown"
-  ]
   s.files = [
-    "README.markdown",
+    ".gitignore",
      "Rakefile",
+     "Readme.md",
      "VERSION",
      "gettext_i18n_rails.gemspec",
      "init.rb",
@@ -28,6 +26,7 @@ Gem::Specification.new do |s|
      "lib/gettext_i18n_rails/i18n_hacks.rb",
      "lib/gettext_i18n_rails/model_attributes_finder.rb",
      "lib/gettext_i18n_rails/ruby_gettext_extractor.rb",
+     "lib/gettext_i18n_rails/tasks.rb",
      "lib/tasks/gettext_rails_i18n.rake",
      "spec/gettext_i18n_rails/action_controller_spec.rb",
      "spec/gettext_i18n_rails/active_record_spec.rb",
