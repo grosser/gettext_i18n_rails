@@ -106,6 +106,7 @@ namespace :gettext do
   end
 
   def text_domain
-    ENV['TEXTDOMAIN'] || FastGettext.text_domain || "app"
+    # if your textdomain is not 'app': require the environment before calling e.g. gettext:find OR add TEXTDOMAIN=my_domain
+    ENV['TEXTDOMAIN'] || (FastGettext.text_domain rescue nil) || "app"
   end
 end
