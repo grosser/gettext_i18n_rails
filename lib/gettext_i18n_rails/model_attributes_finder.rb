@@ -23,6 +23,7 @@ module GettextI18nRails
       f.puts "#DO NOT MODIFY! AUTOMATICALLY GENERATED FILE!"
     end
   end
+  module_function :store_model_attributes
 
   class ModelAttributesFinder
     # options:

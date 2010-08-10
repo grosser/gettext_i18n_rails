@@ -62,9 +62,13 @@ namespace :gettext do
   desc "write the locale/model_attributes.rb"
   task :store_model_attributes => :environment do
     FastGettext.silence_errors
+
     require 'gettext_i18n_rails/model_attributes_finder'
+    require 'gettext_i18n_rails/active_record'
+
     storage_file = 'locale/model_attributes.rb'
     puts "writing model translations to: #{storage_file}"
+
     ignore_tables = [/^sitemap_/, /_versions$/, 'schema_migrations', 'sessions']
     GettextI18nRails.store_model_attributes(
       :to => storage_file,
