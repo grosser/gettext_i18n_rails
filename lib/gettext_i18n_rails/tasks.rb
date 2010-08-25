@@ -69,7 +69,7 @@ namespace :gettext do
     storage_file = 'locale/model_attributes.rb'
     puts "writing model translations to: #{storage_file}"
 
-    ignore_tables = [/^sitemap_/, /_versions$/, 'schema_migrations', 'sessions']
+    ignore_tables = [/^sitemap_/, /_versions$/, 'schema_migrations', 'sessions', 'delayed_jobs']
     GettextI18nRails.store_model_attributes(
       :to => storage_file,
       :ignore_columns => [/_id$/, 'id', 'type', 'created_at', 'updated_at'],
