@@ -1,9 +1,9 @@
 require 'rubygems'
 if ENV['VERSION']
   puts "running VERSION #{ENV['VERSION']}"
+  gem 'actionpack', ENV['VERSION']
   gem 'activerecord', ENV['VERSION']
   gem 'activesupport', ENV['VERSION']
-  gem 'actionpack', ENV['VERSION']
   gem 'actionmailer', ENV['VERSION']
 end
 
