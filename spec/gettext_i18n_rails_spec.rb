@@ -7,6 +7,22 @@ describe GettextI18nRails do
     _('test')
   end
 
+  it "makes instance translations html_safe" do
+    _('x').html_safe?.should == true
+    s_('x').html_safe?.should == true
+    n_('x','y',2).html_safe?.should == true
+  end
+
+  it "makes class translations html_safe" do
+    String._('x').html_safe?.should == true
+    String.s_('x').html_safe?.should == true
+    String.n_('x','y',2).html_safe?.should == true
+  end
+
+  it "does not make everything html_safe" do
+    'x'.html_safe?.should == false
+  end
+
   it "sets up out backend" do
     I18n.backend.is_a?(GettextI18nRails::Backend).should be_true
   end
@@ -37,7 +53,7 @@ describe GettextI18nRails do
       FastGettext.locale.should == 'yy'
     end
 
-    it "does not set a non-available locale thorugh I18n.locale" do
+    it "does not set a non-available locale though I18n.locale" do
       FastGettext.available_locales = ['de']
       I18n.locale = :xx
       FastGettext.locale.should == 'de'
