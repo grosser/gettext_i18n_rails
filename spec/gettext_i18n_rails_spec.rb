@@ -7,18 +7,6 @@ describe GettextI18nRails do
     _('test')
   end
 
-  it "makes instance translations html_safe" do
-    _('x').html_safe?.should == true
-    s_('x').html_safe?.should == true
-    n_('x','y',2).html_safe?.should == true
-  end
-
-  it "makes class translations html_safe" do
-    String._('x').html_safe?.should == true
-    String.s_('x').html_safe?.should == true
-    String.n_('x','y',2).html_safe?.should == true
-  end
-
   it "does not make everything html_safe" do
     'x'.html_safe?.should == false
   end
