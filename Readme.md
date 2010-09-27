@@ -99,6 +99,13 @@ You do not have to translate this into english "Model", if you use the
 namespace-aware translation
     s_('Car|Model') == 'Model' #when no translation was found
 
+XSS / html_safe
+===============
+If you trust your translators and all your usages of % on translations:  
+(% on string is atm buggy with always staying html_safe, no matter what was replaced)
+    # config/environment.rb
+    GettextI18nRails.translations_are_html_safe = true
+
 ActiveRecord - error messages
 =============================
 ActiveRecord error messages are translated through Rails::I18n, but
@@ -147,6 +154,12 @@ Sometimes translations like `_("x"+"u")` cannot be fond. You have 4 options:
  - use the [gettext_test_log rails plugin ](http://github.com/grosser/gettext_test_log) to find all translations that where used while testing
  - add a Logger to a translation Chain, so every unfound translations is logged ([example]((http://github.com/grosser/fast_gettext)))
 
+
+TODO
+=====
+ - add Railtie for rake tasks on Rails 3
+ - fix % on string to respect html_safe: `("<a>%{x}</a>".html_safe % {:x=>'<script>y</script>'})` should escape the `<script>y</script>` part) 
+ - refactor Readme
 
 Contributors
 ======
