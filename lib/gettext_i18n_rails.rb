@@ -12,7 +12,7 @@ end
 # include translations into all the places it needs to go...
 Object.send(:include, FastGettext::Translation)
 
-# make translations html_safe if needed
+# make translations html_safe if possible and wanted
 if "".respond_to?(:html_safe?)
   require 'gettext_i18n_rails/html_safe_translations'
   Object.send(:include, GettextI18nRails::HtmlSafeTranslations)

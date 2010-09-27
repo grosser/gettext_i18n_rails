@@ -3,24 +3,45 @@ require File.expand_path("spec_helper", File.dirname(__FILE__))
 FastGettext.silence_errors
 
 describe GettextI18nRails do
+  before do
+    GettextI18nRails.translations_are_html_safe = nil
+  end
+
   it "extends all classes with fast_gettext" do
     _('test')
   end
 
-  it "makes instance translations html_safe" do
-    _('x').html_safe?.should == true
-    s_('x').html_safe?.should == true
-    n_('x','y',2).html_safe?.should == true
-  end
+  describe 'translations_are_html_safe' do
+    before do
+      GettextI18nRails.translations_are_html_safe = nil
+    end
 
-  it "makes class translations html_safe" do
-    String._('x').html_safe?.should == true
-    String.s_('x').html_safe?.should == true
-    String.n_('x','y',2).html_safe?.should == true
-  end
+    it "makes translations not html_safe by default" do
+      _('x').html_safe?.should == false
+      s_('x').html_safe?.should == false
+      n_('x','y',2).html_safe?.should == false
+      String._('x').html_safe?.should == false
+      String.s_('x').html_safe?.should == false
+      String.n_('x','y',2).html_safe?.should == false
+    end
 
-  it "does not make everything html_safe" do
-    'x'.html_safe?.should == false
+    it "makes instance translations html_safe when wanted" do
+      GettextI18nRails.translations_are_html_safe = true
+      _('x').html_safe?.should == true
+      s_('x').html_safe?.should == true
+      n_('x','y',2).html_safe?.should == true
+    end
+
+    it "makes class translations html_safe when wanted" do
+      GettextI18nRails.translations_are_html_safe = true
+      String._('x').html_safe?.should == true
+      String.s_('x').html_safe?.should == true
+      String.n_('x','y',2).html_safe?.should == true
+    end
+
+    it "does not make everything html_safe" do
+      'x'.html_safe?.should == false
+    end
   end
 
   it "sets up out backend" do
