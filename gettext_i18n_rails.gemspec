@@ -23,7 +23,6 @@ Gem::Specification.new do |s|
      "lib/gettext_i18n_rails/active_record.rb",
      "lib/gettext_i18n_rails/backend.rb",
      "lib/gettext_i18n_rails/haml_parser.rb",
-     "lib/gettext_i18n_rails/html_safe_translations.rb",
      "lib/gettext_i18n_rails/i18n_hacks.rb",
      "lib/gettext_i18n_rails/model_attributes_finder.rb",
      "lib/gettext_i18n_rails/ruby_gettext_extractor.rb",
