@@ -40,7 +40,7 @@ With bundler:
     gem 'fast_gettext', '>=0.4.8'
     gem 'gettext', '>=1.9.3', :require => false
 
-Installed as gem? Add to your Rakefile:
+Installed as gem and on Rails 2? Add to your Rakefile:
 
     #Rakefile
     begin
@@ -157,7 +157,6 @@ Sometimes translations like `_("x"+"u")` cannot be fond. You have 4 options:
 
 TODO
 =====
- - add Railtie for rake tasks on Rails 3
  - fix % on string to respect html_safe: `("<a>%{x}</a>".html_safe % {:x=>'<script>y</script>'})` should escape the `<script>y</script>` part) 
  - refactor Readme
 
