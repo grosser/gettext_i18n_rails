@@ -44,7 +44,11 @@ module RubyGettextExtractor
     end
 
     def run(content)
-      self.parse(content)
+      # ruby parser has an ugly bug which causes that several \000's take
+      # ages to parse. This avoids this probelm by stripping them away (they probably wont appear in keys anyway)
+      # See bug report: http://rubyforge.org/tracker/index.php?func=detail&aid=26898&group_id=439&atid=1778
+      safe_content = content.gsub(/\\\d\d\d/, '')
+      self.parse(safe_content)
       return @results
     end
 
