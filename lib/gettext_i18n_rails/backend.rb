@@ -17,7 +17,7 @@ module GettextI18nRails
       flat_key = flatten_key key, options
       if FastGettext.key_exist?(flat_key)
         raise "no yet build..." if options[:locale]
-        _(flat_key)
+        (_(flat_key) %options)
       else
         if self.class.translate_defaults
           [*options[:default]].each do |default|
