@@ -1,5 +1,5 @@
 require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new {|t| t.spec_opts = ['--color']}
+Spec::Rake::SpecTask.new {|t| t.spec_opts = ['--color', '--backtrace']}
 
 task :default do
   puts `rake spec VERSION=2.3.9 RSPEC_COLOR=1`

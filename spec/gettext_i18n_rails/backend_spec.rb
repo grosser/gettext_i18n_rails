@@ -12,16 +12,21 @@ describe GettextI18nRails::Backend do
       subject.available_locales.should == [:xxx]
     end
 
-    it "and_return an epmty array when FastGettext.available_locales is nil" do
-      FastGettext.should_receive(:available_locales)
+    it "and returns an empty array when FastGettext.available_locales is nil" do
+      FastGettext.should_receive(:available_locales).and_return nil
       subject.available_locales.should == []
     end
   end
 
   describe :translate do
-    it "uses gettext when the key is translateable" do
+    it "uses gettext when the key is translatable" do
       FastGettext.should_receive(:current_repository).and_return 'xy.z.u'=>'a'
       subject.translate('xx','u',:scope=>['xy','z']).should == 'a'
+    end
+
+    it "interpolates options" do
+      FastGettext.should_receive(:current_repository).and_return 'ab.c'=>'a%{a}b'
+      subject.translate('xx','c',:scope=>['ab'], :a => 'X').should == 'aXb'
     end
 
     it "can translate with gettext using symbols" do
@@ -34,7 +39,7 @@ describe GettextI18nRails::Backend do
       subject.translate('xx',:x ,:scope=>'xy.z').should == 'a'
     end
 
-    it "uses the super when the key is not translateable" do
+    it "uses the super when the key is not translatable" do
       lambda{subject.translate('xx','y',:scope=>['xy','z'])}.should raise_error(I18n::MissingTranslationData)
     end
   end
