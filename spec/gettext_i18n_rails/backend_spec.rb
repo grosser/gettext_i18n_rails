@@ -20,22 +20,22 @@ describe GettextI18nRails::Backend do
 
   describe :translate do
     it "uses gettext when the key is translatable" do
-      FastGettext.should_receive(:current_repository).and_return 'xy.z.u'=>'a'
+      FastGettext.stub(:current_repository).and_return 'xy.z.u'=>'a'
       subject.translate('xx','u',:scope=>['xy','z']).should == 'a'
     end
 
     it "interpolates options" do
-      FastGettext.should_receive(:current_repository).and_return 'ab.c'=>'a%{a}b'
+      FastGettext.stub(:current_repository).and_return 'ab.c'=>'a%{a}b'
       subject.translate('xx','c',:scope=>['ab'], :a => 'X').should == 'aXb'
     end
 
     it "can translate with gettext using symbols" do
-      FastGettext.should_receive(:current_repository).and_return 'xy.z.v'=>'a'
+      FastGettext.stub(:current_repository).and_return 'xy.z.v'=>'a'
       subject.translate('xx',:v ,:scope=>['xy','z']).should == 'a'
     end
 
     it "can translate with gettext using a flat scope" do
-      FastGettext.should_receive(:current_repository).and_return 'xy.z.x'=>'a'
+      FastGettext.stub(:current_repository).and_return 'xy.z.x'=>'a'
       subject.translate('xx',:x ,:scope=>'xy.z').should == 'a'
     end
 

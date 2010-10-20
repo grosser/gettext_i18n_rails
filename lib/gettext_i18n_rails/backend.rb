@@ -14,21 +14,10 @@ module GettextI18nRails
     end
 
     def translate(locale, key, options)
-      flat_key = flatten_key key, options
-      if FastGettext.key_exist?(flat_key)
-        raise "no yet build..." if options[:locale]
-        interpolate(_(flat_key), options)
+      if gettext_key = gettext_key(key, options)
+        translation = FastGettext._(gettext_key)
+        interpolate(translation, options)
       else
-        if self.class.translate_defaults
-          [*options[:default]].each do |default|
-            #try the more specific key first e.g. 'activerecord.errors.my custom message'
-            flat_key = flatten_key default, options
-            return interpolate(FastGettext._(flat_key), options) if FastGettext.key_exist?(flat_key)
-
-            #try the short key thereafter e.g. 'my custom message'
-            return interpolate(FastGettext._(default), options) if FastGettext.key_exist?(default)
-          end
-        end
         backend.translate locale, key, options
       end
     end
@@ -38,6 +27,23 @@ module GettextI18nRails
     end
 
     protected
+
+    def gettext_key(key, options)
+      flat_key = flatten_key key, options
+      if FastGettext.key_exist?(flat_key)
+        flat_key
+      elsif self.class.translate_defaults
+        [*options[:default]].each do |default|
+          #try the scoped(more specific) key first e.g. 'activerecord.errors.my custom message'
+          flat_key = flatten_key default, options
+          return flat_key if FastGettext.key_exist?(flat_key)
+
+          #try the short key thereafter e.g. 'my custom message'
+          return default if FastGettext.key_exist?(default)
+        end
+        return nil
+      end
+    end
 
     def interpolate(string, values)
       string % values.except(*I18n::Backend::Base::RESERVED_KEYS)
