@@ -27,7 +27,7 @@ module GettextI18nRails
     def load_haml
       return true if @haml_loaded
       begin
-        require "#{RAILS_ROOT}/vendor/plugins/haml/lib/haml"
+        require "#{::Rails.root.to_s}/vendor/plugins/haml/lib/haml"
       rescue LoadError
         begin
           require 'haml'  # From gem
