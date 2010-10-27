@@ -190,6 +190,7 @@ Contributors
  - [Ramihajamalala Hery](http://my.rails-royce.org)
  - [J. Pablo Fernández](http://pupeno.com)
  - [Anh Hai Trinh](http://blog.onideas.ws)
+ - [ed0h](http://github.com/ed0h)
 
 [Michael Grosser](http://grosser.it)  
 grosser.michael@gmail.com  
