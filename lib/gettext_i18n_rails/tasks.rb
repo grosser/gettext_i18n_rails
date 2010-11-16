@@ -20,7 +20,7 @@ namespace :gettext do
     if GetText.respond_to? :update_pofiles_org
       GetText.update_pofiles_org(
         text_domain(),
-        Dir.glob("{app,lib,config,locale}/**/*.{rb,erb,haml}"),
+        files_to_translate(),
         "version 0.0.1",
         :po_root => 'locale',
         :msgmerge=>['--sort-output']
@@ -112,5 +112,9 @@ namespace :gettext do
   def text_domain
     # if your textdomain is not 'app': require the environment before calling e.g. gettext:find OR add TEXTDOMAIN=my_domain
     ENV['TEXTDOMAIN'] || (FastGettext.text_domain rescue nil) || "app"
+  end
+
+  def files_to_translate
+    Dir.glob("{app,lib,config,locale}/**/*.{rb,erb,haml}")
   end
 end

@@ -178,6 +178,22 @@ FastGettext supports pluralization
 
 Abnormal plurals like e.g. Polish that has 4 different can also be addressed, see [FastGettext Readme](http://github.com/grosser/fast_gettext)
 
+Customizing list of translatable files
+======================================
+When you run
+
+    rake gettext:find
+
+by default the following files are going to be scanned for translations: {app,lib,config,locale}/**/*.{rb,erb,haml}. If
+you want to specify a different list, you can redefine files_to_translate in the gettext namespace in a file like
+lib/tasks/gettext.rake:
+
+    namespace :gettext do
+      def files_to_translate
+        Dir.glob("{app,lib,config,locale}/**/*.{rb,erb,haml,rhtml}")
+      end
+    end
+
 TODO
 =====
  - fix % on string to respect html_safe: `("<a>%{x}</a>".html_safe % {:x=>'<script>y</script>'})` should escape the `<script>y</script>` part) 
