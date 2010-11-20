@@ -23,5 +23,5 @@ I18n.backend = GettextI18nRails::Backend.new
 
 require 'gettext_i18n_rails/i18n_hacks'
 require 'gettext_i18n_rails/active_record' if defined?(ActiveRecord)
-require 'gettext_i18n_rails/action_controller'
+require 'gettext_i18n_rails/action_controller' if defined?(ActionController) # so that bundle console can work in a rails project
 require 'gettext_i18n_rails/railtie'
