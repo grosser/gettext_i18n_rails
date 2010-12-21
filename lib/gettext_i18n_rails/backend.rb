@@ -46,7 +46,13 @@ module GettextI18nRails
     end
 
     def interpolate(string, values)
-      string % values.except(*I18n::Backend::Base::RESERVED_KEYS)
+      reserved_keys = if defined?(I18n::RESERVED_KEYS) # rails 3+
+        I18n::RESERVED_KEYS
+      else
+        I18n::Backend::Base::RESERVED_KEYS
+      end
+
+      string % values.except(*reserved_keys)
     end
 
     def flatten_key key, options
