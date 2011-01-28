@@ -22,7 +22,7 @@ namespace :gettext do
         text_domain(),
         files_to_translate(),
         "version 0.0.1",
-        :po_root => 'locale',
+        :po_root => locale_path,
         :msgmerge=>['--sort-output']
       )
     else #we are on a version < 2.0
