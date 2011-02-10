@@ -134,10 +134,15 @@ namespace-aware translation
 
 XSS / html_safe
 ===============
-If you trust your translators and all your usages of % on translations:  
-(% on string is atm buggy with always staying html_safe, no matter what was replaced)
+If you trust your translators and all your usages of % on translations:<br/>
     # config/environment.rb
     GettextI18nRails.translations_are_html_safe = true
+
+String % vs html_safe is buggy (can be used for XSS on 1.8 and is always non-safe in 1.9)<br/>
+My recommended fix is: `require 'gettext_i18n_rails/string_interpolate_fix'`
+
+ - safe stays safe (escape added strings)
+ - unsafe stays unsafe (do not escape added strings)
 
 ActiveRecord - error messages
 =============================
@@ -194,10 +199,6 @@ lib/tasks/gettext.rake:
       end
     end
 
-TODO
-=====
- - fix % on string to respect html_safe: `("<a>%{x}</a>".html_safe % {:x=>'<script>y</script>'})` should escape the `<script>y</script>` part) 
-
 Contributors
 ======
  - [ruby gettext extractor](http://github.com/retoo/ruby_gettext_extractor/tree/master) from [retoo](http://github.com/retoo)
@@ -208,6 +209,6 @@ Contributors
  - [Anh Hai Trinh](http://blog.onideas.ws)
  - [ed0h](http://github.com/ed0h)
 
-[Michael Grosser](http://grosser.it)  
-grosser.michael@gmail.com  
+[Michael Grosser](http://grosser.it)<br/>
+grosser.michael@gmail.com<br/>
 Hereby placed under public domain, do what you want, just do not hold me accountable...
