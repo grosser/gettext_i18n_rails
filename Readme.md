@@ -2,8 +2,8 @@
 
 Translate via FastGettext, use any other I18n backend as extension/fallback.
 
-Rails does: `I18n.t('syntax.with.lots.of.dots')` with nested yml files  
-We do: `_('Just translate my damn text!')` with simple, flat mo/po/yml files or directly from db  
+Rails does: `I18n.t('syntax.with.lots.of.dots')` with nested yml files
+We do: `_('Just translate my damn text!')` with simple, flat mo/po/yml files or directly from db
 To use I18n calls add a `syntax.with.lots.of.dots` translation.
 
 [See it working in the example application.](https://github.com/grosser/gettext_i18n_rails_example)
@@ -112,7 +112,7 @@ Dynamic translations like `_("x"+"u")` cannot be fond. You have 4 options:
 ### Option C: Database
 Most scalable method, all translators can work simultaneously and online.
 
-Easiest to use with the [translation database Rails engine](http://github.com/grosser/translation_db_engine).  
+Easiest to use with the [translation database Rails engine](http://github.com/grosser/translation_db_engine).
 Translations can be edited under `/translation_keys`
 
     FastGettext::TranslationRepository::Db.require_models
@@ -127,7 +127,7 @@ Any call to I18n that matches a gettext key will be translated through FastGette
 
 Namespaces
 ==========
-Car|Model means Model in namespace Car.  
+Car|Model means Model in namespace Car.
 You do not have to translate this into english "Model", if you use the
 namespace-aware translation
     s_('Car|Model') == 'Model' #when no translation was found
@@ -199,7 +199,7 @@ lib/tasks/gettext.rake:
       end
     end
 
-Contributors
+[Contributors](http://github.com/grosser/gettext_i18n_rails/contributors)
 ======
  - [ruby gettext extractor](http://github.com/retoo/ruby_gettext_extractor/tree/master) from [retoo](http://github.com/retoo)
  - [Paul McMahon](http://github.com/pwim)
@@ -208,6 +208,7 @@ Contributors
  - [J. Pablo Fernández](http://pupeno.com)
  - [Anh Hai Trinh](http://blog.onideas.ws)
  - [ed0h](http://github.com/ed0h)
+ - [Nikos Dimitrakopoulos](http://blog.nikosd.com)
 
 [Michael Grosser](http://grosser.it)<br/>
 grosser.michael@gmail.com<br/>
