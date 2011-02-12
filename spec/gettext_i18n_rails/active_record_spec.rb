@@ -12,10 +12,21 @@ ActiveRecord::Schema.define(:version => 1) do
   create_table :car_seats, :force=>true do |t|
     t.string :seat_color
   end
+
+  create_table :parts, :force=>true do |t|
+    t.string :name
+    t.references :car_seat
+  end
 end
 
 class CarSeat < ActiveRecord::Base
   validates_presence_of :seat_color, :message=>"translate me"
+  has_many :parts
+  accepts_nested_attributes_for :parts
+end
+
+class Part < ActiveRecord::Base
+  belongs_to :car_seat
 end
 
 describe ActiveRecord::Base do
@@ -34,6 +45,11 @@ describe ActiveRecord::Base do
     it "translates attributes through FastGettext" do
       CarSeat.should_receive(:s_).with('CarSeat|Seat color').and_return('Sitz farbe')
       CarSeat.human_attribute_name(:seat_color).should == 'Sitz farbe'
+    end
+
+    it "translates nested attributes through FastGettext" do
+      CarSeat.should_receive(:s_).with('CarSeat|Parts|Name').and_return('Handle')
+      CarSeat.human_attribute_name(:"parts.name").should == 'Handle'
     end
   end
 

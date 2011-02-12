@@ -16,6 +16,6 @@ class ActiveRecord::Base
   private
 
   def self.gettext_translation_for_attribute_name(attribute)
-    "#{self}|#{attribute.to_s.gsub('_',' ').capitalize}"
+    "#{self}|#{attribute.to_s.split('.').map! {|a| a.gsub('_',' ').capitalize }.join('|')}"
   end
 end
