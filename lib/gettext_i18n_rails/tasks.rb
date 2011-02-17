@@ -11,7 +11,7 @@ namespace :gettext do
   end
 
   desc "Update pot/po files."
-  task :find do
+  task :find => :environment do
     load_gettext
     $LOAD_PATH << File.join(File.dirname(__FILE__),'..','..','lib')
     require 'gettext_i18n_rails/haml_parser'
