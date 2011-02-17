@@ -59,7 +59,7 @@ namespace :gettext do
   # require 'active_record'
   # gem "gettext_activerecord", '>=0.1.0' #download and install from github
   # require 'gettext_activerecord/parser'
-  desc "write the #{locale_path}/model_attributes.rb"
+  desc "write the model attributes to <locale_path>/model_attributes.rb"
   task :store_model_attributes => :environment do
     FastGettext.silence_errors
 
