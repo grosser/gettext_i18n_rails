@@ -7,7 +7,7 @@ namespace :gettext do
   desc "Create mo-files for L10n"
   task :pack do
     load_gettext
-    GetText.create_mofiles(true, "locale", "locale")
+    GetText.create_mofiles(true, locale_path, locale_path)
   end
 
   desc "Update pot/po files."
@@ -19,8 +19,8 @@ namespace :gettext do
 
     if GetText.respond_to? :update_pofiles_org
       GetText.update_pofiles_org(
-        text_domain(),
-        files_to_translate(),
+        text_domain,
+        files_to_translate,
         "version 0.0.1",
         :po_root => locale_path,
         :msgmerge=>['--sort-output']
@@ -38,10 +38,10 @@ namespace :gettext do
 
       #parse files.. (models are simply parsed as ruby files)
       GetText.update_pofiles(
-        textdomain,
-        Dir.glob("{app,lib,config,locale}/**/*.{rb,erb,haml}"),
+        text_domain,
+        files_to_translate,
         "version 0.0.1",
-        'locale'
+        locale_path
       )
     end
   end
@@ -59,7 +59,7 @@ namespace :gettext do
   # require 'active_record'
   # gem "gettext_activerecord", '>=0.1.0' #download and install from github
   # require 'gettext_activerecord/parser'
-  desc "write the locale/model_attributes.rb"
+  desc "write the #{locale_path}/model_attributes.rb"
   task :store_model_attributes => :environment do
     FastGettext.silence_errors
 
@@ -115,6 +115,6 @@ namespace :gettext do
   end
 
   def files_to_translate
-    Dir.glob("{app,lib,config,locale}/**/*.{rb,erb,haml}")
+    Dir.glob("{app,lib,config,#{locale_path}}/**/*.{rb,erb,haml}")
   end
 end
