@@ -1,11 +1,4 @@
 require 'rubygems'
-if ENV['VERSION']
-  puts "running VERSION #{ENV['VERSION']}"
-  gem 'actionpack', ENV['VERSION']
-  gem 'activerecord', ENV['VERSION']
-  gem 'activesupport', ENV['VERSION']
-  gem 'actionmailer', ENV['VERSION']
-end
 
 $LOAD_PATH << File.expand_path("../lib", File.dirname(__FILE__))
 

@@ -2,10 +2,13 @@ require "rspec/core/rake_task"
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.rspec_opts = '--backtrace --color'
 end
-  
+
+task :rails2 do
+  sh "cd spec/rails2 && RAILS=rails rspec ../../spec"
+end
+
 task :default do
-  puts `rake spec VERSION=2.3.10 RSPEC_COLOR=1`
-  puts `rake spec VERSION=3.0.3 RSPEC_COLOR=1`
+  sh "rake spec && rake rails2"
 end
 
 begin
