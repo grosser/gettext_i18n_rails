@@ -5,7 +5,7 @@ namespace :gettext do
   end
 
   desc "Create mo-files for L10n"
-  task :pack do
+  task :pack => :environment do
     load_gettext
     GetText.create_mofiles(true, locale_path, locale_path)
   end
