@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{gettext_i18n_rails}
-  s.version = "0.2.19"
+  s.version = "0.2.20"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Grosser"]
-  s.date = %q{2011-03-29}
+  s.date = %q{2011-06-01}
   s.email = %q{grosser.michael@gmail.com}
   s.files = [
     "Gemfile",
@@ -42,7 +42,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = %q{http://github.com/grosser/gettext_i18n_rails}
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.4.2}
+  s.rubygems_version = %q{1.6.2}
   s.summary = %q{Simple FastGettext Rails integration.}
   s.test_files = [
     "spec/gettext_i18n_rails/action_controller_spec.rb",
