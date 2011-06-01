@@ -43,4 +43,11 @@ describe GettextI18nRails::Backend do
       lambda{subject.translate('xx','y',:scope=>['xy','z'])}.should raise_error(I18n::MissingTranslationData)
     end
   end
+
+  describe :interpolate do
+    it "act as an identity function for an array" do
+      translation = [:month, :day, :year]
+      subject.send(:interpolate, translation, {}).should == translation
+    end
+  end
 end
