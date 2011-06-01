@@ -209,6 +209,7 @@ lib/tasks/gettext.rake:
  - [Anh Hai Trinh](http://blog.onideas.ws)
  - [ed0h](http://github.com/ed0h)
  - [Nikos Dimitrakopoulos](http://blog.nikosd.com)
+ - [Ben Tucker](http://btucker.net/)
 
 [Michael Grosser](http://grosser.it)<br/>
 grosser.michael@gmail.com<br/>
