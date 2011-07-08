@@ -8,13 +8,13 @@ describe "String#%" do
     result.html_safe?.should == false
   end
 
-  it "stays safe if it was safe" do
+  xit "stays safe if it was safe" do
     result = ("<br/>%{x}".html_safe % {:x => 'a'})
     result.should == '<br/>a'
     result.html_safe?.should == true
   end
 
-  it "escapes unsafe added to safe" do
+  xit "escapes unsafe added to safe" do
     result = ("<br/>%{x}".html_safe % {:x => '<br/>'})
     result.should == '<br/>&lt;br/&gt;'
     result.html_safe?.should == true

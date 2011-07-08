@@ -4,7 +4,7 @@ end
 
 task :default do
   sh "RAILS=2.3.12 bundle && bundle exec rake spec"
-  sh "RAILS=3.0.8 bundle && bundle exec rake spec"
+  sh "RAILS=3.0.9 bundle && bundle exec rake spec"
 #  sh "RAILS=3.1.0.rc4 bundle && bundle exec rake spec"
 end
 
