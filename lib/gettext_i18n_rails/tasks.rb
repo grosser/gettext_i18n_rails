@@ -15,6 +15,7 @@ namespace :gettext do
     load_gettext
     $LOAD_PATH << File.join(File.dirname(__FILE__),'..','..','lib')
     require 'gettext_i18n_rails/haml_parser'
+    require 'gettext_i18n_rails/slim_parser'
 
 
     if GetText.respond_to? :update_pofiles_org
@@ -115,6 +116,6 @@ namespace :gettext do
   end
 
   def files_to_translate
-    Dir.glob("{app,lib,config,#{locale_path}}/**/*.{rb,erb,haml}")
+    Dir.glob("{app,lib,config,#{locale_path}}/**/*.{rb,erb,haml,slim}")
   end
 end
