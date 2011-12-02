@@ -210,6 +210,7 @@ lib/tasks/gettext.rake:
  - [ed0h](http://github.com/ed0h)
  - [Nikos Dimitrakopoulos](http://blog.nikosd.com)
  - [Ben Tucker](http://btucker.net/)
+ - [Kamil Śliwak](https://github.com/cameel)
 
 [Michael Grosser](http://grosser.it)<br/>
 grosser.michael@gmail.com<br/>
