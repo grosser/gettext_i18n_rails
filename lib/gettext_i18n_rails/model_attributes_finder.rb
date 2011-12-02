@@ -54,4 +54,56 @@ module GettextI18nRails
       patterns.detect{|p|p.to_s==name.to_s or (p.is_a?(Regexp) and name=~p)}
     end
   end
+
+private
+  # Tries to find the model class corresponding to specified table name.
+  # Takes into account that the model can be defined in a namespace.
+  # Searches only up to one level deep - won't find models nested in two
+  # or more modules.
+  #
+  # Note that if we allow namespaces, the conversion can be ambiguous, i.e.
+  # if the table is named "aa_bb_cc" and AaBbCc, Aa::BbCc and AaBb::Cc are
+  # all defined there's no absolute rule that tells us which one to use.
+  # This method prefers the less nested one and, if there are two at
+  # the same level, the one with shorter module name.
+  def table_name_to_namespaced_model(table_name)
+    # First assume that there are no namespaces
+    model = to_class(table_name.singularize.camelcase)
+    return model if model != nil
+
+    # If you were wrong, assume that the model is in a namespace.
+    # Iterate over the underscores and try to substitute each of them
+    # for a slash that camelcase() replaces with the scope operator (::).
+    underscore_position = table_name.index('_')
+    while underscore_position != nil
+      namespaced_table_name = table_name.dup
+      namespaced_table_name[underscore_position] = '/'
+      model = to_class(namespaced_table_name.singularize.camelcase)
+      return model if model != nil
+
+      underscore_position = table_name.index('_', underscore_position + 1)
+    end
+
+    # The model either is not defined or is buried more than one level
+    # deep in a module hierarchy
+    return nil
+  end
+
+  # Checks if there is a class of specified name and if so, returns
+  # the class object. Otherwise returns nil.
+  def to_class(name)
+    segments = name.split('::')
+    return nil if segments.empty?
+
+    constant = Module
+    segments.each do |segment|
+      if constant.const_defined?(segment)
+        constant = constant.const_get(segment)
+      else
+        return nil
+      end
+    end
+
+    return constant.is_a?(Class) ? constant : nil
+  end
 end
