@@ -92,18 +92,14 @@ private
   # Checks if there is a class of specified name and if so, returns
   # the class object. Otherwise returns nil.
   def to_class(name)
-    segments = name.split('::')
-    return nil if segments.empty?
-
-    constant = Module
-    segments.each do |segment|
-      if constant.const_defined?(segment)
-        constant = constant.const_get(segment)
-      else
-        return nil
-      end
+    # I wanted to use Module.const_defined?() here to avoid relying
+    # on exceptions for normal program flow but it's of no use.
+    # If class autoloading is enabled, the constant may be undefined
+    # but turn out to be present when we actually try to use it.
+    begin
+      constant = name.constantize
+    rescue NameError
+      return constant.is_a?(Class) ? constant : nil
     end
-
-    return constant.is_a?(Class) ? constant : nil
   end
 end
