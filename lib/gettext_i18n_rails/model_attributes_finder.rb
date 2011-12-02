@@ -7,9 +7,8 @@ module GettextI18nRails
         f.puts "#DO NOT MODIFY! AUTOMATICALLY GENERATED FILE!"
         ModelAttributesFinder.new.find(options).each do |table_name,column_names|
         #model name
-        begin
-          model = table_name.singularize.camelcase.constantize
-        rescue NameError
+        model = table_name_to_namespaced_model(table_name)
+        if model == nil
           # Some tables are not models, for example: translation tables created by globalize2.
           next
         end
