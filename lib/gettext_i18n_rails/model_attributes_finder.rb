@@ -10,6 +10,7 @@ module GettextI18nRails
         model = table_name_to_namespaced_model(table_name)
         if model == nil
           # Some tables are not models, for example: translation tables created by globalize2.
+          puts "[Warning] Model not found for table '#{table_name}'"
           next
         end
         f.puts("_('#{model.human_name_without_translation}')")
