@@ -2,9 +2,10 @@ module GettextI18nRails
   #write all found models/columns to a file where GetTexts ruby parser can find them
   def store_model_attributes(options)
     file = options[:to] || 'locale/model_attributes.rb'
-    File.open(file,'w') do |f|
-      f.puts "#DO NOT MODIFY! AUTOMATICALLY GENERATED FILE!"
-      ModelAttributesFinder.new.find(options).each do |table_name,column_names|
+    begin
+      File.open(file,'w') do |f|
+        f.puts "#DO NOT MODIFY! AUTOMATICALLY GENERATED FILE!"
+        ModelAttributesFinder.new.find(options).each do |table_name,column_names|
         #model name
         begin
           model = table_name.singularize.camelcase.constantize
@@ -13,14 +14,18 @@ module GettextI18nRails
           next
         end
         f.puts("_('#{model.human_name_without_translation}')")
-        
+
         #all columns namespaced under the model
         column_names.each do |attribute|
           translation = model.gettext_translation_for_attribute_name(attribute)
           f.puts("_('#{translation}')")
         end
+        end
+        f.puts "#DO NOT MODIFY! AUTOMATICALLY GENERATED FILE!"
       end
-      f.puts "#DO NOT MODIFY! AUTOMATICALLY GENERATED FILE!"
+    rescue
+      File.delete(file)
+      raise
     end
   end
   module_function :store_model_attributes
