@@ -99,7 +99,9 @@ private
     begin
       constant = name.constantize
     rescue NameError
-      return constant.is_a?(Class) ? constant : nil
+      return nil
     end
+
+    return constant.is_a?(Class) ? constant : nil
   end
 end
