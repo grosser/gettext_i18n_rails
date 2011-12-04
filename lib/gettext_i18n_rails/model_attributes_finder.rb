@@ -24,6 +24,7 @@ module GettextI18nRails
         f.puts "#DO NOT MODIFY! AUTOMATICALLY GENERATED FILE!"
       end
     rescue
+      puts "[Error] Attribute extraction failed. Removing incomplete file (#{file})"
       File.delete(file)
       raise
     end
