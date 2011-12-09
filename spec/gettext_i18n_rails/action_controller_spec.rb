@@ -3,19 +3,23 @@ require File.expand_path("../spec_helper", File.dirname(__FILE__))
 FastGettext.silence_errors
 
 describe ActionController::Base do
-  before do
-    #controller
-    @c = ActionController::Base.new
+  def reset!
     fake_session = {}
     @c.stub!(:session).and_return fake_session
     fake_cookies = {}
     @c.stub!(:cookies).and_return fake_cookies
     @c.params = {}
     @c.request = stub(:env => {})
+  end
+
+  before do
+    #controller
+    @c = ActionController::Base.new
+    reset!
 
     #locale
     FastGettext.available_locales = nil
-    FastGettext.locale = 'fr'
+    FastGettext.locale = I18n.default_locale = 'fr'
     FastGettext.available_locales = ['fr','en']
   end
 
@@ -30,6 +34,16 @@ describe ActionController::Base do
     @c.set_gettext_locale
     @c.session[:locale].should == 'fr'
     FastGettext.locale.should == 'fr'
+  end
+
+  it "locale isn't cached over request" do
+    @c.params = {:locale=>'en'}
+    @c.set_gettext_locale
+    @c.session[:locale].should == 'en'
+
+    reset!
+    @c.set_gettext_locale
+    @c.session[:locale].should == 'fr'
   end
 
   it "reads the locale from the HTTP_ACCEPT_LANGUAGE" do
