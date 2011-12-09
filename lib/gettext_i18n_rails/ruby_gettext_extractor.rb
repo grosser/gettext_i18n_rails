@@ -2,11 +2,15 @@
 #
 #!/usr/bin/ruby
 # parser/ruby.rb - look for gettext msg strings in ruby files
-# Copyright (C) 2009 Reto Schüttel <reto (ät) schuettel (dot) ch>
-# You may redistribute it and/or modify it under the same license terms as Ruby.
 
 require 'rubygems'
 require 'ruby_parser'
+
+begin
+  require 'gettext/tools/rgettext'
+rescue LoadError #version prior to 2.0
+  require 'gettext/rgettext'
+end
 
 module RubyGettextExtractor
   extend self
@@ -138,3 +142,5 @@ module RubyGettextExtractor
     end
   end
 end
+
+GetText::RGetText.add_parser(RubyGettextExtractor)
