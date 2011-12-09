@@ -142,5 +142,3 @@ module RubyGettextExtractor
     end
   end
 end
-
-GetText::RGetText.add_parser(RubyGettextExtractor)
