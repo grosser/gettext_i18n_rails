@@ -18,12 +18,17 @@ namespace :gettext do
 
 
     if GetText.respond_to? :update_pofiles_org
+      if defined?(Rails.application)
+        msgmerge = Rails.application.config.gettext_i18n_rails.msgmerge
+      end
+      msgmerge ||= %w[--sort-output --no-location --no-wrap]
+
       GetText.update_pofiles_org(
         text_domain,
         files_to_translate,
         "version 0.0.1",
         :po_root => locale_path,
-        :msgmerge=> Rails.application.config.gettext_i18n_rails.msgmerge
+        :msgmerge => msgmerge
       )
     else #we are on a version < 2.0
       puts "install new GetText with gettext:install to gain more features..."
