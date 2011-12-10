@@ -23,7 +23,7 @@ namespace :gettext do
         files_to_translate,
         "version 0.0.1",
         :po_root => locale_path,
-        :msgmerge=>['--sort-output']
+        :msgmerge=> Rails.application.config.gettext_i18n_rails.msgmerge
       )
     else #we are on a version < 2.0
       puts "install new GetText with gettext:install to gain more features..."
