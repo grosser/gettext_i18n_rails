@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 end
 
+ActiveRecord::Base.extend GettextI18nRails::ActiveRecord
+
 class CarSeat < ActiveRecord::Base
   validates_presence_of :seat_color, :message=>"translate me"
   has_many :parts
