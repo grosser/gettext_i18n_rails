@@ -211,6 +211,7 @@ lib/tasks/gettext.rake:
  - [Nikos Dimitrakopoulos](http://blog.nikosd.com)
  - [Ben Tucker](http://btucker.net/)
  - [Kamil Śliwak](https://github.com/cameel)
+ - [Paul McMahon](https://github.com/pwim)
 
 [Michael Grosser](http://grosser.it)<br/>
 grosser.michael@gmail.com<br/>
