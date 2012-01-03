@@ -27,9 +27,13 @@ Setup
     gem 'gettext_i18n_rails'
 
 ##### Optional:
-If you want to find translations or build .mo files
+Add `gettext` if you want to find translations or build .mo files<br/>
+Add `ruby_parser` if you want to find translations inside haml files
+
+
     # Gemfile
     gem 'gettext', '>=1.9.3', :require => false, :group => :development
+    gem 'ruby_parser', :require => false, :group => :development
 
 #### Rails 2
 
