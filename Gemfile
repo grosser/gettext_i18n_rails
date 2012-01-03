@@ -1,7 +1,6 @@
 source :rubygems
 
 gem 'fast_gettext'
-gem 'ruby_parser'
 
 group :dev do
   gem 'sqlite3', '~>1.3.4'
