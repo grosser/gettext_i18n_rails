@@ -13,8 +13,6 @@ module GettextI18nRails::ActiveRecord
     self.to_s.underscore.gsub('_',' ')
   end
 
-  private
-
   def gettext_translation_for_attribute_name(attribute)
     "#{self}|#{attribute.to_s.split('.').map! {|a| a.gsub('_',' ').capitalize }.join('|')}"
   end
