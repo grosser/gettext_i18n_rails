@@ -21,6 +21,13 @@ module Rails
   def self.root
     File.dirname(__FILE__)
   end
+
+  module VERSION
+    MAJOR = 3
+    MINOR = 1
+    PATCH = 0
+    STRING = "#{MAJOR}.#{MINOR}.#{PATCH}"
+  end
 end
 
 def with_file(content)
