@@ -216,6 +216,7 @@ lib/tasks/gettext.rake:
  - [Ben Tucker](http://btucker.net/)
  - [Kamil Śliwak](https://github.com/cameel)
  - [Paul McMahon](https://github.com/pwim)
+ - [Rainux Luo](https://github.com/rainux)
 
 [Michael Grosser](http://grosser.it)<br/>
 grosser.michael@gmail.com<br/>
