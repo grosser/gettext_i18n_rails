@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "gettext_i18n_rails"
-  s.version = "0.4.0"
+  s.version = "0.4.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Grosser"]
-  s.date = "2012-01-03"
+  s.date = "2012-01-10"
   s.email = "grosser.michael@gmail.com"
   s.files = [
     "Gemfile",
@@ -29,19 +29,22 @@ Gem::Specification.new do |s|
     "lib/gettext_i18n_rails/model_attributes_finder.rb",
     "lib/gettext_i18n_rails/railtie.rb",
     "lib/gettext_i18n_rails/ruby_gettext_extractor.rb",
+    "lib/gettext_i18n_rails/slim_parser.rb",
     "lib/gettext_i18n_rails/string_interpolate_fix.rb",
     "lib/gettext_i18n_rails/tasks.rb",
     "lib/tasks/gettext_rails_i18n.rake",
     "spec/gettext_i18n_rails/action_controller_spec.rb",
     "spec/gettext_i18n_rails/active_record_spec.rb",
     "spec/gettext_i18n_rails/backend_spec.rb",
+    "spec/gettext_i18n_rails/haml_parser_spec.rb",
+    "spec/gettext_i18n_rails/slim_parser_spec.rb",
     "spec/gettext_i18n_rails/string_interpolate_fix_spec.rb",
     "spec/gettext_i18n_rails_spec.rb",
     "spec/spec_helper.rb"
   ]
   s.homepage = "http://github.com/grosser/gettext_i18n_rails"
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.10"
+  s.rubygems_version = "1.8.15"
   s.summary = "Simple FastGettext Rails integration."
 
   if s.respond_to? :specification_version then
