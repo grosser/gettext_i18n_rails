@@ -24,7 +24,7 @@ describe GettextI18nRails::SlimParser do
     end
 
     it "does not find messages in text" do
-      with_file '_("xxxx")' do |path|
+      with_file 'div _("xxxx")' do |path|
         parser.parse(path, []).should == []
       end
     end

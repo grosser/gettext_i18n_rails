@@ -16,6 +16,7 @@ module GettextI18nRails
     def parse(file, msgids = [])
       return msgids unless prepare_slim_parsing
       text = File.read(file)
+      puts text
       code = Slim::Engine.new.call(text)
       RubyGettextExtractor.parse_string(code, file, msgids)
     end
