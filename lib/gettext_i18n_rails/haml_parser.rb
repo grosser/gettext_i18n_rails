@@ -14,18 +14,18 @@ module GettextI18nRails
     end
 
     def parse(file, msgids = [])
-      return msgids unless load_haml
-      require 'gettext_i18n_rails/ruby_gettext_extractor'
-
-      text = IO.readlines(file).join
-
-      haml = Haml::Engine.new(text)
-      code = haml.precompiled
-      return RubyGettextExtractor.parse_string(code, file, msgids)
+      return msgids unless prepare_haml_parsing
+      code = haml_to_code(File.read(file))
+      RubyGettextExtractor.parse_string(code, file, msgids)
     end
 
-    def load_haml
+    def haml_to_code(haml)
+      Haml::Engine.new(haml).precompiled
+    end
+
+    def prepare_haml_parsing
       return true if @haml_loaded
+
       begin
         require "#{::Rails.root.to_s}/vendor/plugins/haml/lib/haml"
       rescue LoadError
@@ -36,6 +36,8 @@ module GettextI18nRails
           return false
         end
       end
+
+      require 'gettext_i18n_rails/ruby_gettext_extractor'
       @haml_loaded = true
     end
   end
