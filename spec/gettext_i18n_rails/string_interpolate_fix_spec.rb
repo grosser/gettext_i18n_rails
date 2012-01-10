@@ -1,5 +1,5 @@
-require File.expand_path("../spec_helper", File.dirname(__FILE__))
-require 'gettext_i18n_rails/string_interpolate_fix'
+require "spec_helper"
+require "gettext_i18n_rails/string_interpolate_fix"
 
 describe "String#%" do
   it "is not safe if it was not safe" do

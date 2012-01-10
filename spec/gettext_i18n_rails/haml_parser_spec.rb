@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'gettext_i18n_rails/haml_parser'
+require "spec_helper"
+require "gettext_i18n_rails/haml_parser"
 
 describe GettextI18nRails::HamlParser do
   let(:parser){ GettextI18nRails::HamlParser }

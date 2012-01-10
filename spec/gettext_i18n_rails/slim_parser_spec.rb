@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'gettext_i18n_rails/slim_parser'
+require "spec_helper"
+require "gettext_i18n_rails/slim_parser"
 
 describe GettextI18nRails::SlimParser do
   let(:parser){ GettextI18nRails::SlimParser }
