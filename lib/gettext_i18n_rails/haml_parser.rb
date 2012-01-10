@@ -15,12 +15,9 @@ module GettextI18nRails
 
     def parse(file, msgids = [])
       return msgids unless prepare_haml_parsing
-      code = haml_to_code(File.read(file))
+      text = File.read(file)
+      code = Haml::Engine.new(text).precompiled()
       RubyGettextExtractor.parse_string(code, file, msgids)
-    end
-
-    def haml_to_code(haml)
-      Haml::Engine.new(haml).precompiled
     end
 
     def prepare_haml_parsing
@@ -42,4 +39,5 @@ module GettextI18nRails
     end
   end
 end
+
 GetText::RGetText.add_parser(GettextI18nRails::HamlParser)
