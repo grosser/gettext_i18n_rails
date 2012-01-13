@@ -39,7 +39,7 @@ module GettextI18nRails
     def find(options)
       found = Hash.new([])
 
-      connection = ActiveRecord::Base.connection
+      connection = ::ActiveRecord::Base.connection
       connection.tables.each do |table_name|
         next if ignored?(table_name,options[:ignore_tables])
         connection.columns(table_name).each do |column|
