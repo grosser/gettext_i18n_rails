@@ -23,6 +23,14 @@ describe GettextI18nRails::SlimParser do
       end
     end
 
+    xit "can parse 1.9 syntax" do
+      with_file 'div = _("xxxx", foo: :bar)' do |path|
+        parser.parse(path, []).should == [
+          ["xxxx", "#{path}:1"]
+        ]
+      end
+    end
+
     it "does not find messages in text" do
       with_file 'div _("xxxx")' do |path|
         parser.parse(path, []).should == []
