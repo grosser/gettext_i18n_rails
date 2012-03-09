@@ -5,6 +5,7 @@ gem 'fast_gettext'
 group :dev do
   gem 'haml'
   gem 'slim'
+  gem 'hamlet'
   gem 'ruby_parser'
   gem 'gettext'
   gem 'sqlite3', '~>1.3.4'
