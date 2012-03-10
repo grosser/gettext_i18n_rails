@@ -219,6 +219,7 @@ lib/tasks/gettext.rake:
  - [Rainux Luo](https://github.com/rainux)
  - [Lucas Hills](https://github.com/2potatocakes)
  - [Ladislav Slezák](https://github.com/lslezak)
+ - [Greg Weber](https://github.com/gregwebs)
 
 [Michael Grosser](http://grosser.it)<br/>
 grosser.michael@gmail.com<br/>
