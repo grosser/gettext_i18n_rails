@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "gettext_i18n_rails"
-  s.version = "0.4.4"
+  s.version = "0.4.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Grosser"]
-  s.date = "2012-03-10"
+  s.date = "2012-03-12"
   s.email = "grosser.michael@gmail.com"
   s.files = [
     "Gemfile",
