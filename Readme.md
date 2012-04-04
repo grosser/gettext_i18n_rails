@@ -28,7 +28,7 @@ Setup
 
 ##### Optional:
 Add `gettext` if you want to find translations or build .mo files<br/>
-Add `ruby_parser` if you want to find translations inside haml files
+Add `ruby_parser` if you want to find translations inside haml/slim/hamlet files (does not support ruby 1.9 syntax)
 
 
     # Gemfile
