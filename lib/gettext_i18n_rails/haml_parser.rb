@@ -18,6 +18,9 @@ module GettextI18nRails
       text = File.read(file)
       code = Haml::Engine.new(text).precompiled()
       RubyGettextExtractor.parse_string(code, file, msgids)
+    rescue Racc::ParseError => e
+      $stderr.puts "file ignored: ruby_parser cannot read haml files with 1.9 syntax --- (#{e.message})"
+      return msgids
     end
 
     def prepare_haml_parsing

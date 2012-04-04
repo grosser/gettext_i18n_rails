@@ -23,6 +23,13 @@ describe GettextI18nRails::HamlParser do
       end
     end
 
+    it "ignores 1.9 errors" do
+      with_file '= _("xxxx", x: 1)' do |path|
+        $stderr.should_receive(:puts).with{|x| x =~ /file ignored/ }
+        parser.parse(path, [1]).should == [1]
+      end
+    end
+
     it "does not find messages in text" do
       with_file '_("xxxx")' do |path|
         parser.parse(path, []).should == []
