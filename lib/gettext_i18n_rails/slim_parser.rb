@@ -1,35 +1,13 @@
-require 'gettext/tools'
-begin
-  require 'gettext/tools/rgettext'
-rescue LoadError #version prior to 2.0
-  require 'gettext/rgettext'
-end
+require 'gettext_i18n_rails/base_parser'
 
 module GettextI18nRails
-  module SlimParser
-    module_function
-
-    def target?(file)
-      File.extname(file) == '.slim'
+  class SlimParser < BaseParser
+    def self.extension
+      "slim"
     end
 
-    def parse(file, msgids = [])
-      return msgids unless prepare_slim_parsing
-      text = File.read(file)
-      code = Slim::Engine.new.call(text)
-      RubyGettextExtractor.parse_string(code, file, msgids)
-    end
-
-    def prepare_slim_parsing
-      return true if @slim_loaded
-      begin
-        require 'slim'
-      rescue LoadError
-        puts "A slim file was found, but slim library could not be found, so nothing will be parsed..."
-        return false
-      end
-      require 'gettext_i18n_rails/ruby_gettext_extractor'
-      @slim_loaded = true
+    def self.convert_to_code(text)
+      Slim::Engine.new.call(text)
     end
   end
 end

@@ -1,44 +1,13 @@
-require 'gettext/utils'
-begin
-  require 'gettext/tools/rgettext'
-rescue LoadError #version prior to 2.0
-  require 'gettext/rgettext'
-end
+require 'gettext_i18n_rails/base_parser'
 
 module GettextI18nRails
-  module HamlParser
-    module_function
-
-    def target?(file)
-      File.extname(file) == '.haml'
+  class HamlParser < BaseParser
+    def self.extension
+      "haml"
     end
 
-    def parse(file, msgids = [])
-      return msgids unless prepare_haml_parsing
-      text = File.read(file)
-      code = Haml::Engine.new(text).precompiled()
-      RubyGettextExtractor.parse_string(code, file, msgids)
-    rescue Racc::ParseError => e
-      $stderr.puts "file ignored: ruby_parser cannot read haml files with 1.9 syntax --- (#{e.message})"
-      return msgids
-    end
-
-    def prepare_haml_parsing
-      return true if @haml_loaded
-
-      begin
-        require "#{::Rails.root.to_s}/vendor/plugins/haml/lib/haml"
-      rescue LoadError
-        begin
-          require 'haml'  # From gem
-        rescue LoadError
-          puts "A haml file was found, but haml library could not be found, so nothing will be parsed..."
-          return false
-        end
-      end
-
-      require 'gettext_i18n_rails/ruby_gettext_extractor'
-      @haml_loaded = true
+    def self.convert_to_code(text)
+      Haml::Engine.new(text).precompiled()
     end
   end
 end
