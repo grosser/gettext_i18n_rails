@@ -14,6 +14,6 @@ module GettextI18nRails::ActiveRecord
   end
 
   def gettext_translation_for_attribute_name(attribute)
-    "#{self}|#{attribute.to_s.split('.').map! {|a| a.gsub('_',' ').capitalize }.join('|')}"
+    "#{self}|#{attribute.to_s.split('.').map! {|a| a.humanize }.join('|')}"
   end
 end
