@@ -15,6 +15,10 @@ module GettextI18nRails::ActiveRecord
   end
 
   def gettext_translation_for_attribute_name(attribute)
-    "#{self}|#{attribute.to_s.split('.').map! {|a| a.humanize }.join('|')}"
+    if attribute.to_s.ends_with?('_id')
+      humanize_class_name(attribute)
+    else
+      "#{self}|#{attribute.to_s.split('.').map! {|a| a.humanize }.join('|')}"
+    end
   end
 end

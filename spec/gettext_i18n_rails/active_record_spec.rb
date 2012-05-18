@@ -55,6 +55,12 @@ describe ActiveRecord::Base do
     end
   end
 
+  describe :gettext_translation_for_attribute_name do
+    it "translates foreign keys to model name keys" do
+      Part.gettext_translation_for_attribute_name('car_seat_id').should == 'Car seat'
+    end
+  end
+
   describe 'error messages' do
     let(:model){
       c = CarSeat.new
