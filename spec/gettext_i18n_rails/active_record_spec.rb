@@ -38,7 +38,7 @@ describe ActiveRecord::Base do
 
   describe :human_name do
     it "is translated through FastGettext" do
-      CarSeat.should_receive(:_).with('car seat').and_return('Autositz')
+      CarSeat.should_receive(:_).with('Car seat').and_return('Autositz')
       CarSeat.human_name.should == 'Autositz'
     end
   end
@@ -52,6 +52,12 @@ describe ActiveRecord::Base do
     it "translates nested attributes through FastGettext" do
       CarSeat.should_receive(:s_).with('CarSeat|Parts|Name').and_return('Handle')
       CarSeat.human_attribute_name(:"parts.name").should == 'Handle'
+    end
+  end
+
+  describe :gettext_translation_for_attribute_name do
+    it "translates foreign keys to model name keys" do
+      Part.gettext_translation_for_attribute_name('car_seat_id').should == 'Car seat'
     end
   end
 
