@@ -1,3 +1,6 @@
+require 'rails/version'
+require 'rails' if Rails::VERSION::MAJOR > 2
+
 module GettextI18nRails
   #write all found models/columns to a file where GetTexts ruby parser can find them
   def store_model_attributes(options)
@@ -45,7 +48,7 @@ module GettextI18nRails
     end
 
     def models
-      if Rails.respond_to?(:application)
+      if Rails::VERSION::MAJOR > 2
         Rails.application.eager_load! # make sure that all models are loaded so that direct_descendants works
         ::ActiveRecord::Base.direct_descendants
       else
