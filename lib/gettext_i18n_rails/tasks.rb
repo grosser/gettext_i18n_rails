@@ -79,7 +79,7 @@ namespace :gettext do
     ignore_tables = [/^sitemap_/, /_versions$/, 'schema_migrations', 'sessions', 'delayed_jobs']
     GettextI18nRails.store_model_attributes(
       :to => storage_file,
-      :ignore_columns => ['id', 'type', 'created_at', 'updated_at'],
+      :ignore_columns => [/_id$/, 'id', 'type', 'created_at', 'updated_at'],
       :ignore_tables => ignore_tables
     )
   end
