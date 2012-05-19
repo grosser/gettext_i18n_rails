@@ -1,36 +1,6 @@
 # coding: utf-8
 require "spec_helper"
-require 'gettext_i18n_rails/model_attributes_finder'
-
-ActiveRecord::Base.establish_connection({
-  :adapter => "sqlite3",
-  :database => ":memory:",
-})
-
-ActiveRecord::Schema.define(:version => 1) do
-  create_table :car_seats, :force=>true do |t|
-    t.string :seat_color
-  end
-
-  create_table :parts, :force=>true do |t|
-    t.string :name
-    t.references :car_seat
-  end
-
-  create_table :not_at_all_conventionals, :force=>true do |t|
-    t.string :name
-  end
-end
-
-class CarSeat < ActiveRecord::Base
-end
-
-class Part < ActiveRecord::Base
-end
-
-class NotConventional < ActiveRecord::Base
-  set_table_name :not_at_all_conventionals
-end
+require "gettext_i18n_rails/model_attributes_finder"
 
 if Rails::VERSION::MAJOR > 2
   module Test

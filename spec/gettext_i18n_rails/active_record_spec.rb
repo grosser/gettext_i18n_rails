@@ -1,36 +1,6 @@
 # coding: utf-8
 require "spec_helper"
 
-FastGettext.silence_errors
-
-ActiveRecord::Base.establish_connection({
-  :adapter => "sqlite3",
-  :database => ":memory:",
-})
-
-ActiveRecord::Schema.define(:version => 1) do
-  create_table :car_seats, :force=>true do |t|
-    t.string :seat_color
-  end
-
-  create_table :parts, :force=>true do |t|
-    t.string :name
-    t.references :car_seat
-  end
-end
-
-ActiveRecord::Base.extend GettextI18nRails::ActiveRecord
-
-class CarSeat < ActiveRecord::Base
-  validates_presence_of :seat_color, :message=>"translate me"
-  has_many :parts
-  accepts_nested_attributes_for :parts
-end
-
-class Part < ActiveRecord::Base
-  belongs_to :car_seat
-end
-
 describe ActiveRecord::Base do
   before do
     FastGettext.current_cache = {}
