@@ -220,6 +220,7 @@ lib/tasks/gettext.rake:
  - [Lucas Hills](https://github.com/2potatocakes)
  - [Ladislav Slezák](https://github.com/lslezak)
  - [Greg Weber](https://github.com/gregwebs)
+ - [Sean Kirby](https://github.com/sskirby)
 
 [Michael Grosser](http://grosser.it)<br/>
 grosser.michael@gmail.com<br/>
