@@ -4,13 +4,13 @@ module GettextI18nRails::ActiveRecord
     s_(gettext_translation_for_attribute_name(attribute))
   end
 
-  # CarDealer -> _('car dealer')
   # method deprecated in Rails 3.1
   def human_name(*args)
-    _(self.humanize_class_name(self.to_s))
+    _(self.humanize_class_name)
   end
 
-  def humanize_class_name(name)
+  def humanize_class_name(name=nil)
+    name ||= self.to_s
     name.underscore.humanize
   end
 
