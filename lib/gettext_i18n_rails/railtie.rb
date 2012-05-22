@@ -14,9 +14,6 @@ if defined?(Rails::Railtie)
         if app.config.gettext_i18n_rails.use_for_active_record_attributes
           ActiveSupport.on_load :active_record do
             extend GettextI18nRails::ActiveRecord
-          end
-
-          ActiveSupport.on_load :active_model do
             require 'gettext_i18n_rails/active_model.rb'
           end
         end
