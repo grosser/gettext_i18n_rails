@@ -80,5 +80,12 @@ describe GettextI18nRails do
       FastGettext.locale.should == 'de'
       I18n.locale.should == :de
     end
+
+    it "converts gettext to i18n style for nested locales" do
+      FastGettext.available_locales = ['de_CH']
+      I18n.locale = :"de-CH"
+      FastGettext.locale.should == 'de_CH'
+      I18n.locale.should == :"de-CH"
+    end
   end
 end
