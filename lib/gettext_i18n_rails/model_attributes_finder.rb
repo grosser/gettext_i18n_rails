@@ -36,6 +36,7 @@ module GettextI18nRails
       found = ActiveSupport::OrderedHash.new([])
 
       models.each do |model|
+        next if model.abstract_class
         table_name = model.table_name
         next if ignored?(table_name,options[:ignore_tables])
         model.columns.each do |column|

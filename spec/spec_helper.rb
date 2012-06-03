@@ -72,4 +72,8 @@ class NotConventional < ActiveRecord::Base
   set_table_name :not_at_all_conventionals
 end
 
+class Idea < ActiveRecord::Base
+  self.abstract_class = true
+end
+
 ActiveRecord::Base.extend GettextI18nRails::ActiveRecord
