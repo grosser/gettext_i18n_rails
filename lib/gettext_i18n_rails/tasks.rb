@@ -111,9 +111,12 @@ namespace :gettext do
   end
 
   def locale_path
-    FastGettext.translation_repositories[text_domain].instance_variable_get(:@options)[:path]
-  rescue
-    File.join(Rails.root, "locale")
+    default = File.join(Rails.root, "locale")
+    begin
+      FastGettext.translation_repositories[text_domain].instance_variable_get(:@options)[:path] || default
+    rescue
+      default
+    end
   end
 
   def text_domain
