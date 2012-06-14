@@ -29,11 +29,9 @@ if not defined?(Rails::Railtie) and defined?(ActiveRecord)
   ActiveRecord::Base.extend GettextI18nRails::ActiveRecord
 end
 
-if defined?(ActiveModel)
+if not defined?(Rails::Railtie) and defined?(ActiveModel)
+  require 'gettext_i18n_rails/active_model'
   ActiveRecord::Base.extend ActiveModel::Translation
-  if not defined?(Rails::Railtie)
-      require 'gettext_i18n_rails/active_model'
-  end
 end
 
 require 'gettext_i18n_rails/action_controller' if defined?(ActionController) # so that bundle console can work in a rails project
