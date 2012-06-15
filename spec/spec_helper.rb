@@ -9,12 +9,22 @@ require 'action_controller'
 require 'action_mailer'
 require 'fast_gettext'
 require 'gettext_i18n_rails'
+require 'temple'
 
 begin
   Gem.all_load_paths
 rescue
   puts "Fixing Gem.all_load_paths"
   module Gem;def self.all_load_paths;[];end;end
+end
+
+
+# make temple not blow up in rails 2 env
+class << Temple::Templates
+  alias_method :method_missing_old, :method_missing
+  def method_missing(name, engine, options = {})
+    name == :Rails || method_missing_old(name, engine, options)
+  end
 end
 
 module Rails
