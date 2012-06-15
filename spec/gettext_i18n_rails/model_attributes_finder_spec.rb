@@ -13,7 +13,7 @@ describe GettextI18nRails::ModelAttributesFinder do
   let(:finder) { GettextI18nRails::ModelAttributesFinder.new }
 
   before do
-    Rails.application
+    Rails.application rescue nil
   end
 
   describe :find do

@@ -5,9 +5,10 @@ task :spec do
 end
 
 task :default do
-  sh "RAILS=2.3.14 && (bundle || bundle install) && bundle exec rake spec"
-  sh "RAILS=3.0.9 && (bundle || bundle install) && bundle exec rake spec"
-  sh "RAILS=3.1.0 && (bundle || bundle install) && bundle exec rake spec"
+  ['2.3.14', '3.0.9', '3.1.0'].each do |version|
+    sh "export RAILS='#{version}' && (bundle check || bundle install) && bundle exec rake spec"
+  end
+  sh "git checkout Gemfile.lock"
 end
 
 # extracted from https://github.com/grosser/project_template
