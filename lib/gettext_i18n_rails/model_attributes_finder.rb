@@ -107,6 +107,9 @@ module GettextI18nRails
         constant = name.constantize
       rescue NameError
         return nil
+      rescue LoadError => e
+        $stderr.puts "failed to load '#{name}', ignoring (#{e.class}: #{e.message})"
+        return nil
       end
 
       return constant.is_a?(Class) ? constant : nil
