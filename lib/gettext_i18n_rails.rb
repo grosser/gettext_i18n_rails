@@ -23,6 +23,7 @@ I18n.backend = GettextI18nRails::Backend.new
 
 require 'gettext_i18n_rails/i18n_hacks'
 
+require 'gettext_i18n_rails/active_model'
 require 'gettext_i18n_rails/active_record'
 # If configuration via Railties is not available force activerecord extensions
 if not defined?(Rails::Railtie) and defined?(ActiveRecord)
