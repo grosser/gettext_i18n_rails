@@ -13,4 +13,4 @@ describe ActiveModel::Name do
       name.human.should == 'Autositz'
     end
   end
-end
+end if ActiveRecord::VERSION::MAJOR >= 3
