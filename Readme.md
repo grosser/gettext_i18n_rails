@@ -221,6 +221,8 @@ lib/tasks/gettext.rake:
  - [Ladislav Slezák](https://github.com/lslezak)
  - [Greg Weber](https://github.com/gregwebs)
  - [Sean Kirby](https://github.com/sskirby)
+ - [Julien Letessier](https://github.com/mezis)
+ - [Seb Bacon](https://github.com/sebbacon)
 
 [Michael Grosser](http://grosser.it)<br/>
 grosser.michael@gmail.com<br/>
