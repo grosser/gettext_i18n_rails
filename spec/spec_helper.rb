@@ -85,5 +85,3 @@ end
 class Idea < ActiveRecord::Base
   self.abstract_class = true
 end
-
-ActiveRecord::Base.extend GettextI18nRails::ActiveRecord

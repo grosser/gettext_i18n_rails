@@ -5,6 +5,8 @@ module GettextI18nRails
     cattr_accessor :translate_defaults
     attr_accessor :backend
 
+    RUBY19 = (RUBY_VERSION > "1.9")
+
     def initialize(*args)
       self.backend = I18n::Backend::Simple.new(*args)
     end
@@ -18,7 +20,7 @@ module GettextI18nRails
         translation = FastGettext._(gettext_key)
         interpolate(translation, options)
       else
-        backend.translate locale, key, options
+        backend.translate(locale, key, options)
       end
     end
 

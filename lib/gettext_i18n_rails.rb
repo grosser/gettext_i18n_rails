@@ -23,15 +23,15 @@ I18n.backend = GettextI18nRails::Backend.new
 
 require 'gettext_i18n_rails/i18n_hacks'
 
-require 'gettext_i18n_rails/active_record'
-# If configuration via Railties is not available force activerecord extensions
-if not defined?(Rails::Railtie) and defined?(ActiveRecord)
-  ActiveRecord::Base.send :include, GettextI18nRails::ActiveRecord
-end
-
-if not defined?(Rails::Railtie) and defined?(ActiveModel)
-  require 'gettext_i18n_rails/active_model'
+if defined? Rails::Railtie # Rails 3+
+  # load active_model extensions at the correct point in time
+  require 'gettext_i18n_rails/railtie'
+else
+  if defined? ActiveRecord
+    require 'gettext_i18n_rails/active_record'
+  elsif defined?(ActiveModel)
+    require 'gettext_i18n_rails/active_model'
+  end
 end
 
 require 'gettext_i18n_rails/action_controller' if defined?(ActionController) # so that bundle console can work in a rails project
-require 'gettext_i18n_rails/railtie'
