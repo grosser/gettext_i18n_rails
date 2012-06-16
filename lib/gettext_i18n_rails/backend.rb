@@ -21,7 +21,7 @@ module GettextI18nRails
         interpolate(translation, options)
       else
         result = backend.translate(locale, key, options)
-        RUBY19 ? result.force_encoding("UTF-8") : result
+        (RUBY19 and result.is_a?(String)) ? result.force_encoding("UTF-8") : result
       end
     end
 

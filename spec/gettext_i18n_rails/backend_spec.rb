@@ -55,6 +55,13 @@ describe GettextI18nRails::Backend do
         result = subject.translate('xx', 'c', {})
         result.should == 'ü'
       end
+
+      it "does not force_encoding on non-strings" do
+        subject.backend.should_receive(:translate).with('xx', 'c', {}).and_return ['aa']
+        FastGettext.stub(:current_repository).and_return 'a'=>'b'
+        result = subject.translate('xx', 'c', {})
+        result.should == ['aa']
+      end
     end
 
     # TODO NameError is raised <-> wtf ?
