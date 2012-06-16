@@ -9,8 +9,16 @@ end
 module GettextI18nRails::ActiveRecord
   include ActiveModel::Translation
 
-  # method deprecated in Rails 3.1
-  def human_name(*args)
-    _(self.humanize_class_name)
+  def self.included(base)
+    base.class_eval do
+      def self.human_attribute_name(*args)
+        super(*args)
+      end
+
+      # method deprecated in Rails 3.1
+      def self.human_name(*args)
+        _(self.humanize_class_name)
+      end
+    end
   end
 end

@@ -26,7 +26,7 @@ require 'gettext_i18n_rails/i18n_hacks'
 require 'gettext_i18n_rails/active_record'
 # If configuration via Railties is not available force activerecord extensions
 if not defined?(Rails::Railtie) and defined?(ActiveRecord)
-  ActiveRecord::Base.extend GettextI18nRails::ActiveRecord
+  ActiveRecord::Base.send :include, GettextI18nRails::ActiveRecord
 end
 
 if not defined?(Rails::Railtie) and defined?(ActiveModel)
