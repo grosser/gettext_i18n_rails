@@ -20,7 +20,8 @@ module GettextI18nRails
         translation = FastGettext._(gettext_key)
         interpolate(translation, options)
       else
-        backend.translate(locale, key, options)
+        result = backend.translate(locale, key, options)
+        RUBY19 ? result.force_encoding("UTF-8") : result
       end
     end
 

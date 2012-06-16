@@ -42,6 +42,21 @@ describe GettextI18nRails::Backend do
       subject.translate('xx',:x ,:scope=>'xy.z').should == 'a'
     end
 
+    it "passes non-gettext keys to default backend" do
+      subject.backend.should_receive(:translate).with('xx', 'c', {}).and_return 'd'
+      FastGettext.stub(:current_repository).and_return 'a'=>'b'
+      subject.translate('xx', 'c', {}).should == 'd'
+    end
+
+    if RUBY_VERSION > "1.9"
+      it "produces UTF-8 when not using FastGettext to fix weird encoding bug" do
+        subject.backend.should_receive(:translate).with('xx', 'c', {}).and_return 'ü'.force_encoding("US-ASCII")
+        FastGettext.stub(:current_repository).and_return 'a'=>'b'
+        result = subject.translate('xx', 'c', {})
+        result.should == 'ü'
+      end
+    end
+
     # TODO NameError is raised <-> wtf ?
     xit "uses the super when the key is not translatable" do
       lambda{subject.translate('xx','y',:scope=>['xy','z'])}.should raise_error(I18n::MissingTranslationData)
