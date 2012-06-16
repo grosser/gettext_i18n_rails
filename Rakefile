@@ -4,9 +4,9 @@ task :spec do
   sh "rspec spec"
 end
 
-task :default do
-  ['2.3.14', '3.0.9', '3.1.0'].each do |version|
-    sh "export RAILS='#{version}' && (bundle check || bundle install) && bundle exec rake spec"
+task :default do # can fail when run with bundler
+  ['2.3.14', '~>3.0.15', '~>3.1.6', '~>3.2.6'].each do |version|
+    sh "export RAILS='#{version}' && (bundle check || bundle) && bundle exec rake spec"
   end
   sh "git checkout Gemfile.lock"
 end
