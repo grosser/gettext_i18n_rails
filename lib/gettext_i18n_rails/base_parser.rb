@@ -16,7 +16,7 @@ module GettextI18nRails
       code = convert_to_code(File.read(file))
       RubyGettextExtractor.parse_string(code, file, msgids)
     rescue Racc::ParseError => e
-      $stderr.puts "file ignored: ruby_parser cannot read #{extension} files with 1.9 syntax --- (#{e.message})"
+      $stderr.puts "file ignored: ruby_parser cannot read #{extension} files with 1.9 syntax --- #{file}: (#{e.message.strip})"
       return msgids
     end
 
