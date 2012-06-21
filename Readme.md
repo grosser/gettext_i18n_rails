@@ -223,6 +223,7 @@ lib/tasks/gettext.rake:
  - [Sean Kirby](https://github.com/sskirby)
  - [Julien Letessier](https://github.com/mezis)
  - [Seb Bacon](https://github.com/sebbacon)
+ - [Ramón Cahenzli](https://github.com/psy-q)
 
 [Michael Grosser](http://grosser.it)<br/>
 grosser.michael@gmail.com<br/>
