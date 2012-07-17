@@ -35,3 +35,7 @@ else
 end
 
 require 'gettext_i18n_rails/action_controller' if defined?(ActionController) # so that bundle console can work in a rails project
+
+if defined? Rails::Engine # Rails 3+
+  require 'gettext_i18n_rails/engine'
+end

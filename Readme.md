@@ -193,7 +193,7 @@ When you run
 
     rake gettext:find
 
-by default the following files are going to be scanned for translations: {app,lib,config,locale}/**/*.{rb,erb,haml,slim}. If
+by default the following files are going to be scanned for translations: {app,lib,config,locale}/**/*.{rb,erb,haml,slim,coffee}. If
 you want to specify a different list, you can redefine files_to_translate in the gettext namespace in a file like
 lib/tasks/gettext.rake:
 
@@ -202,6 +202,34 @@ lib/tasks/gettext.rake:
         Dir.glob("{app,lib,config,locale}/**/*.{rb,erb,haml,slim,rhtml}")
       end
     end
+
+Client side javascript translations
+======================================
+There is basic support for converting your PO files into javascript and using your translations on the client side too.
+
+To convert your PO files into javascript files you can run
+
+  rake gettext:po_to_json
+
+This will reconstruct the `locale/<lang>/app.po` structure as javascript files inside `app/assets/javascripts/locale/<lang>/app.js`
+
+#### Using this translations in your javascript
+
+The gem provides the Jed library to use the generated javascript files. (http://slexaxton.github.com/Jed/some) 
+It also provides a global `_` function that maps to `Jed#gettext`.
+The Jed instance used by the client side `_` function is pre-configured with the 'lang' specified in your main html tag.
+Before anything, make sure your page's html tag includes a valid 'lang' attribute, for example:
+  
+  %html{:manifest => '', :lang => "#{I18n.locale}"}
+  
+Once you're sure your page is configured with a locale, then you should add both your javascript locale files and the provided javascripts to your application.js
+
+  //= require_tree ./locale 
+  //= require gettext/all
+
+#### Conflicts with `underscore.js`
+Notice that using `_` as the gettext function conflicts with the 'underscore.js' library wich also uses `_`.
+For the time being the conflict should be solved on the underscore.js side, until we work on a better coffee parser that can be configured to use a different function name.
 
 [Contributors](http://github.com/grosser/gettext_i18n_rails/contributors)
 ======
