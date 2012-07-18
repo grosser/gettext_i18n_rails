@@ -227,4 +227,4 @@ lib/tasks/gettext.rake:
 
 [Michael Grosser](http://grosser.it)<br/>
 grosser.michael@gmail.com<br/>
-Hereby placed under public domain, do what you want, just do not hold me accountable...
+License: MIT
