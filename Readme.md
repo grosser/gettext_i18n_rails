@@ -220,12 +220,12 @@ It also provides a global `__` function that maps to `Jed#gettext`.
 The Jed instance used by the client side `__` function is pre-configured with the 'lang' specified in your main html tag.
 Before anything, make sure your page's html tag includes a valid 'lang' attribute, for example:
   
-  %html{:manifest => '', :lang => "#{I18n.locale}"}
+    %html{:manifest => '', :lang => "#{I18n.locale}"}
   
 Once you're sure your page is configured with a locale, then you should add both your javascript locale files and the provided javascripts to your application.js
 
-  //= require_tree ./locale 
-  //= require gettext/all
+    //= require_tree ./locale 
+    //= require gettext/all
 
 #### Avoiding conflicts with other libraries
 
@@ -235,11 +235,11 @@ when finding your translations:
 
 lib/tasks/gettext.rake:
 
-  namespace :gettext do
-    def js_gettext_function
-      '_' #just revert to the traditional underscore.
+    namespace :gettext do
+      def js_gettext_function
+        '_' #just revert to the traditional underscore.
+      end
     end
-  end
 
 [Contributors](http://github.com/grosser/gettext_i18n_rails/contributors)
 ======
