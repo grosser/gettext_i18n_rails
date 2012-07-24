@@ -23,6 +23,15 @@ describe GettextI18nRails::HamlParser do
       end
     end
 
+    it "finds plural messages in haml" do
+      with_file '= n_("xxxx", "yyyy", "zzzz", some_count)' do |path|
+        x = parser.parse(path, [])
+        parser.parse(path, []).should == [
+          ["xxxx\000yyyy\000zzzz", "#{path}:1"]
+        ]
+      end
+    end
+
     it "ignores 1.9 errors and shows the paths of offending files" do
       with_file '= _("xxxx", x: 1)' do |path|
         $stderr.should_receive(:puts).with{|x| x =~ /file ignored.*#{path}/ }

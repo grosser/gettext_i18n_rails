@@ -114,6 +114,8 @@ namespace :gettext do
   task :po_to_json => :environment do
     require 'po_to_json'
 
+    GettextI18nRails::JsAndCoffeeParser.js_gettext_function = js_gettext_function
+
     po_files = Dir["#{locale_path}/**/*.po"]
     if po_files.empty?
       puts "Could not find any PO files in #{locale_path}. Run 'rake gettext:find' first."
@@ -158,6 +160,10 @@ namespace :gettext do
   end
 
   def files_to_translate
-    Dir.glob("{app,lib,config,#{locale_path}}/**/*.{rb,erb,haml,slim,coffee}")
+    Dir.glob("{app,lib,config,#{locale_path}}/**/*.{rb,erb,haml,slim,js,coffee}")
+  end
+  
+  def js_gettext_function
+    '__'
   end
 end

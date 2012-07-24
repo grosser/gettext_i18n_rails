@@ -193,13 +193,13 @@ When you run
 
     rake gettext:find
 
-by default the following files are going to be scanned for translations: {app,lib,config,locale}/**/*.{rb,erb,haml,slim,coffee}. If
-you want to specify a different list, you can redefine files_to_translate in the gettext namespace in a file like
+by default the following files are going to be scanned for translations: {app,lib,config,locale}/**/*.{rb,erb,haml,slim,js,coffee}.
+If you want to specify a different list, you can redefine files_to_translate in the gettext namespace in a file like
 lib/tasks/gettext.rake:
 
     namespace :gettext do
       def files_to_translate
-        Dir.glob("{app,lib,config,locale}/**/*.{rb,erb,haml,slim,rhtml}")
+        Dir.glob("{app,lib,config,locale}/**/*.{rb,erb,haml,slim,js,coffee,rhtml}")
       end
     end
 
@@ -216,8 +216,8 @@ This will reconstruct the `locale/<lang>/app.po` structure as javascript files i
 #### Using this translations in your javascript
 
 The gem provides the Jed library to use the generated javascript files. (http://slexaxton.github.com/Jed/some) 
-It also provides a global `_` function that maps to `Jed#gettext`.
-The Jed instance used by the client side `_` function is pre-configured with the 'lang' specified in your main html tag.
+It also provides a global `__` function that maps to `Jed#gettext`.
+The Jed instance used by the client side `__` function is pre-configured with the 'lang' specified in your main html tag.
 Before anything, make sure your page's html tag includes a valid 'lang' attribute, for example:
   
   %html{:manifest => '', :lang => "#{I18n.locale}"}
@@ -227,9 +227,18 @@ Once you're sure your page is configured with a locale, then you should add both
   //= require_tree ./locale 
   //= require gettext/all
 
-#### Conflicts with `underscore.js`
-Notice that using `_` as the gettext function conflicts with the 'underscore.js' library wich also uses `_`.
-For the time being the conflict should be solved on the underscore.js side, until we work on a better coffee parser that can be configured to use a different function name.
+#### Avoiding conflicts with other libraries
+
+The default function name is '__' to avoid conflicts with 'underscore.js' but you can instruct the javascript and coffeescript
+parser to look for a different function by redefining the js_gettext_function method in the gettext namespace in a file like:
+
+lib/tasks/gettext.rake:
+
+  namespace :gettext do
+    def js_gettext_function
+      '_' #just revert to the traditional underscore.
+    end
+  end
 
 [Contributors](http://github.com/grosser/gettext_i18n_rails/contributors)
 ======
