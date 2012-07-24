@@ -229,8 +229,9 @@ Once you're sure your page is configured with a locale, then you should add both
 
 #### Avoiding conflicts with other libraries
 
-The default function name is '__' to avoid conflicts with 'underscore.js' but you can instruct the javascript and coffeescript
-parser to look for a different function by redefining the js_gettext_function method in the gettext namespace in a file like:
+The default function name is 'window.__', to avoid conflicts with 'underscore.js'. If you want to alias the function to something
+else in your javascript you should also instruct the javascript and coffeescript parser to look for a different function
+when finding your translations:
 
 lib/tasks/gettext.rake:
 
