@@ -10,4 +10,5 @@ Gem::Specification.new name, GettextI18nRails::VERSION do |s|
   s.files = `git ls-files`.split("\n")
   s.license = "MIT"
   s.add_runtime_dependency "fast_gettext"
+  s.add_runtime_dependency "po_to_json"
 end
