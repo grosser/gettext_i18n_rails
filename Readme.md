@@ -203,6 +203,11 @@ lib/tasks/gettext.rake:
       end
     end
 
+Using your translations from javascript
+=======================================
+
+If want to use your .PO files on client side javascript you should have a look at the [GettextI18nRailsJs](https://github.com/nubis/gettext_i18n_rails_js) extension.
+
 [Contributors](http://github.com/grosser/gettext_i18n_rails/contributors)
 ======
  - [ruby gettext extractor](http://github.com/retoo/ruby_gettext_extractor/tree/master) from [retoo](http://github.com/retoo)
