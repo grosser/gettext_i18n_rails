@@ -120,6 +120,7 @@ namespace :gettext do
     ENV['TEXTDOMAIN'] || (FastGettext.text_domain rescue nil) || "app"
   end
 
+  # do not rename, gettext_i18n_rails_js overwrites this to inject coffee + js
   def files_to_translate
     Dir.glob("{app,lib,config,#{locale_path}}/**/*.{rb,erb,haml,slim}")
   end
