@@ -79,7 +79,11 @@ class Part < ActiveRecord::Base
 end
 
 class NotConventional < ActiveRecord::Base
-  set_table_name :not_at_all_conventionals
+  if ActiveRecord::VERSION::MAJOR == 3
+    self.table_name = :not_at_all_conventionals
+  else
+    set_table_name :not_at_all_conventionals
+  end
 end
 
 class Idea < ActiveRecord::Base

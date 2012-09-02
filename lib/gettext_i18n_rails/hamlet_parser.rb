@@ -11,6 +11,3 @@ module GettextI18nRails
     end
   end
 end
-
-GetText::RGetText.add_parser(GettextI18nRails::HamletParser)
-

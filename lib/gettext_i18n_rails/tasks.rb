@@ -2,6 +2,7 @@ namespace :gettext do
   def load_gettext
     require 'gettext'
     require 'gettext/utils'
+    require 'gettext_i18n_rails/gettext_hooks'
   end
 
   desc "Create mo-files for L10n"
@@ -13,11 +14,9 @@ namespace :gettext do
   desc "Update pot/po files."
   task :find => :environment do
     load_gettext
-    $LOAD_PATH << File.join(File.dirname(__FILE__),'..','..','lib')
-    require 'gettext_i18n_rails/haml_parser'
-    require 'gettext_i18n_rails/slim_parser'
-    require 'gettext_i18n_rails/hamlet_parser'
+    $LOAD_PATH << File.join(File.dirname(__FILE__),'..','..','lib') # needed when installed as plugin
 
+    GettextI18nRails::GettextHooks.add_parsers_to_gettext
 
     if GetText.respond_to? :update_pofiles_org
       if defined?(Rails.application)

@@ -1,16 +1,5 @@
 # new ruby parser from retoo, that should help extracting "#{_('xxx')}", which is needed especially when parsing haml files
-#
-#!/usr/bin/ruby
-# parser/ruby.rb - look for gettext msg strings in ruby files
-
-require 'rubygems'
 require 'ruby_parser'
-
-begin
-  require 'gettext/tools/rgettext'
-rescue LoadError #version prior to 2.0
-  require 'gettext/rgettext'
-end
 
 module RubyGettextExtractor
   extend self

@@ -9,5 +9,5 @@ Gem::Specification.new name, GettextI18nRails::VERSION do |s|
   s.homepage = "http://github.com/grosser/#{name}"
   s.files = `git ls-files`.split("\n")
   s.license = "MIT"
-  s.add_runtime_dependency "fast_gettext"
+  s.add_runtime_dependency "fast_gettext", ">=0.4.8"
 end
