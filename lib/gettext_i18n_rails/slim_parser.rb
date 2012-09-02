@@ -11,3 +11,5 @@ module GettextI18nRails
     end
   end
 end
+
+GettextI18nRails::GettextHooks.add_parser GettextI18nRails::SlimParser

@@ -1,16 +1,8 @@
 module GettextI18nRails
   module GettextHooks
-    def self.add_parsers_to_gettext
-      return if @add_parsers_to_gettext
-      @add_parsers_to_gettext = true
-
-      require "gettext_i18n_rails/haml_parser"
-      require "gettext_i18n_rails/hamlet_parser"
-      require "gettext_i18n_rails/slim_parser"
-
-      GettextI18nRails::BaseParser.parser_descendants.each do |parser|
-        xgettext.add_parser(parser)
-      end
+    # shoarter call / maybe the interface changes again ...
+    def self.add_parser(parser)
+      xgettext.add_parser(parser)
     end
 
     def self.xgettext

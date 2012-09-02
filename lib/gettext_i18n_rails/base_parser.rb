@@ -1,15 +1,7 @@
+require 'gettext_i18n_rails/gettext_hooks'
+
 module GettextI18nRails
   class BaseParser
-    # copy AS 3 feature so we can play nicely with AS2 and if rails env is not there
-    class << self
-      attr_accessor :parser_descendants
-    end
-    self.parser_descendants = []
-
-    def self.inherited(subclass)
-      parser_descendants << subclass
-    end
-
     def self.target?(file)
       File.extname(file) == ".#{extension}"
     end
