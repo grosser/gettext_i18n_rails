@@ -32,6 +32,13 @@ describe GettextI18nRails::Backend do
       subject.translate('xx','c',:scope=>['ab'], :a => 'X').should == 'aXb'
     end
 
+    it "will not try and interpolate when there are no options given" do
+      result = 'aXb'
+      result.should_receive(:%).never
+      FastGettext.stub(:current_repository).and_return 'ab.c' => result
+      subject.translate('xx','c', :scope=>['ab']).should == 'aXb'
+    end
+
     it "can translate with gettext using symbols" do
       FastGettext.stub(:current_repository).and_return 'xy.z.v'=>'a'
       subject.translate('xx',:v ,:scope=>['xy','z']).should == 'a'

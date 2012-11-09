@@ -56,7 +56,8 @@ module GettextI18nRails
           I18n::Backend::Base::RESERVED_KEYS
         end
 
-        string % values.except(*reserved_keys)
+        options = values.except(*reserved_keys)
+        options.any? ? (string % options) : string
       else
         string
       end
