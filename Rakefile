@@ -1,14 +1,12 @@
 require 'bundler/gem_tasks'
+require 'appraisal'
 
 task :spec do
   sh "rspec spec"
 end
 
-task :default do # can fail when run with bundler
-  ['2.3.14', '~>3.0.15', '~>3.1.6', '~>3.2.6'].each do |version|
-    sh "export RAILS='#{version}' && (bundle check || bundle) && bundle exec rake spec"
-  end
-  sh "git checkout Gemfile.lock"
+task :default do
+  sh "bundle exec rake appraisal:install && bundle exec rake appraisal spec"
 end
 
 # extracted from https://github.com/grosser/project_template
