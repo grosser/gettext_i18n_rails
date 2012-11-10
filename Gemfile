@@ -5,7 +5,6 @@ gem 'appraisal'
 gem 'bump'
 gem 'gettext'
 gem 'haml'
-gem 'hamlet'
 gem 'rails'
 gem 'rake'
 gem 'ruby_parser', '~> 2.3' # 3 breaks haml/slim parsing

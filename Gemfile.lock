@@ -46,8 +46,6 @@ GEM
     gettext (2.3.3)
       locale
     haml (3.1.7)
-    hamlet (0.5.0.1)
-      slim (~> 1.0.0)
     hike (1.2.1)
     i18n (0.6.1)
     journey (1.0.4)
@@ -121,7 +119,6 @@ DEPENDENCIES
   gettext
   gettext_i18n_rails!
   haml
-  hamlet
   rails
   rake
   rspec
