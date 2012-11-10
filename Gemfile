@@ -2,12 +2,13 @@ source :rubygems
 gemspec
 
 gem 'appraisal'
-gem 'haml'
-gem 'slim'
-gem 'hamlet'
-gem 'ruby_parser', '~> 2.3' # 3 breaks haml/slim parsing
+gem 'bump'
 gem 'gettext'
-gem 'sqlite3'
+gem 'haml'
+gem 'hamlet'
 gem 'rails'
 gem 'rake'
+gem 'ruby_parser', '~> 2.3' # 3 breaks haml/slim parsing
 gem 'rspec'
+gem 'slim'
+gem 'sqlite3'
