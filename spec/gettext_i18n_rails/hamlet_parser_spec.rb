@@ -2,6 +2,14 @@ require "spec_helper"
 require "gettext_i18n_rails/hamlet_parser"
 
 describe GettextI18nRails::HamletParser do
+  def pending_if(xx, &block)
+    if xx
+      pending(&block)
+    else
+      yield
+    end
+  end
+
   let(:parser){ GettextI18nRails::HamletParser }
 
   describe "#target?" do
@@ -15,11 +23,13 @@ describe GettextI18nRails::HamletParser do
   end
 
   describe "#parse" do
-    it "finds messages in slim" do
-      with_file '<div>= _("xxxx")' do |path|
-        parser.parse(path, []).should == [
-          ["xxxx", "#{path}:1"]
-        ]
+    it "finds messages in hamlet" do
+      pending_if(RUBY_VERSION < "1.9") do
+        with_file '<div>= _("xxxx")' do |path|
+          parser.parse(path, []).should == [
+            ["xxxx", "#{path}:1"]
+          ]
+        end
       end
     end
 

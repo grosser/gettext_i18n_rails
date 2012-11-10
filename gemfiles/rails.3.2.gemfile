@@ -3,14 +3,15 @@
 source :rubygems
 
 gem "appraisal"
-gem "haml"
-gem "slim"
-gem "hamlet"
-gem "ruby_parser", "~> 2.3"
+gem "bump"
 gem "gettext"
-gem "sqlite3"
+gem "haml"
+gem "hamlet"
 gem "rake"
+gem "ruby_parser", "~> 2.3"
 gem "rspec"
+gem "slim"
+gem "sqlite3"
 gem "rails", "~>3.2.0"
 
 gemspec :path=>"../"
