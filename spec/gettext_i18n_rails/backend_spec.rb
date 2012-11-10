@@ -4,6 +4,10 @@ require "spec_helper"
 FastGettext.silence_errors
 
 describe GettextI18nRails::Backend do
+  before do
+    FastGettext.current_cache = {}
+  end
+
   it "redirects calls to another I18n backend" do
     subject.backend.should_receive(:xxx).with(1,2)
     subject.xxx(1,2)
@@ -23,49 +27,47 @@ describe GettextI18nRails::Backend do
 
   describe :translate do
     it "uses gettext when the key is translatable" do
-      FastGettext.stub(:current_repository).and_return 'xy.z.u'=>'a'
+      FastGettext.should_receive(:current_repository).and_return 'xy.z.u'=>'a'
       subject.translate('xx','u',:scope=>['xy','z']).should == 'a'
     end
 
     it "interpolates options" do
-      FastGettext.stub(:current_repository).and_return 'ab.c'=>'a%{a}b'
+      FastGettext.should_receive(:current_repository).and_return 'ab.c'=>'a%{a}b'
       subject.translate('xx','c',:scope=>['ab'], :a => 'X').should == 'aXb'
     end
 
     it "will not try and interpolate when there are no options given" do
-      result = 'aXb'
-      result.should_receive(:%).never
-      FastGettext.stub(:current_repository).and_return 'ab.c' => result
-      subject.translate('xx','c', :scope=>['ab']).should == 'aXb'
+      FastGettext.should_receive(:current_repository).and_return 'ab.d' => 'a%{a}b'
+      subject.translate('xx', 'd', :scope=>['ab']).should == 'a%{a}b'
     end
 
     it "can translate with gettext using symbols" do
-      FastGettext.stub(:current_repository).and_return 'xy.z.v'=>'a'
+      FastGettext.should_receive(:current_repository).and_return 'xy.z.v'=>'a'
       subject.translate('xx',:v ,:scope=>['xy','z']).should == 'a'
     end
 
     it "can translate with gettext using a flat scope" do
-      FastGettext.stub(:current_repository).and_return 'xy.z.x'=>'a'
+      FastGettext.should_receive(:current_repository).and_return 'xy.z.x'=>'a'
       subject.translate('xx',:x ,:scope=>'xy.z').should == 'a'
     end
 
     it "passes non-gettext keys to default backend" do
       subject.backend.should_receive(:translate).with('xx', 'c', {}).and_return 'd'
-      FastGettext.stub(:current_repository).and_return 'a'=>'b'
+      FastGettext.should_receive(:current_repository).and_return 'a'=>'b'
       subject.translate('xx', 'c', {}).should == 'd'
     end
 
     if RUBY_VERSION > "1.9"
       it "produces UTF-8 when not using FastGettext to fix weird encoding bug" do
         subject.backend.should_receive(:translate).with('xx', 'c', {}).and_return 'ü'.force_encoding("US-ASCII")
-        FastGettext.stub(:current_repository).and_return 'a'=>'b'
+        FastGettext.should_receive(:current_repository).and_return 'a'=>'b'
         result = subject.translate('xx', 'c', {})
         result.should == 'ü'
       end
 
       it "does not force_encoding on non-strings" do
         subject.backend.should_receive(:translate).with('xx', 'c', {}).and_return ['aa']
-        FastGettext.stub(:current_repository).and_return 'a'=>'b'
+        FastGettext.should_receive(:current_repository).and_return 'a'=>'b'
         result = subject.translate('xx', 'c', {})
         result.should == ['aa']
       end
