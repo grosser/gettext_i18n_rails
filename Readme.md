@@ -233,4 +233,6 @@ If want to use your .PO files on client side javascript you should have a look a
 
 [Michael Grosser](http://grosser.it)<br/>
 grosser.michael@gmail.com<br/>
-License: MIT
+License: MIT<br/>
+[![Build Status](https://travis-ci.org/grosser/gettext_i18n_rails.png)](https://travis-ci.org/grosser/gettext_i18n_rails)
+
