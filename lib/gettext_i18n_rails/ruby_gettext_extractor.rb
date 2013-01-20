@@ -19,7 +19,7 @@ module RubyGettextExtractor
     return file =~ /\.rb$/
   end
 
-  class Extractor < RubyParser
+  class Extractor < Ruby19Parser
     def initialize(filename, targets)
       @filename = filename
       @targets = Hash.new

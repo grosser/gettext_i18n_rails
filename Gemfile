@@ -7,7 +7,7 @@ gem 'gettext'
 gem 'haml'
 gem 'rails'
 gem 'rake'
-gem 'ruby_parser', '~> 2.3' # 3 breaks haml/slim parsing
+gem 'ruby_parser' 
 gem 'rspec'
 gem 'slim'
 gem 'sqlite3'
