@@ -23,10 +23,11 @@ describe GettextI18nRails::HamlParser do
       end
     end
 
-    it "ignores 1.9 errors and shows the paths of offending files" do
+    it "should parse the 1.9" do
       with_file '= _("xxxx", x: 1)' do |path|
-        $stderr.should_receive(:puts).with{|x| x =~ /file ignored.*#{path}/ }
-        parser.parse(path, [1]).should == [1]
+        parser.parse(path, []).should == [
+          ["xxxx", "#{path}:1"]
+        ]
       end
     end
 
