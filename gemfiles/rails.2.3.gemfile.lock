@@ -68,6 +68,6 @@ DEPENDENCIES
   rails (~> 2.3.0)
   rake
   rspec
-  ruby_parser
+  ruby_parser (>= 3)
   slim
   sqlite3
