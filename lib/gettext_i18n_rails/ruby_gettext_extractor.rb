@@ -1,7 +1,7 @@
 # new ruby parser from retoo, that should help extracting "#{_('xxx')}", which is needed especially when parsing haml files
 require 'ruby_parser'
 
-module RubyGettextExtractor 
+module RubyGettextExtractor
   extend self
 
   def parse(file, targets = [])  # :nodoc:
@@ -32,7 +32,7 @@ module RubyGettextExtractor
       @filename = filename
       @targets = Hash.new
       @results = []
-  
+
       targets.each do |a|
         k, v = a
         # things go wrong if k already exists, but this
@@ -40,7 +40,7 @@ module RubyGettextExtractor
         @targets[k] = a
         @results << a
       end
-  
+
       super()
     end
 
@@ -52,26 +52,26 @@ module RubyGettextExtractor
       self.parse(safe_content)
       return @results
     end
-  
+
     def extract_string(node)
       if node.first == :str
         return node.last
       elsif node.first == :call
         type, recv, meth, args = node
-  
+
         # node has to be in form of "string"+("other_string")
         return nil unless recv && meth == :+
-  
+
         # descent recurrsivly to determine the 'receiver' of the string concatination
         # "foo" + "bar" + baz" is
         # ("foo".+("bar")).+("baz")
         first_part = extract_string(recv)
-  
+
         if args.first == :arglist && args.size == 2
           second_part = extract_string(args.last)
-  
+
           return nil if second_part.nil?
-  
+
           return first_part.to_s + second_part.to_s
         else
           raise "uuh?"
@@ -80,7 +80,7 @@ module RubyGettextExtractor
         return nil
       end
     end
-  
+
     def extract_key(args, seperator)
       key = nil
       if args.size == 2
@@ -88,29 +88,29 @@ module RubyGettextExtractor
       else
         # this could be n_("aaa","aaa2",1)
         # all strings arguemnts are extracted and joined with \004 or \000
-  
+
         arguments = args[1..(-1)]
-  
+
         res = []
         arguments.each do |a|
           str = extract_string(a)
           # only add strings
           res << str if str
         end
-  
+
         return nil if res.empty?
         key = res.join(seperator)
       end
-  
+
       return nil unless key
-  
+
       key.gsub!("\n", '\n')
       key.gsub!("\t", '\t')
       key.gsub!("\0", '\0')
-  
+
       return key
     end
-  
+
     def new_call recv, meth, args = nil
       # we dont care if the method is called on a a object
       if recv.nil?
@@ -121,24 +121,24 @@ module RubyGettextExtractor
         else
           # skip
         end
-  
+
         if key
           res = @targets[key]
-  
+
           unless res
             res = [key]
             @results << res
             @targets[key] = res
           end
-  
+
           res << "#{@filename}:#{lexer.lineno}"
         end
       end
-  
+
       super recv, meth, args
     end
   end
-  
+
   class Extractor18 < Ruby18Parser
     include ExtractorMethods
   end
