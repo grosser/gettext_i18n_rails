@@ -1,5 +1,5 @@
 PATH
-  remote: /Users/jeroenknoops/projects/github/gettext_i18n_rails
+  remote: /Users/mgrosser/code/tools/gettext_i18n_rails
   specs:
     gettext_i18n_rails (0.8.0)
       fast_gettext (>= 0.4.8)
