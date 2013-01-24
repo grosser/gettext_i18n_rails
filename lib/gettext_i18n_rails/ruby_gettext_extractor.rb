@@ -59,23 +59,14 @@ module RubyGettextExtractor
       elsif node.first == :call
         type, recv, meth, args = node
 
-        # node has to be in form of "string"+("other_string")
+        # node has to be in form of "string"+"other_string"
         return nil unless recv && meth == :+
 
-        # descent recurrsivly to determine the 'receiver' of the string concatination
-        # "foo" + "bar" + baz" is
-        # ("foo".+("bar")).+("baz")
         first_part = extract_string(recv)
+        second_part = extract_string(args)
 
-        if args.first == :arglist && args.size == 2
-          second_part = extract_string(args.last)
-
-          return nil if second_part.nil?
-
-          return first_part.to_s + second_part.to_s
-        else
-          raise "uuh?"
-        end
+        return nil unless first_part && second_part
+        return first_part.to_s + second_part.to_s
       else
         return nil
       end
