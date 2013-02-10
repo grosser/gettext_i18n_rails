@@ -1,4 +1,4 @@
-require 'gettext_i18n_rails/active_model'
+require 'gettext_i18n_rails/active_model/translation'
 
 class ActiveRecord::Base
   extend ActiveModel::Translation
