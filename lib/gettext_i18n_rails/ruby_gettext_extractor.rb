@@ -12,10 +12,10 @@ module RubyGettextExtractor
   def parse_string(content, file, targets=[])
     # file is just for information in error messages
 
-    if RUBY_VERSION =~ /^1\.8/
-      parser = Extractor18.new(file, targets)
+    parser = if RUBY_VERSION =~ /^1\.8/
+      Extractor18.new(file, targets)
     else
-      parser = Extractor19.new(file, targets)
+      Extractor19.new(file, targets)
     end
     parser.run(content)
   end

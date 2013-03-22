@@ -1,7 +1,7 @@
 PATH
   remote: /Users/mgrosser/code/tools/gettext_i18n_rails
   specs:
-    gettext_i18n_rails (0.9.1)
+    gettext_i18n_rails (0.9.2)
       fast_gettext (>= 0.4.8)
 
 GEM
