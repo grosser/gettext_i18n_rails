@@ -17,7 +17,11 @@ module GettextI18nRails
 
     def translate(locale, key, options)
       if gettext_key = gettext_key(key, options)
-        translation = FastGettext._(gettext_key)
+        translation = if options[:count]
+                        FastGettext.n_(gettext_key, options[:count])
+                      else
+                        FastGettext._(gettext_key)
+                      end
         interpolate(translation, options)
       else
         result = backend.translate(locale, key, options)
