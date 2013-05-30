@@ -10,8 +10,14 @@ module ActiveModel
       if attribute.ends_with?('_id')
         humanize_class_name(attribute)
       else
-        "#{self}|#{attribute.split('.').map! {|a| a.humanize }.join('|')}"
+        "#{inheritance_tree_root(self)}|#{attribute.split('.').map! {|a| a.humanize }.join('|')}"
       end
+    end
+
+    def inheritance_tree_root(aclass)
+      return aclass unless aclass.respond_to?(:base_class)
+      base = aclass.base_class
+      base.superclass.abstract_class? ? base.superclass : base
     end
 
     def humanize_class_name(name=nil)
