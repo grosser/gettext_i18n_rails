@@ -23,6 +23,16 @@ describe ActiveRecord::Base do
       CarSeat.should_receive(:s_).with('CarSeat|Parts|Name').and_return('Handle')
       CarSeat.human_attribute_name(:"parts.name").should == 'Handle'
     end
+
+    it "translates attributes of STI classes through FastGettext" do
+      StiChild.should_receive(:s_).with('StiParent|Child attribute').and_return('Kinderattribut')
+      StiChild.human_attribute_name(:child_attribute).should == 'Kinderattribut'
+    end
+
+    it "translates attributes of concrete children of abstract parent classes" do
+      ConcreteChildClass.should_receive(:s_).with('AbstractParentClass|Child attribute').and_return('Kinderattribut')
+      ConcreteChildClass.human_attribute_name(:child_attribute).should == 'Kinderattribut'
+    end
   end
 
   describe :gettext_translation_for_attribute_name do

@@ -34,18 +34,28 @@ module GettextI18nRails
     # current connection ---> {'cars'=>['model_name','type'],...}
     def find(options)
       found = ActiveSupport::OrderedHash.new([])
-
       models.each do |model|
-        next if model.abstract_class
-        table_name = model.table_name
-        next if ignored?(table_name,options[:ignore_tables])
-        model.columns.each do |column|
-          found[model] += [column.name] unless ignored?(column.name,options[:ignore_columns])
-        end
-        found[model].sort!
+        attributes = model_attributes(model, options[:ignore_tables], options[:ignore_columns])
+        found[model] = attributes.sort if attributes.any?
       end
-
       found
+    end
+
+    # Rails < 3.0 doesn't have DescendantsTracker. 
+    # Instead of iterating over ObjectSpace (slow) the decision was made NOT to support
+    # class hierarchies with abstract base classes in Rails 2.x
+    def model_attributes(model, ignored_tables, ignored_cols)
+      return [] if model.abstract_class? && Rails::VERSION::MAJOR < 3
+      
+      if model.abstract_class?
+        model.direct_descendants.reject {|m| ignored?(m.table_name, ignored_tables)}.inject([]) do |attrs, m|
+          attrs.push(model_attributes(m, ignored_tables, ignored_cols)).flatten.uniq
+        end
+      elsif !ignored?(model.table_name, ignored_tables)
+        model.columns.reject { |c| ignored?(c.name, ignored_cols) }.collect { |c| c.name }
+      else
+        []
+      end
     end
 
     def models
@@ -53,8 +63,11 @@ module GettextI18nRails
         Rails.application.eager_load! # make sure that all models are loaded so that direct_descendants works
         ::ActiveRecord::Base.direct_descendants
       else
-        ::ActiveRecord::Base.connection.tables.map {|t| table_name_to_namespaced_model(t) }
-      end.compact.sort {|c1, c2| c1.name <=> c2.name}
+        ::ActiveRecord::Base.connection.tables \
+          .map { |t| table_name_to_namespaced_model(t) } \
+          .compact \
+          .collect { |c| c.superclass.abstract_class? ? c.superclass : c }
+      end.uniq.sort_by(&:name)
     end
 
     def ignored?(name,patterns)

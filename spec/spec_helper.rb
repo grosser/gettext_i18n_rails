@@ -66,6 +66,19 @@ ActiveRecord::Schema.define(:version => 1) do
   create_table :not_at_all_conventionals, :force=>true do |t|
     t.string :name
   end
+  
+  create_table :sti_parents, :force => true do |t|
+    t.string :type
+    t.string :child_attribute
+  end
+  
+  create_table :concrete_child_classes, :force => true do |t|
+    t.string :child_attribute
+  end
+
+  create_table :other_concrete_child_classes, :force => true do |t|
+    t.string :another_child_attribute
+  end
 end
 
 class CarSeat < ActiveRecord::Base
@@ -77,6 +90,15 @@ end
 class Part < ActiveRecord::Base
   belongs_to :car_seat
 end
+
+class StiParent < ActiveRecord::Base; end
+class StiChild < StiParent; end
+
+class AbstractParentClass < ActiveRecord::Base
+  self.abstract_class = true
+end
+class ConcreteChildClass < AbstractParentClass; end
+class OtherConcreteChildClass < AbstractParentClass; end
 
 class NotConventional < ActiveRecord::Base
   if ActiveRecord::VERSION::MAJOR == 3
