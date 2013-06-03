@@ -234,6 +234,7 @@ If want to use your .PO files on client side javascript you should have a look a
  - [Andrey Chernih](https://github.com/AndreyChernyh)
  - [Imre Farkas](https://github.com/ifarkas)
  - [Trong Tran](https://github.com/trongrg)
+ - [Dmitri Dolguikh](https://github.com/witlessbird)
 
 [Michael Grosser](http://grosser.it)<br/>
 grosser.michael@gmail.com<br/>
