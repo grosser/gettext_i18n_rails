@@ -49,21 +49,21 @@ describe ActiveRecord::Base do
     }
 
     it "translates error messages" do
-      FastGettext.stub!(:current_repository).and_return('translate me'=>"Übersetz mich!")
+      FastGettext.stub(:current_repository).and_return('translate me'=>"Übersetz mich!")
       FastGettext._('translate me').should == "Übersetz mich!"
       model.errors.full_messages.should == ["Seat color Übersetz mich!"]
     end
 
     it "translates scoped error messages" do
       pending 'scope is no longer added in 3.x' if ActiveRecord::VERSION::MAJOR >= 3
-      FastGettext.stub!(:current_repository).and_return('activerecord.errors.translate me'=>"Übersetz mich!")
+      FastGettext.stub(:current_repository).and_return('activerecord.errors.translate me'=>"Übersetz mich!")
       FastGettext._('activerecord.errors.translate me').should == "Übersetz mich!"
       model.errors.full_messages.should == ["Seat color Übersetz mich!"]
     end
 
     it "translates error messages with %{fn}" do
       pending
-      FastGettext.stub!(:current_repository).and_return('translate me'=>"Übersetz %{fn} mich!")
+      FastGettext.stub(:current_repository).and_return('translate me'=>"Übersetz %{fn} mich!")
       FastGettext._('translate me').should == "Übersetz %{fn} mich!"
       model.errors[:seat_color].should == ["Übersetz car_seat mich!"]
     end

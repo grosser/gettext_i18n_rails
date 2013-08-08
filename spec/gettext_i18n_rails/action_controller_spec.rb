@@ -5,9 +5,9 @@ FastGettext.silence_errors
 describe ActionController::Base do
   def reset!
     fake_session = {}
-    @c.stub!(:session).and_return fake_session
+    @c.stub(:session).and_return fake_session
     fake_cookies = {}
-    @c.stub!(:cookies).and_return fake_cookies
+    @c.stub(:cookies).and_return fake_cookies
     @c.params = {}
     @c.request = stub(:env => {})
   end
@@ -47,7 +47,7 @@ describe ActionController::Base do
   end
 
   it "reads the locale from the HTTP_ACCEPT_LANGUAGE" do
-    @c.request.stub!(:env).and_return 'HTTP_ACCEPT_LANGUAGE'=>'de-de,de;q=0.8,en-us;q=0.5,en;q=0.3'
+    @c.request.stub(:env).and_return 'HTTP_ACCEPT_LANGUAGE'=>'de-de,de;q=0.8,en-us;q=0.5,en;q=0.3'
     @c.set_gettext_locale
     FastGettext.locale.should == 'en'
   end
