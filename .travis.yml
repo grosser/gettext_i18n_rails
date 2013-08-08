@@ -1,4 +1,10 @@
 bundler_args: ""
+script: "bundle exec rake spec"
+gemfile:
+  - gemfiles/rails23.gemfile
+  - gemfiles/rails30.gemfile
+  - gemfiles/rails31.gemfile
+  - gemfiles/rails32.gemfile
 rvm:
   - ree
   - 1.9.3
