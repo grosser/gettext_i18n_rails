@@ -50,6 +50,14 @@ describe GettextI18nRails::Backend do
       subject.translate('xx', 'ab.e', :count => 2).should == 'plural'
     end
 
+    it "interpolates a count without plural translations" do
+      repo = {'ab.e' => 'existing %{count}'}
+      repo.should_receive(:plural).and_return []
+      repo.stub(:pluralisation_rule).and_return lambda { |i| true }
+      FastGettext.stub(:current_repository).and_return repo
+      subject.translate('xx', 'ab.e', :count => 1).should == 'existing 1'
+    end
+
     it "can translate with gettext using symbols" do
       FastGettext.should_receive(:current_repository).and_return 'xy.z.v'=>'a'
       subject.translate('xx',:v ,:scope=>['xy','z']).should == 'a'
