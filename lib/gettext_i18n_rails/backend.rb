@@ -17,11 +17,8 @@ module GettextI18nRails
 
     def translate(locale, key, options)
       if gettext_key = gettext_key(key, options)
-        translation = if options[:count]
-                        FastGettext.n_(gettext_key, options[:count])
-                      else
-                        FastGettext._(gettext_key)
-                      end
+        translation =
+          plural_translate(gettext_key, options) || FastGettext._(gettext_key)
         interpolate(translation, options)
       else
         result = backend.translate(locale, key, options)
@@ -49,6 +46,21 @@ module GettextI18nRails
           return default if FastGettext.key_exist?(default)
         end
         return nil
+      end
+    end
+
+    def plural_translate(gettext_key, options)
+      if options[:count]
+        translation = FastGettext.n_(gettext_key, options[:count])
+        discard_pass_through_key gettext_key, translation
+      end
+    end
+
+    def discard_pass_through_key(key, translation)
+      if translation == key
+        nil
+      else
+        translation
       end
     end
 
