@@ -9,7 +9,7 @@ describe ActionController::Base do
     fake_cookies = {}
     @c.stub(:cookies).and_return fake_cookies
     @c.params = {}
-    @c.request = stub(:env => {})
+    @c.request = double(:env => {})
   end
 
   before do
