@@ -31,13 +31,6 @@ module Rails
   def self.root
     File.dirname(__FILE__)
   end
-
-  module VERSION
-    MAJOR = 3
-    MINOR = 1
-    PATCH = 0
-    STRING = "#{MAJOR}.#{MINOR}.#{PATCH}"
-  end
 end
 
 def with_file(content)
@@ -66,12 +59,12 @@ ActiveRecord::Schema.define(:version => 1) do
   create_table :not_at_all_conventionals, :force=>true do |t|
     t.string :name
   end
-  
+
   create_table :sti_parents, :force => true do |t|
     t.string :type
     t.string :child_attribute
   end
-  
+
   create_table :concrete_child_classes, :force => true do |t|
     t.string :child_attribute
   end
