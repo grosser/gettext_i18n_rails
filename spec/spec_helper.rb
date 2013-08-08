@@ -94,10 +94,10 @@ class ConcreteChildClass < AbstractParentClass; end
 class OtherConcreteChildClass < AbstractParentClass; end
 
 class NotConventional < ActiveRecord::Base
-  if ActiveRecord::VERSION::MAJOR == 3
-    self.table_name = :not_at_all_conventionals
-  else
+  if ActiveRecord::VERSION::MAJOR == 2
     set_table_name :not_at_all_conventionals
+  else
+    self.table_name = :not_at_all_conventionals
   end
 end
 
