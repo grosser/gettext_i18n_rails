@@ -5,6 +5,10 @@ gemfile:
   - gemfiles/rails30.gemfile
   - gemfiles/rails31.gemfile
   - gemfiles/rails32.gemfile
+matrix:
+  exclude:
+    - rvm: 2.0
+      gemfile: gemfiles/rails23.gemfile
 rvm:
   - ree
   - 1.9.3

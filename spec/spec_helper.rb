@@ -2,6 +2,12 @@ require 'rubygems'
 
 $LOAD_PATH << File.expand_path("../lib", File.dirname(__FILE__))
 
+require 'active_support/version'
+if RUBY_VERSION > "2" && ActiveSupport::VERSION::MAJOR == 2
+  warn "Not running ruby 2 vs rails 2 tests"
+  exit 0
+end
+
 require 'tempfile'
 require 'active_support'
 require 'active_record'
