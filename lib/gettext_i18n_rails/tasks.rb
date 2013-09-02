@@ -1,13 +1,31 @@
 namespace :gettext do
   def load_gettext
     require 'gettext'
-    require 'gettext/utils'
+
+    begin
+      require 'gettext/utils'
+    rescue LoadError
+      # gettext 3.0
+      require 'gettext/tools'
+    end
   end
 
   desc "Create mo-files for L10n"
   task :pack => :environment do
     load_gettext
-    GetText.create_mofiles(true, locale_path, locale_path)
+
+    if GetText.respond_to? :create_mofiles
+      GetText.create_mofiles(true, locale_path, locale_path)
+    else
+      # gettext 3.0
+      locale_dirs.each do |locale_dir|
+        Dir.glob("#{locale_dir}/*.po").each do |po_file|
+          GetText::Tools::MsgFmt.run(po_file, "--output",
+            # put the MO file to LC_MESSAGES subdirectory
+            File.join(File.dirname(po_file), "LC_MESSAGES", File.basename(po_file, ".po") + ".mo"))
+        end
+      end
+    end
   end
 
   desc "Update pot/po files."
@@ -18,7 +36,23 @@ namespace :gettext do
     require "gettext_i18n_rails/haml_parser"
     require "gettext_i18n_rails/slim_parser"
 
-    if GetText.respond_to? :update_pofiles_org
+    # gettext 3.0
+    if defined?(GetText::Tools::XGetText)
+      pot_file = File.join(locale_path, text_domain + ".pot")
+      options = [ "--output", pot_file ]
+      options.concat(files_to_translate)
+
+      # create POT file
+      GetText::Tools::XGetText.run(*options)
+
+      # merge the POT file to PO files to update the translations
+      locale_dirs.each do |locale_dir|
+        Dir.glob("#{locale_dir}/**/#{text_domain}.po").each do |po_file|
+          puts "Updating #{po_file}"
+          GetText::Tools::MsgMerge.run(po_file, pot_file, "--output", po_file)
+        end
+      end
+    elsif GetText.respond_to? :update_pofiles_org
       if defined?(Rails.application)
         msgmerge = Rails.application.config.gettext_i18n_rails.msgmerge
       end
@@ -113,6 +147,22 @@ namespace :gettext do
     path = FastGettext.translation_repositories[text_domain].instance_variable_get(:@options)[:path] rescue nil
     path || File.join(Rails.root, "locale")
   end
+
+  def locale_dirs
+    dirs = []
+    base_dir = locale_path
+
+    Dir.open(base_dir) do |dir|
+      dir.each do |entry|
+        next unless /\A[a-z]{2}(?:_[A-Z]{2})?\z/ =~ entry
+        next unless File.directory?(File.join(dir.path, entry))
+        dirs << File.join(base_dir, entry)
+      end
+    end
+
+    dirs
+  end
+
 
   def text_domain
     # if your textdomain is not 'app': require the environment before calling e.g. gettext:find OR add TEXTDOMAIN=my_domain
