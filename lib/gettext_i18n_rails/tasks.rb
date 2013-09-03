@@ -3,10 +3,11 @@ namespace :gettext do
     require 'gettext'
 
     begin
-      require 'gettext/utils'
-    rescue LoadError
       # gettext 3.0
       require 'gettext/tools'
+    rescue LoadError
+      # gettext <= 2.3.9
+      require 'gettext/utils'
     end
   end
 
