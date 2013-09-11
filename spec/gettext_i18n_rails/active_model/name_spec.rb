@@ -15,6 +15,12 @@ if ActiveRecord::VERSION::MAJOR >= 3
         name.should_receive(:_).with('Car seat').and_return('Autositz')
         name.human.should == 'Autositz'
       end
+
+      it "should support pluralizations" do
+        name = ActiveModel::Name.new(CarSeat)
+        name.should_receive(:n_).with('Car seat', 2).and_return('Autositze')
+        name.human(:count => 2).should == 'Autositze'
+      end
     end
   end
 end

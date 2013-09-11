@@ -8,8 +8,13 @@ describe ActiveRecord::Base do
 
   describe :human_name do
     it "is translated through FastGettext" do
-      CarSeat.should_receive(:_).with('Car seat').and_return('Autositz')
+      CarSeat.model_name.should_receive(:_).with('Car seat').and_return('Autositz')
       CarSeat.human_name.should == 'Autositz'
+    end
+
+    it "should support pluralizations" do
+      CarSeat.model_name.should_receive(:n_).with('Car seat', 2).and_return('Autositze')
+      CarSeat.human_name(:count => 2).should == 'Autositze'
     end
   end
 
