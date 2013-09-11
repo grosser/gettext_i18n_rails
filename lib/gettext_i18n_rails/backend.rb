@@ -17,8 +17,8 @@ module GettextI18nRails
 
     def translate(locale, key, options)
       if gettext_key = gettext_key(key, options)
-        translation =
-          plural_translate(gettext_key, options) || FastGettext._(gettext_key)
+        options[:count] ||= 1
+        translation = plural_translate(gettext_key, options)
         interpolate(translation, options)
       else
         result = backend.translate(locale, key, options)
