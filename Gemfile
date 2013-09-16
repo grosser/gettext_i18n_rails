@@ -3,7 +3,7 @@ gemspec
 
 gem 'appraisal'
 gem 'bump'
-gem 'gettext'
+gem 'gettext', '>= 3.0.1'
 gem 'haml'
 gem 'rails'
 gem 'rake'
