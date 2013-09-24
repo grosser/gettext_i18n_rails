@@ -29,11 +29,10 @@ namespace :gettext do
     task.mo_base_directory = locale_path
     task.files = files_to_translate
     task.enable_description = false
-    if defined?(Rails.application)
-      msgmerge = Rails.application.config.gettext_i18n_rails.msgmerge
-    end
-    msgmerge ||= %w[--sort-output --no-location --no-wrap]
-    task.msgmerge_options = msgmerge
+    config = (Rails.application.config.gettext_i18n_rails.msgmerge if defined?(Rails.application))
+    task.msgmerge_options = config || %w[--sort-by-msgid --no-location --no-wrap]
+    config = (Rails.application.config.gettext_i18n_rails.xgettext if defined?(Rails.application))
+    task.xgettext_options = config || %w[--sort-by-msgid --no-location]
   end
 
   desc "Create mo-files for L10n"
