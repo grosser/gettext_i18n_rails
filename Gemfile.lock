@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gettext_i18n_rails (0.10.1)
+    gettext_i18n_rails (1.0.0)
       fast_gettext (>= 0.4.8)
 
 GEM
