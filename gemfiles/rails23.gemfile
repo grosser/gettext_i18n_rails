@@ -4,7 +4,7 @@ source "http://rubygems.org"
 
 gem "appraisal"
 gem "bump"
-gem "gettext"
+gem "gettext", ">= 3.0.2"
 gem "rake"
 gem "ruby_parser", ">= 3"
 gem "rspec"
