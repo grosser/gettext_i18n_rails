@@ -31,7 +31,7 @@ Add `gettext` if you want to find translations or build .mo files<br/>
 Add `ruby_parser` if you want to find translations inside haml/slim files
 
     # Gemfile
-    gem 'gettext', '>=1.9.3', :require => false, :group => :development
+    gem 'gettext', '>=3.0.2', :require => false, :group => :development
     gem 'ruby_parser', :require => false, :group => :development
 
 #### Rails 2

@@ -1,4 +1,5 @@
 require "gettext/tools/task"
+gem "gettext", ">= 3.0.2"
 
 namespace :gettext do
   def locale_path
@@ -29,10 +30,12 @@ namespace :gettext do
     task.mo_base_directory = locale_path
     task.files = files_to_translate
     task.enable_description = false
+
+    default = %w[--sort-by-msgid --no-location --no-wrap]
     config = (Rails.application.config.gettext_i18n_rails.msgmerge if defined?(Rails.application))
-    task.msgmerge_options = config || %w[--sort-by-msgid --no-location --no-wrap]
+    task.msgmerge_options = config || default
     config = (Rails.application.config.gettext_i18n_rails.xgettext if defined?(Rails.application))
-    task.xgettext_options = config || %w[--sort-by-msgid --no-location]
+    task.xgettext_options = config || default
   end
 
   desc "Create mo-files for L10n"
