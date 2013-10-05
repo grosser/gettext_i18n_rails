@@ -6,7 +6,12 @@ module GettextI18nRails
     config.gettext_i18n_rails.use_for_active_record_attributes = true
 
     rake_tasks do
-      require 'gettext_i18n_rails/tasks'
+      begin
+        gem "gettext", ">= 3.0.2"
+        require 'gettext_i18n_rails/tasks'
+      rescue Gem::LoadError
+        # no gettext available, no tasks for you!
+      end
     end
 
     config.after_initialize do |app|
