@@ -22,28 +22,32 @@ namespace :gettext do
   require "gettext_i18n_rails/haml_parser"
   require "gettext_i18n_rails/slim_parser"
 
-  GetText::Tools::Task.define do |task|
-    task.package_name = text_domain
-    task.package_version = "1.0.0"
-    task.domain = text_domain
-    task.po_base_directory = locale_path
-    task.mo_base_directory = locale_path
-    task.files = files_to_translate
-    task.enable_description = false
+  task :setup => [:environment] do
+    GetText::Tools::Task.define do |task|
+      task.package_name = text_domain
+      task.package_version = "1.0.0"
+      task.domain = text_domain
+      task.po_base_directory = locale_path
+      task.mo_base_directory = locale_path
+      task.files = files_to_translate
+      task.enable_description = false
 
-    default = %w[--sort-by-msgid --no-location --no-wrap]
-    config = (Rails.application.config.gettext_i18n_rails.msgmerge if defined?(Rails.application))
-    task.msgmerge_options = config || default
-    config = (Rails.application.config.gettext_i18n_rails.xgettext if defined?(Rails.application))
-    task.xgettext_options = config || default
+      default = %w[--sort-by-msgid --no-location --no-wrap]
+      config = (Rails.application.config.gettext_i18n_rails.msgmerge if defined?(Rails.application))
+      task.msgmerge_options = config || default
+      config = (Rails.application.config.gettext_i18n_rails.xgettext if defined?(Rails.application))
+      task.xgettext_options = config || default
+    end
   end
 
-  desc "Create mo-files for L10n"
-  task :pack => [:environment, "gettext:gettext:mo:update"] do
+  desc "Create mo-files"
+  task :pack => [:setup] do
+    Rake::Task["gettext:mo:update"].invoke
   end
 
-  desc "Update pot/po files."
-  task :find => [:environment, "gettext:gettext:po:update"] do
+  desc "Update pot/po files"
+  task :find => [:setup] do
+    Rake::Task["gettext:po:update"].invoke
   end
 
   # This is more of an example, ignoring
