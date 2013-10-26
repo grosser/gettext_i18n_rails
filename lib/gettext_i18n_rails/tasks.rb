@@ -17,6 +17,20 @@ namespace :gettext do
     Dir.glob("{app,lib,config,#{locale_path}}/**/*.{rb,erb,haml,slim}")
   end
 
+  def gettext_default_options
+    %w[--sort-by-msgid --no-location --no-wrap]
+  end
+
+  def gettext_msgmerge_options
+    config = (Rails.application.config.gettext_i18n_rails.msgmerge if defined?(Rails.application))
+    config || gettext_default_options
+  end
+
+  def gettext_xgettext_options
+    config = (Rails.application.config.gettext_i18n_rails.xgettext if defined?(Rails.application))
+    config || gettext_default_options
+  end
+
   $LOAD_PATH << File.join(File.dirname(__FILE__),'..','..','lib') # needed when installed as plugin
 
   require "gettext_i18n_rails/haml_parser"
@@ -31,12 +45,8 @@ namespace :gettext do
       task.mo_base_directory = locale_path
       task.files = files_to_translate
       task.enable_description = false
-
-      default = %w[--sort-by-msgid --no-location --no-wrap]
-      config = (Rails.application.config.gettext_i18n_rails.msgmerge if defined?(Rails.application))
-      task.msgmerge_options = config || default
-      config = (Rails.application.config.gettext_i18n_rails.xgettext if defined?(Rails.application))
-      task.xgettext_options = config || default
+      task.msgmerge_options = gettext_msgmerge_options
+      task.xgettext_options = gettext_xgettext_options
     end
   end
 
