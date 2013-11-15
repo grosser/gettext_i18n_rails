@@ -21,14 +21,12 @@ module GettextI18nRails
         end
       end
       repo = FastGettext.translation_repositories[FastGettext.text_domain]
-      if repo.is_a? FastGettext::TranslationRepository::Po
-        reloader = ActiveSupport::FileUpdateChecker.new([], FastGettext.locale_path => :po) do
-          FastGettext.reload!
-        end
-        app.reloaders << reloader
-        ActionDispatch::Reloader.to_prepare do
-          reloader.execute
-        end
+      reloader = ActiveSupport::FileUpdateChecker.new([], FastGettext.locale_path => :po) do
+        FastGettext.reload!
+      end
+      app.reloaders << reloader
+      ActionDispatch::Reloader.to_prepare do
+        reloader.execute
       end
     end
   end
