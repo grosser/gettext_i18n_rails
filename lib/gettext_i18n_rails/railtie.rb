@@ -14,6 +14,19 @@ module GettextI18nRails
       end
     end
 
+    initializer "gettext_i18n_rails.callbacks" do |app|
+      repo = FastGettext.translation_repositories[FastGettext.text_domain]
+      if repo.is_a? FastGettext::TranslationRepository::Po
+        reloader = ActiveSupport::FileUpdateChecker.new([], FastGettext.locale_path => :po) do
+          FastGettext.reload!
+        end
+        app.reloaders << reloader
+        ActionDispatch::Reloader.to_prepare do
+          reloader.execute
+        end
+      end
+    end
+
     config.after_initialize do |app|
       if app.config.gettext_i18n_rails.use_for_active_record_attributes
         ActiveSupport.on_load :active_record do
