@@ -34,6 +34,21 @@ Add `ruby_parser` if you want to find translations inside haml/slim files
     gem 'gettext', '>=3.0.2', :require => false, :group => :development
     gem 'ruby_parser', :require => false, :group => :development
 
+###### Add first language:
+Add the first language using:
+
+    rake gettext:add_language[XX]
+
+or
+
+    LANGUAGE=[XX] rake gettext:add_languange
+
+where XX is the [ISO 639-1](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) 2-letter code for the language you want to create.
+
+This will also create the `locale` directory (where the translations are being stored) and run `gettext:find` to find any strings marked for translation.
+
+You can, of course, add more languages using the same command.
+
 #### Rails 2
 
 ##### As plugin:
