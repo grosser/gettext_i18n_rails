@@ -18,7 +18,8 @@ namespace :gettext do
   end
 
   def gettext_default_options
-    %w[--sort-by-msgid --no-location --no-wrap]
+    config = (Rails.application.config.gettext_i18n_rails.default_options if defined?(Rails.application))
+    config || %w[--sort-by-msgid --no-location --no-wrap]
   end
 
   def gettext_msgmerge_options
