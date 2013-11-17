@@ -234,6 +234,28 @@ If you want to have multiple text domains or change the definition of the text d
       end
     end
 
+Changing msgmerge and xgettext options
+======================================
+
+The default options for parsing and create `.po` files are:
+
+    --sort-by-msgid --no-location --no-wrap
+
+These options sort the translations by the msgid (original / source string), don't add location information in the po file and don't wrap long message lines into several lines.
+
+If you want to override them you can put the following into an initializer like config/initializers/gettext.rb:
+
+    Rails.application.config.gettext_i18n_rails.msgmerge = %w[--no-location]
+    Rails.application.config.gettext_i18n_rails.xgettext = %w[--no-location]
+
+or
+
+    Rails.application.config.gettext_i18n_rails.default_options = %w[--no-location]
+
+to override both.
+
+You can see the available options by running `rgettext -h` and `rxgettext -h`.
+
 Using your translations from javascript
 =======================================
 
