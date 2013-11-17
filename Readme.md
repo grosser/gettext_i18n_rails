@@ -217,6 +217,60 @@ lib/tasks/gettext.rake:
       end
     end
 
+Customizing text domains setup task
+===================================
+
+By default a single application text domain is created (named `app` or if you load the environment the value of `FastGettext.text_domain` is being used).
+
+If you want to have multiple text domains or change the definition of the text domains in any way, you can do so by overriding the `:setup` task in a file like lib/tasks/gettext.rake:
+
+    # Remove the provided gettext setup task
+    Rake::Task["gettext:setup"].clear
+
+    namespace :gettext do
+      task :setup => [:environment] do
+        domains = Application.config.gettext["domains"]
+
+        domains.each do |domain, options|
+          files = Dir.glob(options["paths"])
+
+          GetText::Tools::Task.define do |task|
+            task.package_name = options["name"]
+            task.package_version = "1.0.0"
+            task.domain = options["name"]
+            task.po_base_directory = locale_path
+            task.mo_base_directory = locale_path
+            task.files = files
+            task.enable_description = false
+            task.msgmerge_options = gettext_msgmerge_options
+            task.xgettext_options = gettext_xgettext_options
+          end
+        end
+      end
+    end
+
+Changing msgmerge and xgettext options
+======================================
+
+The default options for parsing and create `.po` files are:
+
+    --sort-by-msgid --no-location --no-wrap
+
+These options sort the translations by the msgid (original / source string), don't add location information in the po file and don't wrap long message lines into several lines.
+
+If you want to override them you can put the following into an initializer like config/initializers/gettext.rb:
+
+    Rails.application.config.gettext_i18n_rails.msgmerge = %w[--no-location]
+    Rails.application.config.gettext_i18n_rails.xgettext = %w[--no-location]
+
+or
+
+    Rails.application.config.gettext_i18n_rails.default_options = %w[--no-location]
+
+to override both.
+
+You can see the available options by running `rgettext -h` and `rxgettext -h`.
+
 Using your translations from javascript
 =======================================
 
