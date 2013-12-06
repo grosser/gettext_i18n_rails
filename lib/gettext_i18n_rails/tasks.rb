@@ -58,6 +58,7 @@ namespace :gettext do
 
   desc "Update pot/po files"
   task :find => [:setup] do
+    Rake::Task["gettext:pot:create"].invoke
     Rake::Task["gettext:po:update"].invoke
   end
 
