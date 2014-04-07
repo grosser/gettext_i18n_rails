@@ -98,7 +98,7 @@ namespace :gettext do
 
     # Let's do some pre-verification of the environment.
     if language.nil?
-      puts "You need to specify the language to add. Either 'LANGUAGE=eo rake gettext:add_languange' or 'rake gettext:add_languange[eo]'"
+      puts "You need to specify the language to add. Either 'LANGUAGE=eo rake gettext:add_language' or 'rake gettext:add_language[eo]'"
       next
     end
 
