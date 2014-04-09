@@ -41,7 +41,7 @@ Add the first language using:
 
 or
 
-    LANGUAGE=[XX] rake gettext:add_languange
+    LANGUAGE=[XX] rake gettext:add_language
 
 where XX is the [ISO 639-1](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) 2-letter code for the language you want to create.
 
