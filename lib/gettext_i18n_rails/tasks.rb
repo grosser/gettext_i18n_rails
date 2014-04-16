@@ -9,7 +9,7 @@ namespace :gettext do
 
   def text_domain
     # if your textdomain is not 'app': require the environment before calling e.g. gettext:find OR add TEXTDOMAIN=my_domain
-    ENV['TEXTDOMAIN'] || (FastGettext.text_domain rescue nil) || "app"
+    (FastGettext.text_domain rescue nil) || ENV['TEXTDOMAIN'] || "app"
   end
 
   # do not rename, gettext_i18n_rails_js overwrites this to inject coffee + js
