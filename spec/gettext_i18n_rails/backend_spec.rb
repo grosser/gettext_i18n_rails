@@ -5,7 +5,7 @@ FastGettext.silence_errors
 
 describe GettextI18nRails::Backend do
   before do
-    FastGettext.current_cache = {}
+    FastGettext.reload!
   end
 
   it "redirects calls to another I18n backend" do

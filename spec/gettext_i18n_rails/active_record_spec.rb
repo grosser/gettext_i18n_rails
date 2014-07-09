@@ -3,7 +3,7 @@ require "spec_helper"
 
 describe ActiveRecord::Base do
   before do
-    FastGettext.current_cache = {}
+    FastGettext.reload!
   end
 
   describe :human_name do

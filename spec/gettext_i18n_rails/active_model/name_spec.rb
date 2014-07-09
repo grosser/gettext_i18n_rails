@@ -6,7 +6,7 @@ if ActiveRecord::VERSION::MAJOR >= 3
 
   describe ActiveModel::Name do
     before do
-      FastGettext.current_cache = {}
+      FastGettext.reload!
     end
 
     describe 'human' do

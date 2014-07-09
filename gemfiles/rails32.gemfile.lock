@@ -1,11 +1,11 @@
 PATH
-  remote: /Users/mgrosser/code/tools/gettext_i18n_rails
+  remote: ../
   specs:
-    gettext_i18n_rails (1.0.0)
-      fast_gettext (>= 0.4.8)
+    gettext_i18n_rails (1.0.5)
+      fast_gettext (>= 0.9.0)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     actionmailer (3.2.14)
       actionpack (= 3.2.14)
@@ -34,15 +34,12 @@ GEM
     activesupport (3.2.14)
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
-    appraisal (0.5.2)
-      bundler
-      rake
     arel (3.0.2)
     builder (3.0.4)
     bump (0.4.2)
     diff-lcs (1.2.4)
     erubis (2.7.0)
-    fast_gettext (0.8.0)
+    fast_gettext (0.9.0)
     gettext (3.0.2)
       locale (>= 2.0.5)
       text
@@ -112,12 +109,12 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.37)
+    wwtd (0.5.5)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  appraisal
   bump
   gettext (>= 3.0.2)
   gettext_i18n_rails!
@@ -128,3 +125,4 @@ DEPENDENCIES
   ruby_parser (>= 3)
   slim
   sqlite3
+  wwtd

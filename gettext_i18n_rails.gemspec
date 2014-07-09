@@ -1,6 +1,5 @@
-$LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
 name = "gettext_i18n_rails"
-require "#{name}/version"
+require "./lib/#{name}/version"
 
 Gem::Specification.new name, GettextI18nRails::VERSION do |s|
   s.summary = "Simple FastGettext Rails integration."
@@ -9,5 +8,16 @@ Gem::Specification.new name, GettextI18nRails::VERSION do |s|
   s.homepage = "http://github.com/grosser/#{name}"
   s.files = `git ls-files lib MIT-LICENSE.txt`.split("\n")
   s.license = "MIT"
-  s.add_runtime_dependency "fast_gettext", ">=0.4.8"
+  s.add_runtime_dependency "fast_gettext", ">= 0.9.0"
+
+  s.add_development_dependency "bump"
+  s.add_development_dependency "gettext", ">= 3.0.2"
+  s.add_development_dependency "haml"
+  s.add_development_dependency "rake"
+  s.add_development_dependency "rails"
+  s.add_development_dependency "ruby_parser", ">= 3"
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "slim"
+  s.add_development_dependency "sqlite3"
+  s.add_development_dependency "wwtd"
 end
