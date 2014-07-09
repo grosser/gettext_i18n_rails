@@ -32,8 +32,6 @@ namespace :gettext do
     config || gettext_default_options
   end
 
-  $LOAD_PATH << File.join(File.dirname(__FILE__),'..','..','lib') # needed when installed as plugin
-
   require "gettext_i18n_rails/haml_parser"
   require "gettext_i18n_rails/slim_parser"
 

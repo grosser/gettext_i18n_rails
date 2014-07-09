@@ -19,14 +19,10 @@ module GettextI18nRails
       return true if @library_loaded
 
       begin
-        require "#{::Rails.root.to_s}/vendor/plugins/#{extension}/lib/#{extension}"
+        require extension
       rescue LoadError
-        begin
-          require extension # From gem
-        rescue LoadError
-          puts "A #{extension} file was found, but #{extension} library could not be found, so nothing will be parsed..."
-          return false
-        end
+        puts "A #{extension} file was found, but #{extension} library could not be found, so nothing will be parsed..."
+        return false
       end
 
       require 'gettext_i18n_rails/ruby_gettext_extractor'

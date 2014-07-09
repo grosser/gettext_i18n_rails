@@ -14,34 +14,36 @@ Setup
 
 #### Rails 3
 
-##### As plugin:
+```Ruby
+# Gemfile
+gem 'gettext_i18n_rails'
 
-    rails plugin install git://github.com/grosser/gettext_i18n_rails.git
-
-    # Gemfile
-    gem 'fast_gettext', '>=0.4.8'
-
-##### As gem:
-
-    # Gemfile
-    gem 'gettext_i18n_rails'
+# Rakefile
+require 'gettext_i18n_rails/tasks'
+```
 
 ##### Optional:
 Add `gettext` if you want to find translations or build .mo files<br/>
 Add `ruby_parser` if you want to find translations inside haml/slim files
 
-    # Gemfile
-    gem 'gettext', '>=3.0.2', :require => false, :group => :development
-    gem 'ruby_parser', :require => false, :group => :development
+```Ruby
+# Gemfile
+gem 'gettext', '>=3.0.2', :require => false, :group => :development
+gem 'ruby_parser', :require => false, :group => :development
+```
 
 ###### Add first language:
 Add the first language using:
 
-    rake gettext:add_language[XX]
+```Bash
+rake gettext:add_language[XX]
+```
 
 or
 
-    LANGUAGE=[XX] rake gettext:add_language
+```Bash
+LANGUAGE=[XX] rake gettext:add_language
+```
 
 where XX is the [ISO 639-1](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) 2-letter code for the language you want to create.
 
@@ -49,51 +51,26 @@ This will also create the `locale` directory (where the translations are being s
 
 You can, of course, add more languages using the same command.
 
-#### Rails 2
-
-##### As plugin:
-
-    script/plugin install git://github.com/grosser/gettext_i18n_rails.git
-    sudo gem install fast_gettext
-
-    # config/environment.rb
-    config.gem "fast_gettext", :version => '>=0.4.8'
-
-##### As gem:
-
-    gem install gettext_i18n_rails
-
-    # config/environment.rb
-    config.gem 'gettext_i18n_rails'
-
-    #Rakefile
-    begin
-      require "gettext_i18n_rails/tasks"
-    rescue LoadError
-      puts "gettext_i18n_rails is not installed, you probably should run 'rake gems:install' or 'bundle install'."
-    end
-
-##### Optional:
-If you want to find translations or build .mo files
-    # config/environments/development.rb
-    config.gem "gettext", :version => '>=1.9.3', :lib => false
-
 ### Locales & initialisation
 Copy default locales with dates/sentence-connectors/AR-errors you want from e.g.
-[rails i18n](http://github.com/svenfuchs/rails-i18n/tree/master/rails/locale/) into 'config/locales'
+[rails i18n](https://github.com/svenfuchs/rails-i18n/tree/master/rails/locale/) into 'config/locales'
 
 To initialize:
 
-    # config/initializers/fast_gettext.rb
-    FastGettext.add_text_domain 'app', :path => 'locale', :type => :po
-    FastGettext.default_available_locales = ['en','de'] #all you want to allow
-    FastGettext.default_text_domain = 'app'
+```Ruby
+# config/initializers/fast_gettext.rb
+FastGettext.add_text_domain 'app', :path => 'locale', :type => :po
+FastGettext.default_available_locales = ['en','de'] #all you want to allow
+FastGettext.default_text_domain = 'app'
+```
 
 And in your application:
 
-    # app/controllers/application_controller.rb
-    class ApplicationController < ...
-      before_filter :set_gettext_locale
+```Ruby
+# app/controllers/application_controller.rb
+class ApplicationController < ...
+  before_filter :set_gettext_locale
+```
 
 Translating
 ===========
@@ -101,9 +78,11 @@ Performance is almost the same for all backends since translations are cached af
 
 ### Option A: .po files
 
-    FastGettext.add_text_domain 'app', :path => 'locale', :type => :po
+```Ruby
+FastGettext.add_text_domain 'app', :path => 'locale', :type => :po
+```
 
- - use some _('translations')
+ - use some `_('translations')`
  - run `rake gettext:find`, to let GetText find all translations used
  - (optional) run `rake gettext:store_model_attributes`, to parse the database for columns that can be translated
  - if this is your first translation: `cp locale/app.pot locale/de/app.po` for every locale you want to use
@@ -133,13 +112,18 @@ Most scalable method, all translators can work simultaneously and online.
 Easiest to use with the [translation database Rails engine](http://github.com/grosser/translation_db_engine).
 Translations can be edited under `/translation_keys`
 
-    FastGettext::TranslationRepository::Db.require_models
-    FastGettext.add_text_domain 'app', :type => :db, :model => TranslationKey
+```Ruby
+FastGettext::TranslationRepository::Db.require_models
+FastGettext.add_text_domain 'app', :type => :db, :model => TranslationKey
+```
 
 I18n
 ====
-    I18n.locale <==> FastGettext.locale.to_sym
-    I18n.locale = :de <==> FastGettext.locale = 'de'
+
+```Ruby
+I18n.locale <==> FastGettext.locale.to_sym
+I18n.locale = :de <==> FastGettext.locale = 'de'
+```
 
 Any call to I18n that matches a gettext key will be translated through FastGettext.
 
@@ -148,13 +132,19 @@ Namespaces
 Car|Model means Model in namespace Car.
 You do not have to translate this into english "Model", if you use the
 namespace-aware translation
-    s_('Car|Model') == 'Model' #when no translation was found
+
+```Ruby
+s_('Car|Model') == 'Model' #when no translation was found
+``
 
 XSS / html_safe
 ===============
 If you trust your translators and all your usages of % on translations:<br/>
-    # config/environment.rb
-    GettextI18nRails.translations_are_html_safe = true
+
+```Ruby
+# config/environment.rb
+GettextI18nRails.translations_are_html_safe = true
+```
 
 String % vs html_safe is buggy (can be used for XSS on 1.8 and is always non-safe in 1.9)<br/>
 My recommended fix is: `require 'gettext_i18n_rails/string_interpolate_fix'`
@@ -176,28 +166,38 @@ Error messages can be translated through FastGettext, if the ':message' is a tra
 
 ####Option A:
 Define a translation for "I need my rating!" and use it as message.
-    validates_inclusion_of :rating, :in=>1..5, :message=>N_('I need my rating!')
+
+```Ruby
+validates_inclusion_of :rating, :in=>1..5, :message=>N_('I need my rating!')
+```
 
 ####Option B:
-    validates_inclusion_of :rating, :in=>1..5
+
+```Ruby
+validates_inclusion_of :rating, :in=>1..5
+```
 Make a translation for the I18n key: `activerecord.errors.models.rating.attributes.rating.inclusion`
 
 ####Option C:
 Add a translation to each config/locales/*.yml files
-    en:
-      activerecord:
-        errors:
-          models:
+```Yaml
+en:
+  activerecord:
+    errors:
+      models:
+        rating:
+          attributes:
             rating:
-              attributes:
-                rating:
-                  inclusion: " -- please choose!"
+              inclusion: " -- please choose!"
+```
 The [rails I18n guide](http://guides.rubyonrails.org/i18n.html) can help with Option B and C.
 
 Plurals
 =======
 FastGettext supports pluralization
-    n_('Apple','Apples',3) == 'Apples'
+```Ruby
+n_('Apple','Apples',3) == 'Apples'
+```
 
 Abnormal plurals like e.g. Polish that has 4 different can also be addressed, see [FastGettext Readme](http://github.com/grosser/fast_gettext)
 
@@ -205,17 +205,21 @@ Customizing list of translatable files
 ======================================
 When you run
 
-    rake gettext:find
+```Bash
+rake gettext:find
+```
 
 by default the following files are going to be scanned for translations: {app,lib,config,locale}/**/*.{rb,erb,haml,slim}. If
 you want to specify a different list, you can redefine files_to_translate in the gettext namespace in a file like
 lib/tasks/gettext.rake:
 
-    namespace :gettext do
-      def files_to_translate
-        Dir.glob("{app,lib,config,locale}/**/*.{rb,erb,haml,slim,rhtml}")
-      end
-    end
+```Ruby
+namespace :gettext do
+  def files_to_translate
+    Dir.glob("{app,lib,config,locale}/**/*.{rb,erb,haml,slim,rhtml}")
+  end
+end
+```
 
 Customizing text domains setup task
 ===================================
@@ -224,48 +228,56 @@ By default a single application text domain is created (named `app` or if you lo
 
 If you want to have multiple text domains or change the definition of the text domains in any way, you can do so by overriding the `:setup` task in a file like lib/tasks/gettext.rake:
 
-    # Remove the provided gettext setup task
-    Rake::Task["gettext:setup"].clear
+```Ruby
+# Remove the provided gettext setup task
+Rake::Task["gettext:setup"].clear
 
-    namespace :gettext do
-      task :setup => [:environment] do
-        domains = Application.config.gettext["domains"]
+namespace :gettext do
+  task :setup => [:environment] do
+    domains = Application.config.gettext["domains"]
 
-        domains.each do |domain, options|
-          files = Dir.glob(options["paths"])
+    domains.each do |domain, options|
+      files = Dir.glob(options["paths"])
 
-          GetText::Tools::Task.define do |task|
-            task.package_name = options["name"]
-            task.package_version = "1.0.0"
-            task.domain = options["name"]
-            task.po_base_directory = locale_path
-            task.mo_base_directory = locale_path
-            task.files = files
-            task.enable_description = false
-            task.msgmerge_options = gettext_msgmerge_options
-            task.xgettext_options = gettext_xgettext_options
-          end
-        end
+      GetText::Tools::Task.define do |task|
+        task.package_name = options["name"]
+        task.package_version = "1.0.0"
+        task.domain = options["name"]
+        task.po_base_directory = locale_path
+        task.mo_base_directory = locale_path
+        task.files = files
+        task.enable_description = false
+        task.msgmerge_options = gettext_msgmerge_options
+        task.xgettext_options = gettext_xgettext_options
       end
     end
+  end
+end
+```
 
 Changing msgmerge and xgettext options
 ======================================
 
 The default options for parsing and create `.po` files are:
 
-    --sort-by-msgid --no-location --no-wrap
+```Bash
+--sort-by-msgid --no-location --no-wrap
+```
 
 These options sort the translations by the msgid (original / source string), don't add location information in the po file and don't wrap long message lines into several lines.
 
 If you want to override them you can put the following into an initializer like config/initializers/gettext.rb:
 
-    Rails.application.config.gettext_i18n_rails.msgmerge = %w[--no-location]
-    Rails.application.config.gettext_i18n_rails.xgettext = %w[--no-location]
+```Ruby
+Rails.application.config.gettext_i18n_rails.msgmerge = %w[--no-location]
+Rails.application.config.gettext_i18n_rails.xgettext = %w[--no-location]
+```
 
 or
 
-    Rails.application.config.gettext_i18n_rails.default_options = %w[--no-location]
+```Ruby
+Rails.application.config.gettext_i18n_rails.default_options = %w[--no-location]
+```
 
 to override both.
 
@@ -306,7 +318,7 @@ If want to use your .PO files on client side javascript you should have a look a
  - [Joe Ferris](https://github.com/jferris)
 
 [Michael Grosser](http://grosser.it)<br/>
-grosser.michael@gmail.com<br/>
+michael@grosser.it<br/>
 License: MIT<br/>
 [![Build Status](https://travis-ci.org/grosser/gettext_i18n_rails.png)](https://travis-ci.org/grosser/gettext_i18n_rails)
 
