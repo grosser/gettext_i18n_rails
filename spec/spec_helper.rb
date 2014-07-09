@@ -13,6 +13,10 @@ require 'fast_gettext'
 require 'gettext_i18n_rails'
 require 'temple'
 
+if ActiveSupport::VERSION::MAJOR >= 3
+  I18n.enforce_available_locales = false # maybe true ... not sure
+end
+
 RSpec.configure do |config|
   config.expect_with(:rspec) { |c| c.syntax = :should }
   config.mock_with(:rspec) { |c| c.syntax = :should }
@@ -21,7 +25,6 @@ end
 begin
   Gem.all_load_paths
 rescue
-  puts "Fixing Gem.all_load_paths"
   module Gem;def self.all_load_paths;[];end;end
 end
 
@@ -53,6 +56,7 @@ ActiveRecord::Base.establish_connection(
   :database => ":memory:"
 )
 
+ActiveRecord::Schema.verbose = false
 ActiveRecord::Schema.define(:version => 1) do
   create_table :car_seats, :force=>true do |t|
     t.string :seat_color
