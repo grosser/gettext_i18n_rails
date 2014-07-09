@@ -13,6 +13,11 @@ require 'fast_gettext'
 require 'gettext_i18n_rails'
 require 'temple'
 
+RSpec.configure do |config|
+  config.expect_with(:rspec) { |c| c.syntax = :should }
+  config.mock_with(:rspec) { |c| c.syntax = :should }
+end
+
 begin
   Gem.all_load_paths
 rescue

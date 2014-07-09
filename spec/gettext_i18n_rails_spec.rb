@@ -45,7 +45,7 @@ describe GettextI18nRails do
   end
 
   it "sets up out backend" do
-    I18n.backend.is_a?(GettextI18nRails::Backend).should be_true
+    I18n.backend.is_a?(GettextI18nRails::Backend).should == true
   end
 
   it "has a VERSION" do

@@ -4,6 +4,8 @@ require "spec_helper"
 FastGettext.silence_errors
 
 describe GettextI18nRails::Backend do
+  subject { GettextI18nRails::Backend.new }
+
   before do
     FastGettext.reload!
   end
