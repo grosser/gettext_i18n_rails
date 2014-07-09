@@ -22,8 +22,8 @@ describe GettextI18nRails::ModelAttributesFinder do
   describe :find do
     it "returns all AR models" do
       keys = finder.find({}).keys
-      expected = [CarSeat, Part]
-      expected.concat [AbstractParentClass, NotConventional, StiParent] if Rails::VERSION::MAJOR >= 3
+      expected = [CarSeat, Part, StiParent]
+      expected.concat [AbstractParentClass, NotConventional] if Rails::VERSION::MAJOR >= 3
       expected.concat [ActiveRecord::SchemaMigration] if Rails::VERSION::MAJOR >= 4
       keys.should =~ expected
     end
