@@ -6,6 +6,7 @@ end
 
 require 'tempfile'
 require 'active_support'
+require 'active_support/core_ext/string/output_safety'
 require 'active_record'
 require 'action_controller'
 require 'action_mailer'

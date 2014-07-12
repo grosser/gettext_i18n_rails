@@ -12,8 +12,6 @@ Setup
 =====
 ### Installation
 
-#### Rails 3
-
 ```Ruby
 # Gemfile
 gem 'gettext_i18n_rails'
@@ -146,7 +144,7 @@ If you trust your translators and all your usages of % on translations:<br/>
 GettextI18nRails.translations_are_html_safe = true
 ```
 
-String % vs html_safe is buggy (can be used for XSS on 1.8 and is always non-safe in 1.9)<br/>
+String % vs html_safe is buggy<br/>
 My recommended fix is: `require 'gettext_i18n_rails/string_interpolate_fix'`
 
  - safe stays safe (escape added strings)
