@@ -41,6 +41,10 @@ module GettextI18nRails
       found
     end
 
+    def initialize
+      @existing_tables = ActiveRecord::Base.connection.tables
+    end
+
     # Rails < 3.0 doesn't have DescendantsTracker. 
     # Instead of iterating over ObjectSpace (slow) the decision was made NOT to support
     # class hierarchies with abstract base classes in Rails 2.x
@@ -51,7 +55,7 @@ module GettextI18nRails
         model.direct_descendants.reject {|m| ignored?(m.table_name, ignored_tables)}.inject([]) do |attrs, m|
           attrs.push(model_attributes(m, ignored_tables, ignored_cols)).flatten.uniq
         end
-      elsif !ignored?(model.table_name, ignored_tables)
+      elsif !ignored?(model.table_name, ignored_tables) && @existing_tables.include?(model.table_name)
         model.columns.reject { |c| ignored?(c.name, ignored_cols) }.collect { |c| c.name }
       else
         []
