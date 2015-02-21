@@ -130,7 +130,7 @@ namespace-aware translation
 
 ```Ruby
 s_('Car|Model') == 'Model' #when no translation was found
-``
+```
 
 XSS / html_safe
 ===============
