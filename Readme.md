@@ -15,9 +15,6 @@ Setup
 ```Ruby
 # Gemfile
 gem 'gettext_i18n_rails'
-
-# Rakefile
-require 'gettext_i18n_rails/tasks'
 ```
 
 ##### Optional:
