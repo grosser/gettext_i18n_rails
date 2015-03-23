@@ -8,7 +8,7 @@ module GettextI18nRails
     IGNORE_TABLES
   end
 
-  def add_ignore_table(str)
+  def self.add_ignore_table(str)
     IGNORE_TABLES << str
   end
 end
