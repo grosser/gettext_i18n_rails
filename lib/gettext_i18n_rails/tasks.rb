@@ -85,7 +85,7 @@ namespace :gettext do
     GettextI18nRails.store_model_attributes(
       :to => storage_file,
       :ignore_columns => [/_id$/, 'id', 'type', 'created_at', 'updated_at'],
-      :ignore_tables => GettextI18nRails.ignore_tables
+      :ignore_tables => GettextI18nRails::IGNORE_TABLES
     )
   end
 

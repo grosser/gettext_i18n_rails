@@ -3,14 +3,6 @@ require 'gettext_i18n_rails/gettext_hooks'
 
 module GettextI18nRails
   IGNORE_TABLES = [/^sitemap_/, /_versions$/, 'schema_migrations', 'sessions', 'delayed_jobs']
-
-  def self.ignore_tables
-    IGNORE_TABLES
-  end
-
-  def self.add_ignore_table(str)
-    IGNORE_TABLES << str
-  end
 end
 
 # translate from everywhere
