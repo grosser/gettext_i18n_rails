@@ -101,6 +101,9 @@ namespace :gettext do
 
     language_path = File.join(locale_path, language)
     mkdir_p(language_path)
-    ruby($0, "gettext:find")
+    b = false
+    scope = _.scope.reject{|x| b || x == 'gettext' ? b = true : false}.join(':')
+    scope += ':' unless scope.empty?
+    ruby($0, "#{scope}gettext:find")
   end
 end
