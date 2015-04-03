@@ -101,9 +101,6 @@ namespace :gettext do
 
     language_path = File.join(locale_path, language)
     mkdir_p(language_path)
-    b = false
-    scope = _.scope.reject{|x| b || x == 'gettext' ? b = true : false}.join(':')
-    scope += ':' unless scope.empty?
-    ruby($0, "#{scope}gettext:find")
+    Rake.application.lookup('gettext:find', _.scope).invoke
   end
 end
