@@ -11,12 +11,7 @@ module RubyGettextExtractor
 
   def parse_string(content, file, targets=[])
     # file is just for information in error messages
-
-    parser = if RUBY_VERSION =~ /^1\.8/
-      Extractor18.new(file, targets)
-    else
-      Extractor19.new(file, targets)
-    end
+    parser = Extractor.new(file, targets)
     parser.run(content)
   end
 
@@ -127,13 +122,21 @@ module RubyGettextExtractor
     end
   end
 
-  class Extractor18 < Ruby18Parser
+
+  BaseParser =
+    if RUBY_VERSION =~ /^1\.8/
+      Ruby18Parser
+    elsif RUBY_VERSION =~ /^1\.9/
+      Ruby19Parser
+    elsif RUBY_VERSION =~ /^2\.0/
+      Ruby20Parser
+    elsif RUBY_VERSION =~ /^2\.1/
+      Ruby21Parser
+    else
+      Ruby22Parser
+    end
+
+  class Extractor < BaseParser
     include ExtractorMethods
   end
-
-  class Extractor19 < Ruby19Parser
-    include ExtractorMethods
-  end
-
-
 end
