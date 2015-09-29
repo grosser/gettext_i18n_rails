@@ -9,6 +9,7 @@ Gem::Specification.new name, GettextI18nRails::VERSION do |s|
   s.files = `git ls-files lib MIT-LICENSE.txt`.split("\n")
   s.license = "MIT"
   s.add_runtime_dependency "fast_gettext", ">= 0.9.0"
+  s.add_runtime_dependency "sexp_processor"
 
   s.add_development_dependency "bump"
   s.add_development_dependency "gettext", ">= 3.0.2"

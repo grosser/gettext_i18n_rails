@@ -5,33 +5,29 @@ module RubyGettextExtractor
   extend self
 
   def parse(file, targets = [])  # :nodoc:
-    content = File.read(file)
-    parse_string(content, file, targets)
+    parse_string(File.new(file), targets)
   end
 
-  def parse_string(content, file, targets=[])
-    # file is just for information in error messages
+  def parse_string(content, targets = [], file = nil)
+    syntax_tree = RubyParser.for_current_ruby.parse(content)
 
-    parser = if RUBY_VERSION =~ /^1\.8/
-      Extractor18.new(file, targets)
-    else
-      Extractor19.new(file, targets)
-    end
-    parser.run(content)
+    processor = Extractor.new(targets, file)
+    processor.require_empty = false
+    processor.process(syntax_tree)
+
+    processor.results
   end
 
-  def target?(file)  # :nodoc:
-    return file =~ /\.rb$/
-  end
+  class Extractor < SexpProcessor
+    attr_reader :results
 
-  module ExtractorMethods
-    def initialize(filename, targets)
-      @filename = filename
-      @targets = Hash.new
+    def initialize(targets, file_name = nil)
+      @file_name = file_name
+      @targets = {}
       @results = []
 
       targets.each do |a|
-        k, v = a
+        k, _v = a
         # things go wrong if k already exists, but this
         # should not happen (according to the gettext doc)
         @targets[k] = a
@@ -41,99 +37,100 @@ module RubyGettextExtractor
       super()
     end
 
-    def run(content)
-      # ruby parser has an ugly bug which causes that several \000's take
-      # ages to parse. This avoids this probelm by stripping them away (they probably wont appear in keys anyway)
-      # See bug report: http://rubyforge.org/tracker/index.php?func=detail&aid=26898&group_id=439&atid=1778
-      safe_content = content.gsub(/\\\d\d\d/, '')
-      self.parse(safe_content)
-      return @results
-    end
-
     def extract_string(node)
-      if node.first == :str
-        return node.last
-      elsif node.first == :call
+      case node.first
+      when :str
+        node.last
+      when :call
         type, recv, meth, args = node
-
-        # node has to be in form of "string"+"other_string"
+        # node has to be in form of "string" + "other_string"
         return nil unless recv && meth == :+
 
-        first_part = extract_string(recv)
+        first_part  = extract_string(recv)
         second_part = extract_string(args)
 
-        return nil unless first_part && second_part
-        return first_part.to_s + second_part.to_s
+        first_part && second_part ? first_part.to_s + second_part.to_s : nil
       else
-        return nil
+        nil
       end
     end
 
-    def extract_key(args, seperator)
-      key = nil
-      if args.size == 2
-        key = extract_string(args.value)
-      else
-        # this could be n_("aaa","aaa2",1)
-        # all strings arguemnts are extracted and joined with \004 or \000
-
-        arguments = args[1..(-1)]
-
-        res = []
-        arguments.each do |a|
-          str = extract_string(a)
-          # only add strings
-          res << str if str
-        end
-
-        return nil if res.empty?
-        key = res.join(seperator)
-      end
+    def extract_key_singular(args, separator)
+      key = extract_string(args) if args.size == 2 || args.size == 4
 
       return nil unless key
-
-      key.gsub!("\n", '\n')
-      key.gsub!("\t", '\t')
-      key.gsub!("\0", '\0')
-
-      return key
+      key.gsub("\n", '\n').gsub("\t", '\t').gsub("\0", '\0')
     end
 
-    def new_call recv, meth, args = nil
-      # we dont care if the method is called on a a object
-      if recv.nil?
-        if (meth == :_ || meth == :p_ || meth == :N_ || meth == :pgettext || meth == :s_)
-          key = extract_key(args, "\004")
-        elsif meth == :n_
-          key = extract_key(args, "\000")
-        else
-          # skip
-        end
+    def extract_key_plural(args, separator)
+      # this could be n_("aaa", "aaa plural", @retireitems.length)
+      # s(s(:str, "aaa"),
+      #   s(:str, "aaa plural"),
+      #   s(:call, s(:ivar, :@retireitems), :length))
+      # all strings arguments are extracted and joined with \004 or \000
+      arguments = args[0..(-2)]
 
-        if key
-          res = @targets[key]
-
-          unless res
-            res = [key]
-            @results << res
-            @targets[key] = res
-          end
-
-          res << "#{@filename}:#{lexer.lineno}"
-        end
+      res = []
+      arguments.each do |a|
+        next unless a.kind_of? Sexp
+        str = extract_string(a)
+        res << str if str
       end
 
-      super recv, meth, args
+      key = res.empty? ? nil : res.join(separator)
+
+      return nil unless key
+      key.gsub("\n", '\n').gsub("\t", '\t').gsub("\0", '\0')
+    end
+
+    def store_key(key, args)
+      if key
+        res = @targets[key]
+
+        unless res
+          res = [key]
+          @results << res
+          @targets[key] = res
+        end
+
+        file_name = @file_name.nil? ? args.file : @file_name
+        res << "#{file_name}:#{args.line}"
+      end
+    end
+
+    def gettext_simple_call(args)
+      # args comes in 2 forms:
+      #   s(s(:str, "Button Group Order:"))
+      #   s(:str, "Button Group Order:")
+      # normalizing:
+      args = args.first if Sexp === args.sexp_type
+
+      key  = extract_key_singular(args, "\004")
+      store_key(key, args)
+    end
+
+    def gettext_plural_call(args)
+      key = extract_key_plural(args, "\000")
+      store_key(key, args)
+    end
+
+    def process_call exp
+      _call = exp.shift
+      _recv = process exp.shift
+      meth  = exp.shift
+
+      case meth
+      when :_, :p_, :N_, :pgettext, :s_
+        gettext_simple_call(exp)
+      when :n_
+        gettext_plural_call(exp)
+      end
+
+      until exp.empty? do
+        process(exp.shift)
+      end
+
+      s()
     end
   end
-
-  class Extractor18 < Ruby18Parser
-    include ExtractorMethods
-  end
-
-  class Extractor19 < Ruby19Parser
-    include ExtractorMethods
-  end
-
-
 end
