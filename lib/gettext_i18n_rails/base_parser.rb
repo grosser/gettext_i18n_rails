@@ -9,7 +9,7 @@ module GettextI18nRails
     def self.parse(file, msgids = [])
       return msgids unless load_library
       code = convert_to_code(File.read(file))
-      RubyGettextExtractor.parse_string(code, file, msgids)
+      RubyGettextExtractor.parse_string(code, msgids, file)
     rescue Racc::ParseError => e
       $stderr.puts "file ignored: ruby_parser cannot read #{extension} files with 1.9 syntax --- #{file}: (#{e.message.strip})"
       return msgids
