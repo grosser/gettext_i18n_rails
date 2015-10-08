@@ -13,7 +13,6 @@ require 'action_mailer'
 require 'fast_gettext'
 require 'gettext_i18n_rails'
 require 'temple'
-require 'sexp_processor'
 
 if ActiveSupport::VERSION::MAJOR >= 3
   I18n.enforce_available_locales = false # maybe true ... not sure

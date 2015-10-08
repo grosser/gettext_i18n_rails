@@ -1,5 +1,6 @@
 # new ruby parser from retoo, that should help extracting "#{_('xxx')}", which is needed especially when parsing haml files
 require 'ruby_parser'
+require 'sexp_processor'
 
 module RubyGettextExtractor
   extend self
