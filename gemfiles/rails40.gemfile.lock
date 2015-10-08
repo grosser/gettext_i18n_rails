@@ -1,7 +1,7 @@
 PATH
   remote: ../
   specs:
-    gettext_i18n_rails (1.2.1)
+    gettext_i18n_rails (1.2.3)
       fast_gettext (>= 0.9.0)
 
 GEM
@@ -81,7 +81,7 @@ GEM
     rspec-mocks (3.0.2)
       rspec-support (~> 3.0.0)
     rspec-support (3.0.2)
-    ruby_parser (3.6.1)
+    ruby_parser (3.7.1)
       sexp_processor (~> 4.1)
     sexp_processor (4.4.3)
     slim (2.0.3)
@@ -119,7 +119,11 @@ DEPENDENCIES
   rails (~> 4.0.6)
   rake
   rspec
-  ruby_parser (>= 3)
+  ruby_parser (>= 3.7.1)
+  sexp_processor
   slim
   sqlite3
   wwtd
+
+BUNDLED WITH
+   1.10.6

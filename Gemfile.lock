@@ -108,7 +108,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.2.0)
     rspec-support (3.2.1)
-    ruby_parser (3.6.4)
+    ruby_parser (3.7.1)
       sexp_processor (~> 4.1)
     sexp_processor (4.4.5)
     slim (3.0.2)
@@ -138,7 +138,11 @@ DEPENDENCIES
   rails
   rake
   rspec
-  ruby_parser (>= 3)
+  ruby_parser (>= 3.7.1)
+  sexp_processor
   slim
   sqlite3
   wwtd
+
+BUNDLED WITH
+   1.10.6

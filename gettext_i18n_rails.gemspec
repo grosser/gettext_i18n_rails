@@ -15,7 +15,7 @@ Gem::Specification.new name, GettextI18nRails::VERSION do |s|
   s.add_development_dependency "haml"
   s.add_development_dependency "rake"
   s.add_development_dependency "rails"
-  s.add_development_dependency "ruby_parser", ">= 3.7.1"
+  s.add_development_dependency "ruby_parser", ">= 3.7.1" # sync with lib/gettext_i18n_rails/ruby_gettext_extractor.rb
   s.add_development_dependency "sexp_processor"
   s.add_development_dependency "rspec"
   s.add_development_dependency "slim"
