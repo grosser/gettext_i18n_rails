@@ -8,13 +8,13 @@ module RubyGettextExtractor
   extend self
 
   def parse(file, targets = [])  # :nodoc:
-    parse_string(File.new(file), targets)
+    parse_string(File.read(file), targets, file)
   end
 
-  def parse_string(content, targets = [], file = nil)
-    syntax_tree = RubyParser.for_current_ruby.parse(content)
+  def parse_string(content, targets = [], file)
+    syntax_tree = RubyParser.for_current_ruby.parse(content, file)
 
-    processor = Extractor.new(targets, file)
+    processor = Extractor.new(targets)
     processor.require_empty = false
     processor.process(syntax_tree)
 
@@ -24,8 +24,7 @@ module RubyGettextExtractor
   class Extractor < SexpProcessor
     attr_reader :results
 
-    def initialize(targets, file_name = nil)
-      @file_name = file_name
+    def initialize(targets)
       @targets = {}
       @results = []
 
@@ -96,8 +95,7 @@ module RubyGettextExtractor
           @targets[key] = res
         end
 
-        file_name = @file_name.nil? ? args.file : @file_name
-        res << "#{file_name}:#{args.line}"
+        res << "#{args.file}:#{args.line}"
       end
     end
 
