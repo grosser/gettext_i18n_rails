@@ -46,5 +46,11 @@ describe GettextI18nRails::HamlParser do
         parser.parse(path, {}, []).should == []
       end
     end
+
+    it "does not include parser options into parsed output" do
+      with_file '= _("xxxx")' do |path|
+        parser.parse(path, {:option => "value"}).should_not include([:option, "value"])
+      end
+    end
   end
 end
