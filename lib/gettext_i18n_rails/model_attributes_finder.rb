@@ -42,7 +42,7 @@ module GettextI18nRails
     end
 
     def initialize
-      @existing_tables = ActiveRecord::Base.connection.tables
+      @existing_tables = ::ActiveRecord::Base.connection.tables
     end
 
     # Rails < 3.0 doesn't have DescendantsTracker. 
