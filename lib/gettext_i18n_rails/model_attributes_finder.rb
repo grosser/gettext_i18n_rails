@@ -63,7 +63,12 @@ module GettextI18nRails
     end
 
     def models
-      if Rails::VERSION::MAJOR > 2
+      if Rails::VERSION::MAJOR > 4
+        Rails.application.eager_load! # make sure that all models are loaded so that direct_descendants works
+        descendants = ApplicationRecord.direct_descendants
+        descendants.concat(::ActiveRecord::Base.direct_descendants)
+        descendants - [ApplicationRecord]
+      elsif Rails::VERSION::MAJOR > 2
         Rails.application.eager_load! # make sure that all models are loaded so that direct_descendants works
         ::ActiveRecord::Base.direct_descendants
       else
