@@ -19,7 +19,7 @@ describe GettextI18nRails::ModelAttributesFinder do
   # Rails < 3.0 doesn't have DescendantsTracker.
   # Instead of iterating over ObjectSpace (slow) the decision was made NOT to support
   # class hierarchies with abstract base classes in Rails 2.x
-  describe :find do
+  describe "#find" do
     it "returns all AR models" do
       keys = finder.find({}).keys
       expected = [CarSeat, Part, StiParent]

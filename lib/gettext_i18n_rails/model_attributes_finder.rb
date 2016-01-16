@@ -42,15 +42,16 @@ module GettextI18nRails
     end
 
     def initialize
-      @existing_tables = ::ActiveRecord::Base.connection.tables
+      connection = ::ActiveRecord::Base.connection
+      @existing_tables = (Rails::VERSION::MAJOR >= 5 ? connection.data_sources : connection.tables)
     end
 
-    # Rails < 3.0 doesn't have DescendantsTracker. 
+    # Rails < 3.0 doesn't have DescendantsTracker.
     # Instead of iterating over ObjectSpace (slow) the decision was made NOT to support
     # class hierarchies with abstract base classes in Rails 2.x
     def model_attributes(model, ignored_tables, ignored_cols)
       return [] if model.abstract_class? && Rails::VERSION::MAJOR < 3
-      
+
       if model.abstract_class?
         model.direct_descendants.reject {|m| ignored?(m.table_name, ignored_tables)}.inject([]) do |attrs, m|
           attrs.push(model_attributes(m, ignored_tables, ignored_cols)).flatten.uniq
@@ -63,14 +64,17 @@ module GettextI18nRails
     end
 
     def models
-      if Rails::VERSION::MAJOR > 4
+      if Rails::VERSION::MAJOR >= 3
         Rails.application.eager_load! # make sure that all models are loaded so that direct_descendants works
-        descendants = ApplicationRecord.direct_descendants
-        descendants.concat(::ActiveRecord::Base.direct_descendants)
-        descendants - [ApplicationRecord]
-      elsif Rails::VERSION::MAJOR > 2
-        Rails.application.eager_load! # make sure that all models are loaded so that direct_descendants works
-        ::ActiveRecord::Base.direct_descendants
+        descendants = ::ActiveRecord::Base.direct_descendants
+
+        # In rails 5+ user models are supposed to inherit from ApplicationRecord
+        if defined?(::ApplicationRecord)
+          descendants += ApplicationRecord.direct_descendants
+          descendants.delete ApplicationRecord
+        end
+
+        descendants
       else
         ::ActiveRecord::Base.connection.tables \
           .map { |t| table_name_to_namespaced_model(t) } \

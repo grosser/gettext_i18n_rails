@@ -18,7 +18,7 @@ module ActiveModel
       return aclass unless aclass.respond_to?(:base_class)
       base = aclass.base_class
       if base.superclass.abstract_class?
-        if Rails::VERSION::MAJOR > 4 && base.superclass == ApplicationRecord
+        if defined?(::ApplicationRecord) && base.superclass == ApplicationRecord
           base
         else
           base.superclass
