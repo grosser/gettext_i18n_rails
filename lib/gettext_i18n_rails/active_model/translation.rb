@@ -17,7 +17,15 @@ module ActiveModel
     def inheritance_tree_root(aclass)
       return aclass unless aclass.respond_to?(:base_class)
       base = aclass.base_class
-      base.superclass.abstract_class? ? base.superclass : base
+      if base.superclass.abstract_class?
+        if Rails::VERSION::MAJOR > 4 && base.superclass == ApplicationRecord
+          base
+        else
+          base.superclass
+        end
+      else
+        base
+      end
     end
 
     def humanize_class_name(name=nil)
