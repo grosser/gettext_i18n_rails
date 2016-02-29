@@ -27,6 +27,11 @@ namespace :gettext do
     config || gettext_default_options
   end
 
+  def gettext_msgcat_options
+    config = (Rails.application.config.gettext_i18n_rails.msgcat if defined?(Rails.application))
+    config || gettext_default_options
+  end
+
   def gettext_xgettext_options
     config = (Rails.application.config.gettext_i18n_rails.xgettext if defined?(Rails.application))
     config || gettext_default_options
@@ -45,6 +50,7 @@ namespace :gettext do
       task.files = files_to_translate
       task.enable_description = false
       task.msgmerge_options = gettext_msgmerge_options
+      task.msgcat_options = gettext_msgcat_options
       task.xgettext_options = gettext_xgettext_options
     end
   end

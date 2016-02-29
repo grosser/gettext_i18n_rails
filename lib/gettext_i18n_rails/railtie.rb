@@ -2,6 +2,7 @@ module GettextI18nRails
   class Railtie < ::Rails::Railtie
     config.gettext_i18n_rails = ActiveSupport::OrderedOptions.new
     config.gettext_i18n_rails.msgmerge = nil
+    config.gettext_i18n_rails.msgcat = nil
     config.gettext_i18n_rails.xgettext = nil
     config.gettext_i18n_rails.use_for_active_record_attributes = true
 
