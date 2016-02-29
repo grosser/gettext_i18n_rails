@@ -243,6 +243,7 @@ namespace :gettext do
         task.files = files
         task.enable_description = false
         task.msgmerge_options = gettext_msgmerge_options
+        task.msgcat_options = gettext_msgcat_options
         task.xgettext_options = gettext_xgettext_options
       end
     end
@@ -250,8 +251,8 @@ namespace :gettext do
 end
 ```
 
-Changing msgmerge and xgettext options
-======================================
+Changing msgmerge, msgcat, and xgettext options
+===============================================
 
 The default options for parsing and create `.po` files are:
 
@@ -265,6 +266,7 @@ If you want to override them you can put the following into an initializer like 
 
 ```Ruby
 Rails.application.config.gettext_i18n_rails.msgmerge = %w[--no-location]
+Rails.application.config.gettext_i18n_rails.msgcat = %w[--no-location]
 Rails.application.config.gettext_i18n_rails.xgettext = %w[--no-location]
 ```
 
@@ -276,7 +278,7 @@ Rails.application.config.gettext_i18n_rails.default_options = %w[--no-location]
 
 to override both.
 
-You can see the available options by running `rgettext -h` and `rxgettext -h`.
+You can see the available options by running `rgettext -h`, `rmsgcat -f` and `rxgettext -h`.
 
 Using your translations from javascript
 =======================================
