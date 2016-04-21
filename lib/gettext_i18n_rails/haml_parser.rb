@@ -7,7 +7,16 @@ module GettextI18nRails
     end
 
     def self.convert_to_code(text)
-      Haml::Engine.new(text).precompiled()
+      case @library_loaded
+      when "haml"
+        Haml::Engine.new(text).precompiled()
+      when "hamlit"
+        Hamlit::Engine.new.call(text)
+      end
+    end
+
+    def self.libraries
+      ["haml", "hamlit"]
     end
   end
 end
