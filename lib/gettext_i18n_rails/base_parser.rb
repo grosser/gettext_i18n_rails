@@ -22,7 +22,7 @@ module GettextI18nRails
     def self.load_library
       return true if @library_loaded
 
-      loaded = libraries.find do |library|
+      loaded = libraries.detect do |library|
         begin
           require library
           true
@@ -32,11 +32,7 @@ module GettextI18nRails
       end
 
       unless loaded
-        if libraries.size == 1
-          puts "A #{extension} file was found, but #{libraries.first} library could not be found, so nothing will be parsed..."
-        else
-          puts "A #{extension} file was found, but none of #{libraries.join(", ")} libraries could not be found, so nothing will be parsed..."
-        end
+        puts "No #{extension} library could be found: #{libraries.join(" or ")}"
 
         return false
       end
