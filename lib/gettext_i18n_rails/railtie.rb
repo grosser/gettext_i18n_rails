@@ -7,11 +7,8 @@ module GettextI18nRails
     config.gettext_i18n_rails.use_for_active_record_attributes = true
 
     rake_tasks do
-      begin
-        gem "gettext", ">= 3.0.2"
+      if Gem::Specification.find_all_by_name("gettext", ">= 3.0.2").any?
         require 'gettext_i18n_rails/tasks'
-      rescue Gem::LoadError
-        # no gettext available, no tasks for you!
       end
     end
 
