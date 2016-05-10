@@ -15,18 +15,30 @@ module GettextI18nRails
       return msgids
     end
 
+    def self.libraries
+      [extension]
+    end
+
     def self.load_library
       return true if @library_loaded
 
-      begin
-        require extension
-      rescue LoadError
-        puts "A #{extension} file was found, but #{extension} library could not be found, so nothing will be parsed..."
+      loaded = libraries.detect do |library|
+        begin
+          require library
+          true
+        rescue LoadError
+          false
+        end
+      end
+
+      unless loaded
+        puts "No #{extension} library could be found: #{libraries.join(" or ")}"
+
         return false
       end
 
       require 'gettext_i18n_rails/ruby_gettext_extractor'
-      @library_loaded = true
+      @library_loaded = loaded
     end
   end
 end

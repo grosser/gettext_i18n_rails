@@ -15,41 +15,49 @@ describe GettextI18nRails::HamlParser do
   end
 
   describe "#parse" do
-    it "finds messages in haml" do
-      with_file '= _("xxxx")' do |path|
-        parser.parse(path, {}, []).should == [
-          ["xxxx", "#{path}:1"]
-        ]
-      end
-    end
-
-    it "finds messages with concatenation" do
-      with_file '= _("xxxx" + "yyyy" + "zzzz")' do |path|
-        parser.parse(path, {}, []).should == [
-          ["xxxxyyyyzzzz", "#{path}:1"]
-        ]
-      end
-    end
-
-    it "should parse the 1.9 if ruby_version is 1.9" do
-      if RUBY_VERSION =~ /^1\.9/
-        with_file '= _("xxxx", x: 1)' do |path|
-          parser.parse(path, {}, []).should == [
-            ["xxxx", "#{path}:1"]
-          ]
+    ["haml", "hamlit"].each do |library|
+      context "with #{library} library only" do
+        before do
+          GettextI18nRails::HamlParser.stub(:libraries).and_return([library])
         end
-      end
-    end
 
-    it "does not find messages in text" do
-      with_file '_("xxxx")' do |path|
-        parser.parse(path, {}, []).should == []
-      end
-    end
+        it "finds messages in haml" do
+          with_file '= _("xxxx")' do |path|
+            parser.parse(path, {}, []).should == [
+              ["xxxx", "#{path}:1"]
+            ]
+          end
+        end
 
-    it "does not include parser options into parsed output" do
-      with_file '= _("xxxx")' do |path|
-        parser.parse(path, {:option => "value"}).should_not include([:option, "value"])
+        it "finds messages with concatenation" do
+          with_file '= _("xxxx" + "yyyy" + "zzzz")' do |path|
+            parser.parse(path, {}, []).should == [
+              ["xxxxyyyyzzzz", "#{path}:1"]
+            ]
+          end
+        end
+
+        it "should parse the 1.9 if ruby_version is 1.9" do
+          if RUBY_VERSION =~ /^1\.9/ || RUBY_VERSION > "2"
+            with_file '= _("xxxx", x: 1)' do |path|
+              parser.parse(path, {}, []).should == [
+                ["xxxx", "#{path}:1"]
+              ]
+            end
+          end
+        end
+
+        it "does not find messages in text" do
+          with_file '_("xxxx")' do |path|
+            parser.parse(path, {}, []).should == []
+          end
+        end
+
+        it "does not include parser options into parsed output" do
+          with_file '= _("xxxx")' do |path|
+            parser.parse(path, {:option => "value"}).should_not include([:option, "value"])
+          end
+        end
       end
     end
   end
