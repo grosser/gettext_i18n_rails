@@ -29,7 +29,7 @@ namespace :gettext do
 
   def gettext_msgcat_options
     config = (Rails.application.config.gettext_i18n_rails.msgcat if defined?(Rails.application))
-    config || gettext_default_options
+    config || gettext_default_options - %w[--location]
   end
 
   def gettext_xgettext_options
