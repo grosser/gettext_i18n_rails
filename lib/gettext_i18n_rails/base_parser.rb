@@ -23,7 +23,12 @@ module GettextI18nRails
       return true if @library_loaded
 
       loaded = libraries.detect do |library|
-        require library if Gem::Specification.find_all_by_name(library).any?
+        if Gem::Specification.find_all_by_name(library).any?
+          require library
+          true
+        else
+          false
+        end
       end
 
       unless loaded
