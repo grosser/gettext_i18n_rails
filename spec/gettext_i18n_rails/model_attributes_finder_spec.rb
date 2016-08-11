@@ -25,6 +25,7 @@ describe GettextI18nRails::ModelAttributesFinder do
       expected = [CarSeat, Part, StiParent]
       expected.concat [AbstractParentClass, NotConventional] if Rails::VERSION::MAJOR >= 3
       expected.concat [ActiveRecord::SchemaMigration] if Rails::VERSION::MAJOR >= 4
+      expected.concat [ActiveRecord::InternalMetadata] if Rails::VERSION::MAJOR >= 5
       keys.should =~ expected
     end
 
