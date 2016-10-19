@@ -79,13 +79,12 @@ describe GettextI18nRails::Backend do
     end
 
     it 'temporarily sets the given locale' do
-      FastGettext.should_receive(:set_locale).with('xx').and_return('yz')
-      FastGettext.should_receive(:set_locale).twice.with('yz').and_return('xx')
+      FastGettext.should_receive(:set_locale).with('xx').and_return('xy')
+      FastGettext.should_receive(:set_locale).twice.with('xy').and_return('xx')
       subject.backend.should_receive(:translate).with('xx', 'c', {}).and_return 'd'
-      FastGettext.locale= 'yz'
+      FastGettext.locale= 'xy'
       FastGettext.stub(:current_repository).and_return 'a'=>'b'
       subject.translate('xx', 'c', {}).should == 'd'
-
     end
 
     if RUBY_VERSION > "1.9"
