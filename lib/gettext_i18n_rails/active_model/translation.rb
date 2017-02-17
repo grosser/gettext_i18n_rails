@@ -29,7 +29,7 @@ module ActiveModel
     end
 
     def humanize_class_name(name=nil)
-      name ||= self.to_s
+      name ||= self.model_name.element
       name.underscore.humanize
     end
   end
