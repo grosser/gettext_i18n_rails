@@ -159,21 +159,21 @@ The model/attribute translations can be found through `rake gettext:store_model_
 
 Error messages can be translated through FastGettext, if the ':message' is a translation-id or the matching Rails I18n key is translated.
 
-####Option A:
+#### Option A:
 Define a translation for "I need my rating!" and use it as message.
 
 ```Ruby
 validates_inclusion_of :rating, :in=>1..5, :message=>N_('I need my rating!')
 ```
 
-####Option B:
+#### Option B:
 
 ```Ruby
 validates_inclusion_of :rating, :in=>1..5
 ```
 Make a translation for the I18n key: `activerecord.errors.models.rating.attributes.rating.inclusion`
 
-####Option C:
+#### Option C:
 Add a translation to each config/locales/*.yml files
 ```Yaml
 en:
