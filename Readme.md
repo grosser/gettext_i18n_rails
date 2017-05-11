@@ -31,18 +31,25 @@ gem 'ruby_parser', :require => false, :group => :development
 Add the first language using:
 
 ```Bash
-rake gettext:add_language[XX]
+rake gettext:add_language[xx]
 ```
 
 or
 
 ```Bash
-LANGUAGE=[XX] rake gettext:add_language
+LANGUAGE=[xx] rake gettext:add_language
 ```
 
-where XX is the [ISO 639-1](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) 2-letter code for the language you want to create.
+where `xx` is the lowercased [ISO 639-1](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) 2-letter code for the language you want to create.
 
-This will also create the `locale` directory (where the translations are being stored) and run `gettext:find` to find any strings marked for translation.
+for example:
+
+```Bash
+rake gettext:add_language[es]
+```
+
+
+This will also create the `locales` directory (where the translations are being stored) and run `gettext:find` to find any strings marked for translation.
 
 You can, of course, add more languages using the same command.
 
@@ -64,7 +71,7 @@ And in your application:
 ```Ruby
 # app/controllers/application_controller.rb
 class ApplicationController < ...
-  before_filter :set_gettext_locale
+  before_action :set_gettext_locale
 ```
 
 Translating
