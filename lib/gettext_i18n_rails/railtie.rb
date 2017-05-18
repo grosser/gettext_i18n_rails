@@ -18,6 +18,14 @@ module GettextI18nRails
           require 'gettext_i18n_rails/active_model'
         end
       end
+      repo = FastGettext.translation_repositories[FastGettext.text_domain]
+      reloader = ActiveSupport::FileUpdateChecker.new([], FastGettext.locale_path => :po) do
+        FastGettext.reload!
+      end
+      app.reloaders << reloader
+      ActionDispatch::Reloader.to_prepare do
+        reloader.execute
+      end
     end
   end
 end
