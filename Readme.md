@@ -280,6 +280,17 @@ to override both.
 
 You can see the available options by running `rgettext -h`, `rmsgcat -f` and `rxgettext -h`.
 
+Use I18n instead Gettext to ActiveRecord/ActiveModel translations
+=================================================================
+
+If you want to disable translations to model name and attributes you can put the following into an initializer like config/initializers/gettext.rb:
+
+```Ruby
+Rails.application.config.gettext_i18n_rails.use_for_active_record_attributes = false
+```
+
+And now you can use your I18n yaml files instead.
+
 Using your translations from javascript
 =======================================
 
