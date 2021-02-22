@@ -23,7 +23,7 @@ Add `ruby_parser` if you want to find translations inside haml/slim files
 
 ```Ruby
 # Gemfile
-gem 'gettext', '>=3.0.2', :require => false, :group => :development
+gem 'gettext', '>=3.0.2', :require => false
 gem 'ruby_parser', :require => false, :group => :development
 ```
 
