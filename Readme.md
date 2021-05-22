@@ -64,7 +64,7 @@ And in your application:
 ```Ruby
 # app/controllers/application_controller.rb
 class ApplicationController < ...
-  before_filter :set_gettext_locale
+  before_action :set_gettext_locale
 ```
 
 Translating
