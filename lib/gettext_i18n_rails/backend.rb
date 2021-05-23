@@ -16,6 +16,7 @@ module GettextI18nRails
     end
 
     def translate(locale, key, options)
+      current_locale = FastGettext.set_locale locale
       if gettext_key = gettext_key(key, options)
         translation =
           plural_translate(gettext_key, options) || FastGettext._(gettext_key)
@@ -24,6 +25,8 @@ module GettextI18nRails
         result = backend.translate(locale, key, options)
         (RUBY19 and result.is_a?(String)) ? result.force_encoding("UTF-8") : result
       end
+    ensure
+      FastGettext.set_locale current_locale
     end
 
     def method_missing(method, *args)
