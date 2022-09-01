@@ -1,0 +1,35 @@
+name: Test
+on:
+  - push
+  - pull_request
+jobs:
+  run:
+    strategy:
+      fail-fast: false
+      matrix:
+        gemfile:
+          - gemfiles/rails52.gemfile
+          - gemfiles/rails61.gemfile
+          - gemfiles/rails70.gemfile
+        ruby-version:
+          - "2.7"
+          - "3.0"
+          - "3.1"
+        exclude:
+          - gemfile: gemfiles/rails52.gemfile
+            ruby-version: "3.0"
+          - gemfile: gemfiles/rails52.gemfile
+            ruby-version: "3.1"
+        runs-on:
+          - ubuntu-latest
+    name: ${{ matrix.ruby-version}} on ${{ matrix.runs-on }} with ${{ matrix.gemfile }}
+    runs-on: ${{ matrix.runs-on }}
+    env:
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+    steps:
+      - uses: actions/checkout@master
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+      - run: bundle exec rake
