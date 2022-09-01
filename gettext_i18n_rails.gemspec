@@ -22,5 +22,4 @@ Gem::Specification.new name, GettextI18nRails::VERSION do |s|
   s.add_development_dependency "rspec"
   s.add_development_dependency "slim"
   s.add_development_dependency "sqlite3"
-  s.add_development_dependency "wwtd"
 end
