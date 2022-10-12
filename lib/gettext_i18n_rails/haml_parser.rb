@@ -9,7 +9,11 @@ module GettextI18nRails
     def self.convert_to_code(text)
       case @library_loaded
       when "haml"
-        Haml::Engine.new(text).precompiled()
+        if Haml::VERSION.split('.').first.to_i <= 5
+          Haml::Engine.new(text).precompiled()
+        else
+          Haml::Engine.new.call(text)
+        end
       when "hamlit"
         Hamlit::Engine.new.call(text)
       end
