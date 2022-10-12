@@ -23,7 +23,7 @@ Add `ruby_parser` if you want to find translations inside haml/slim files
 
 ```Ruby
 # Gemfile
-gem 'gettext', '>=3.0.2', :require => false, :group => :development
+gem 'gettext', '>=3.0.2', :require => false
 gem 'ruby_parser', :require => false, :group => :development
 ```
 
@@ -64,7 +64,7 @@ And in your application:
 ```Ruby
 # app/controllers/application_controller.rb
 class ApplicationController < ...
-  before_filter :set_gettext_locale
+  before_action :set_gettext_locale
 ```
 
 Translating
@@ -87,7 +87,7 @@ New translations will be marked "fuzzy", search for this and remove it, so that 
 Obsolete translations are marked with ~#, they usually can be removed since they are no longer needed
 
 #### Unfound translations with rake gettext:find
-Dynamic translations like `_("x"+"u")` cannot be fond. You have 4 options:
+Dynamic translations like `_("x"+"u")` cannot be found. You have 4 options:
 
  - add `N_('xu')` somewhere else in the code, so the parser sees it
  - add `N_('xu')` in a totally separate file like `locale/unfound_translations.rb`, so the parser sees it
@@ -159,21 +159,21 @@ The model/attribute translations can be found through `rake gettext:store_model_
 
 Error messages can be translated through FastGettext, if the ':message' is a translation-id or the matching Rails I18n key is translated.
 
-####Option A:
+#### Option A:
 Define a translation for "I need my rating!" and use it as message.
 
 ```Ruby
 validates_inclusion_of :rating, :in=>1..5, :message=>N_('I need my rating!')
 ```
 
-####Option B:
+#### Option B:
 
 ```Ruby
 validates_inclusion_of :rating, :in=>1..5
 ```
 Make a translation for the I18n key: `activerecord.errors.models.rating.attributes.rating.inclusion`
 
-####Option C:
+#### Option C:
 Add a translation to each config/locales/*.yml files
 ```Yaml
 en:
@@ -279,6 +279,17 @@ Rails.application.config.gettext_i18n_rails.default_options = %w[--no-location]
 to override both.
 
 You can see the available options by running `rgettext -h`, `rmsgcat -f` and `rxgettext -h`.
+
+Use I18n instead Gettext to ActiveRecord/ActiveModel translations
+=================================================================
+
+If you want to disable translations to model name and attributes you can put the following into an initializer like config/initializers/gettext.rb:
+
+```Ruby
+Rails.application.config.gettext_i18n_rails.use_for_active_record_attributes = false
+```
+
+And now you can use your I18n yaml files instead.
 
 Using your translations from javascript
 =======================================

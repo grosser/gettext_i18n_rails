@@ -7,7 +7,7 @@ module ActiveModel
 
     def gettext_translation_for_attribute_name(attribute)
       attribute = attribute.to_s
-      if attribute.ends_with?('_id')
+      if attribute.end_with?('_id')
         humanize_class_name(attribute)
       else
         "#{inheritance_tree_root(self)}|#{attribute.split('.').map! {|a| a.humanize }.join('|')}"
