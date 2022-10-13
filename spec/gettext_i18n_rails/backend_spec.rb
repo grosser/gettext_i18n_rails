@@ -57,6 +57,7 @@ describe GettextI18nRails::Backend do
       repo.should_receive(:plural).and_return []
       repo.stub(:pluralisation_rule).and_return lambda { |i| true }
       FastGettext.stub(:current_repository).and_return repo
+      FastGettext.should_receive(:set_locale).twice.with('xx').and_return('xx')
       subject.translate('xx', 'ab.e', :count => 1).should == 'existing 1'
     end
 
@@ -77,9 +78,19 @@ describe GettextI18nRails::Backend do
       subject.translate('xx', 'c', {}).should == 'd'
     end
 
+    it 'temporarily sets the given locale' do
+      FastGettext.should_receive(:set_locale).with('xx').and_return('xy')
+      FastGettext.should_receive(:set_locale).twice.with('xy').and_return('xx')
+      subject.backend.should_receive(:translate).with('xx', 'c', {}).and_return 'd'
+      FastGettext.locale= 'xy'
+      FastGettext.stub(:current_repository).and_return 'a'=>'b'
+      subject.translate('xx', 'c', {}).should == 'd'
+    end
+
     if RUBY_VERSION > "1.9"
       it "produces UTF-8 when not using FastGettext to fix weird encoding bug" do
         subject.backend.should_receive(:translate).with('xx', 'c', {}).and_return 'ü'.force_encoding("US-ASCII")
+        FastGettext.should_receive(:set_locale).twice.with('xx').and_return('xx')
         FastGettext.should_receive(:current_repository).and_return 'a'=>'b'
         result = subject.translate('xx', 'c', {})
         result.should == 'ü'
@@ -87,6 +98,7 @@ describe GettextI18nRails::Backend do
 
       it "does not force_encoding on non-strings" do
         subject.backend.should_receive(:translate).with('xx', 'c', {}).and_return ['aa']
+        FastGettext.should_receive(:set_locale).twice.with('xx').and_return('xx')
         FastGettext.should_receive(:current_repository).and_return 'a'=>'b'
         result = subject.translate('xx', 'c', {})
         result.should == ['aa']
