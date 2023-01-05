@@ -1,6 +1,9 @@
 require 'bundler/setup'
 require 'bundler/gem_tasks'
+
 require 'bump/tasks'
+# TODO: https://github.com/gregorym/bump/issues/115
+# Bump.replace_in_default = Dir["gemfiles/*.gemfile.lock"]
 
 task :spec do
   sh "rspec spec"
@@ -11,11 +14,10 @@ task :default => "spec"
 desc "bundle all gemfiles [EXTRA=]"
 task :bundle_all do
   extra = ENV["EXTRA"] || "install"
-
   gemfiles = (["Gemfile"] + Dir["gemfiles/*.gemfile"])
   gemfiles.each do |gemfile|
     Bundler.with_unbundled_env do
-      sh "GEMFILE=#{gemfile} bundle #{extra}"
+      sh "BUNDLE_GEMFILE=#{gemfile} bundle #{extra}"
     end
   end
 end
