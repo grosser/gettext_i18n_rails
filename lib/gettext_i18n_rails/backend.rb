@@ -16,17 +16,16 @@ module GettextI18nRails
     end
 
     def translate(locale, key, options)
-      current_locale = FastGettext.set_locale locale
-      if gettext_key = gettext_key(key, options)
-        translation =
-          plural_translate(gettext_key, options) || FastGettext._(gettext_key)
-        interpolate(translation, options)
-      else
-        result = backend.translate(locale, key, options)
-        (RUBY19 and result.is_a?(String)) ? result.force_encoding("UTF-8") : result
+      I18n.with_locale(locale) do
+        if gettext_key = gettext_key(key, options)
+          translation =
+            plural_translate(gettext_key, options) || FastGettext._(gettext_key)
+          interpolate(translation, options)
+        else
+          result = backend.translate(locale, key, options)
+          (RUBY19 and result.is_a?(String)) ? result.force_encoding("UTF-8") : result
+        end
       end
-    ensure
-      FastGettext.set_locale current_locale
     end
 
     def method_missing(method, *args)
