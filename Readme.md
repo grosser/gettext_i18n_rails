@@ -326,6 +326,7 @@ If want to use your .PO files on client side javascript you should have a look a
  - [Joe Ferris](https://github.com/jferris)
  - [exAspArk](https://github.com/exAspArk)
  - [martinpovolny](https://github.com/martinpovolny)
+ - [akimd](https://github.com/akimd)
 
 [Michael Grosser](http://grosser.it)<br/>
 michael@grosser.it<br/>
