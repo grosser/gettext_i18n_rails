@@ -2,8 +2,7 @@ require 'bundler/setup'
 require 'bundler/gem_tasks'
 
 require 'bump/tasks'
-# TODO: https://github.com/gregorym/bump/issues/115
-# Bump.replace_in_default = Dir["gemfiles/*.gemfile.lock"]
+Bump.replace_in_default = Dir["gemfiles/*.gemfile.lock"]
 
 task :spec do
   sh "rspec spec"
