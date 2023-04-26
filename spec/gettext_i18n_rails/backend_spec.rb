@@ -79,6 +79,13 @@ describe GettextI18nRails::Backend do
       subject.translate('xx', 'c', {}).should == 'd'
     end
 
+    it "passes non-gettext keys to default backend without modifying frozen translation" do
+      subject.backend.should_receive(:translate).with('xx', 'c', {}).and_return 'd'.freeze
+      # TODO track down why this is called 3 times on 1.8 (only 1 time on 1.9)
+      FastGettext.stub(:current_repository).and_return 'a'=>'b'
+      subject.translate('xx', 'c', {}).should == 'd'
+    end
+
     it 'temporarily sets the given locale' do
       FastGettext.should_receive(:set_locale).with('xx').and_return('xy')
       FastGettext.should_receive(:set_locale).with('xy').and_return('xx')
