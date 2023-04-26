@@ -23,7 +23,12 @@ module GettextI18nRails
           interpolate(translation, options)
         else
           result = backend.translate(locale, key, options)
-          (RUBY19 and result.is_a?(String)) ? result.force_encoding("UTF-8") : result
+          if RUBY19 && result.is_a?(String)
+           result = result.dup if result.frozen?
+           result.force_encoding("UTF-8")
+          else
+            result
+          end
         end
       end
     end
