@@ -5,8 +5,6 @@ module GettextI18nRails
     cattr_accessor :translate_defaults
     attr_accessor :backend
 
-    RUBY19 = (RUBY_VERSION > "1.9")
-
     def initialize(*args)
       self.backend = I18n::Backend::Simple.new(*args)
     end
@@ -23,7 +21,7 @@ module GettextI18nRails
           interpolate(translation, options)
         else
           result = backend.translate(locale, key, options)
-          if RUBY19 && result.is_a?(String)
+          if result.is_a?(String)
            result = result.dup if result.frozen?
            result.force_encoding("UTF-8")
           else
