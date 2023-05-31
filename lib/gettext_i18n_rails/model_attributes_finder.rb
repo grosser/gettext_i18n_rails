@@ -65,6 +65,8 @@ module GettextI18nRails
 
     def models
       if Rails::VERSION::MAJOR >= 3
+        # Ensure autoloaders are set up before we attempt to eager load!
+        Rails.application.autoloaders.each(&:setup) if Rails.application.respond_to?(:autoloaders)
         Rails.application.eager_load! # make sure that all models are loaded so that direct_descendants works
         descendants = ::ActiveRecord::Base.direct_descendants
 
