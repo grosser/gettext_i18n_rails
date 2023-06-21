@@ -88,4 +88,61 @@ describe GettextI18nRails do
       I18n.locale.should == :"de-CH"
     end
   end
+
+  describe "GetText PO file creation" do
+    before do
+      require "gettext_i18n_rails/haml_parser"
+      require "gettext_i18n_rails/slim_parser"
+    end
+
+    it "parses haml" do
+      haml_content = <<~EOR
+        = _("xxxx")
+        = p_("Context", "key")
+        _("JustText")
+      EOR
+      with_file haml_content, '.haml' do |path|
+        po = GettextI18nRails::GettextHooks.xgettext.new.parse(path)
+        po.entries.should match_array([
+          have_attributes({
+            msgctxt: nil,
+            msgid: "xxxx",
+            type: :normal,
+            references: ["#{path}:1"]
+          }),
+          have_attributes({
+            msgctxt: "Context",
+            msgid: "key",
+            type: :msgctxt,
+            references: ["#{path}:2"]
+          })
+        ])
+      end
+    end
+
+    it "parses slim" do
+      slim_content = <<~EOR
+        div = _("xxxx")
+        div = p_("Context", "key")
+        div _("JustText")
+      EOR
+      with_file slim_content, '.slim' do |path|
+        po = GettextI18nRails::GettextHooks.xgettext.new.parse(path)
+        po.entries.should match_array([
+          have_attributes({
+            msgctxt: nil,
+            msgid: "xxxx",
+            type: :normal,
+            references: ["#{path}:1"]
+          }),
+          have_attributes({
+            msgctxt: "Context",
+            msgid: "key",
+            type: :msgctxt,
+            references: ["#{path}:2"]
+          })
+        ])
+      end
+    end
+  end
 end

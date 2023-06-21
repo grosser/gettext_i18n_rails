@@ -6,13 +6,10 @@ module GettextI18nRails
       File.extname(file) == ".#{extension}"
     end
 
-    def self.parse(file, _options = {}, msgids = [])
-      return msgids unless load_library
+    def self.parse(file, options = {}, _msgids = [])
+      return _msgids unless load_library
       code = convert_to_code(File.read(file))
-      RubyGettextExtractor.parse_string(code, msgids, file)
-    rescue Racc::ParseError => e
-      $stderr.puts "file ignored: ruby_parser cannot read #{extension} files with 1.9 syntax --- #{file}: (#{e.message.strip})"
-      return msgids
+      GetText::RubyParser.new(file, options).parse_source(code)
     end
 
     def self.libraries
@@ -37,7 +34,7 @@ module GettextI18nRails
         return false
       end
 
-      require 'gettext_i18n_rails/ruby_gettext_extractor'
+      require 'gettext/tools/parser/ruby'
       @library_loaded = loaded
     end
   end

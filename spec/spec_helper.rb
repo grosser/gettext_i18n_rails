@@ -44,8 +44,8 @@ module Rails
   end
 end
 
-def with_file(content)
-  Tempfile.open('gettext_i18n_rails_specs') do |f|
+def with_file(content, extension = '')
+  Tempfile.open(['gettext_i18n_rails_specs', extension]) do |f|
     f.write(content)
     f.close
     yield f.path
