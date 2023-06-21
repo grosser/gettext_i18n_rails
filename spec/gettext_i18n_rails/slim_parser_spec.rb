@@ -17,23 +17,36 @@ describe GettextI18nRails::SlimParser do
   describe "#parse" do
     it "finds messages in slim" do
       with_file 'div = _("xxxx")' do |path|
-        parser.parse(path, {}, []).should == [
-          ["xxxx", "#{path}:1"]
-        ]
+        po = parser.parse(path, {}, [])
+        po.entries.should match_array([
+          have_attributes({
+            msgctxt: nil,
+            msgid: "xxxx",
+            type: :normal,
+            references: ["#{path}:1"]
+          })
+        ])
       end
     end
 
-    xit "can parse 1.9 syntax" do
+    it "can parse 1.9 syntax" do
       with_file 'div = _("xxxx", foo: :bar)' do |path|
-        parser.parse(path, {}, []).should == [
-          ["xxxx", "#{path}:1"]
-        ]
+        po = parser.parse(path, {}, [])
+        po.entries.should match_array([
+          have_attributes({
+            msgctxt: nil,
+            msgid: "xxxx",
+            type: :normal,
+            references: ["#{path}:1"]
+          })
+        ])
       end
     end
 
     it "does not find messages in text" do
       with_file 'div _("xxxx")' do |path|
-        parser.parse(path, {}, []).should == []
+        po = parser.parse(path, {}, [])
+        po.entries.empty?.should == true
       end
     end
   end
