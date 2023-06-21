@@ -19,6 +19,7 @@ describe GettextI18nRails::HamlParser do
       context "with #{library} library only" do
         before do
           GettextI18nRails::HamlParser.stub(:libraries).and_return([library])
+          GettextI18nRails::HamlParser.instance_variable_set(:@library_loaded, false)
         end
 
         it "finds messages in haml" do
