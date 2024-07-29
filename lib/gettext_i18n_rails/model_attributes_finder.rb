@@ -46,6 +46,17 @@ module GettextI18nRails
       @existing_tables = (Rails::VERSION::MAJOR >= 5 ? connection.data_sources : connection.tables)
     end
 
+    # Rails 7.0 has deprecated direct_descendants in favor of subclasses.
+    # It was removed completely in Rails 7.1.
+    # This will maintain backwards compatibility with Rails 3.0 - 6.1
+    def subclass_method
+      if Rails::VERSION::MAJOR < 7
+        :direct_descendants
+      else
+        :subclasses
+      end
+    end
+
     # Rails < 3.0 doesn't have DescendantsTracker.
     # Instead of iterating over ObjectSpace (slow) the decision was made NOT to support
     # class hierarchies with abstract base classes in Rails 2.x
@@ -53,7 +64,7 @@ module GettextI18nRails
       return [] if model.abstract_class? && Rails::VERSION::MAJOR < 3
 
       if model.abstract_class?
-        model.direct_descendants.reject {|m| ignored?(m.table_name, ignored_tables)}.inject([]) do |attrs, m|
+        model.send(subclass_method).reject {|m| ignored?(m.table_name, ignored_tables)}.inject([]) do |attrs, m|
           attrs.push(model_attributes(m, ignored_tables, ignored_cols)).flatten.uniq
         end
       elsif !ignored?(model.table_name, ignored_tables) && @existing_tables.include?(model.table_name)
@@ -68,11 +79,11 @@ module GettextI18nRails
         # Ensure autoloaders are set up before we attempt to eager load!
         Rails.application.autoloaders.each(&:setup) if Rails.application.respond_to?(:autoloaders)
         Rails.application.eager_load! # make sure that all models are loaded so that direct_descendants works
-        descendants = ::ActiveRecord::Base.direct_descendants
+        descendants = ::ActiveRecord::Base.send(subclass_method)
 
         # In rails 5+ user models are supposed to inherit from ApplicationRecord
         if defined?(::ApplicationRecord)
-          descendants += ApplicationRecord.direct_descendants
+          descendants += ApplicationRecord.send(subclass_method)
           descendants.delete ApplicationRecord
         end
 
