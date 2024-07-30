@@ -11,6 +11,7 @@ jobs:
           - gemfiles/rails52.gemfile
           - gemfiles/rails61.gemfile
           - gemfiles/rails70.gemfile
+          - gemfiles/rails71.gemfile
         ruby-version:
           - "2.7"
           - "3.0"
