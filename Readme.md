@@ -19,12 +19,10 @@ gem 'gettext_i18n_rails'
 
 ##### Optional:
 Add `gettext` if you want to find translations or build .mo files<br/>
-Add `ruby_parser` if you want to find translations inside haml/slim files
 
 ```Ruby
 # Gemfile
 gem 'gettext', '>=3.0.2', :require => false
-gem 'ruby_parser', :require => false, :group => :development
 ```
 
 ###### Add first language:
