@@ -8,7 +8,7 @@ Gem::Specification.new name, GettextI18nRails::VERSION do |s|
   s.homepage = "http://github.com/grosser/#{name}"
   s.files = `git ls-files lib MIT-LICENSE.txt`.split("\n")
   s.license = "MIT"
-  s.required_ruby_version = '>= 2.1.0'
+  s.required_ruby_version = '>= 3.0.0'
   s.add_runtime_dependency "fast_gettext", ">= 0.9.0"
 
   s.add_development_dependency "bump"
