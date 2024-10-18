@@ -140,6 +140,8 @@ GEM
     net-smtp (0.5.0)
       net-protocol
     nio4r (2.7.3)
+    nokogiri (1.15.6-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.15.6-x86_64-linux)
       racc (~> 1.4)
     prime (0.1.2)
@@ -203,14 +205,11 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.1)
-    ruby_parser (3.21.1)
-      racc (~> 1.5)
-      sexp_processor (~> 4.16)
-    sexp_processor (4.17.2)
     singleton (0.2.0)
     slim (5.2.1)
       temple (~> 0.10.0)
       tilt (>= 2.1.0)
+    sqlite3 (1.6.9-arm64-darwin)
     sqlite3 (1.6.9-x86_64-linux)
     stringio (3.1.1)
     temple (0.10.3)
@@ -227,6 +226,7 @@ GEM
     zeitwerk (2.6.17)
 
 PLATFORMS
+  arm64-darwin-23
   x86_64-linux
 
 DEPENDENCIES
@@ -238,8 +238,6 @@ DEPENDENCIES
   rails (~> 7.1.0)
   rake
   rspec
-  ruby_parser (>= 3.7.1)
-  sexp_processor
   slim
   sqlite3 (~> 1.6.3)
 
