@@ -35,7 +35,7 @@ rake gettext:add_language[xx]
 or
 
 ```Bash
-LANGUAGE=[xx] rake gettext:add_language
+LANGUAGE=xx rake gettext:add_language
 ```
 
 where `xx` is the lowercased [ISO 639-1](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) 2-letter code for the language you want to create.
