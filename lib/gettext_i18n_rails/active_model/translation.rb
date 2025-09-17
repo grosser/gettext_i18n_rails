@@ -10,7 +10,9 @@ module ActiveModel
       if attribute.end_with?('_id')
         humanize_class_name(attribute)
       else
-        "#{inheritance_tree_root(self)}|#{attribute.split('.').map! {|a| a.humanize }.join('|')}"
+        direct_key = "#{self.to_s}|#{attribute.split('.').map! {|a| a.humanize }.join('|')}"
+        return direct_key if FastGettext.cached_find(direct_key) # in case of STI, first attempt retrieving the suitable key for the current class
+        return "#{inheritance_tree_root(self)}|#{attribute.split('.').map! {|a| a.humanize }.join('|')}" # fallback to lookup for the root class
       end
     end
 
