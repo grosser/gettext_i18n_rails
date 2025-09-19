@@ -1,3 +1,3 @@
 module GettextI18nRails
-  Version = VERSION = '1.13.0'
+  Version = VERSION = '2.0.0'
 end
