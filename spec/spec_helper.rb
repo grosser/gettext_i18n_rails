@@ -7,11 +7,31 @@ end
 require 'tempfile'
 require 'active_support'
 require 'active_support/core_ext/string/output_safety'
+require 'rails/railtie'
 require 'active_record'
 require 'action_controller'
 require 'action_mailer'
 require 'fast_gettext'
+
+# Define minimal Rails stub for library compatibility
+# Rails::VERSION::MAJOR is checked by action_controller.rb at load time
+module Rails
+  module VERSION
+    MAJOR = 7
+  end
+
+  def self.root
+    File.dirname(__FILE__)
+  end
+end
+
 require 'gettext_i18n_rails'
+
+# Manually load ActiveRecord/ActiveModel extensions since we're not running full Rails initialization
+# In a real Rails app, these would be loaded via the Railtie's after_initialize hook
+require 'gettext_i18n_rails/active_model'
+require 'gettext_i18n_rails/active_record'
+
 require 'temple'
 
 if ActiveSupport::VERSION::MAJOR >= 3
@@ -35,12 +55,6 @@ class << Temple::Templates
   alias_method :method_missing_old, :method_missing
   def method_missing(name, engine, options = {})
     name == :Rails || method_missing_old(name, engine, options)
-  end
-end
-
-module Rails
-  def self.root
-    File.dirname(__FILE__)
   end
 end
 

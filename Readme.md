@@ -296,6 +296,19 @@ Rails.application.config.gettext_i18n_rails.use_for_active_record_attributes = f
 
 And now you can use your I18n yaml files instead.
 
+Auto-reload translations in development
+========================================
+
+By default, .po and .mo files are automatically reloaded in development mode when they change, so you don't need to restart the Rails server after editing translations.
+
+This feature is enabled by default. If you want to disable it, add the following to `config/environments/development.rb`:
+
+```Ruby
+config.gettext_i18n_rails.auto_reload_in_development = false
+```
+
+The auto-reload feature uses `ActiveSupport::FileUpdateChecker` to monitor changes to translation files in your `locale/` directory and reloads them only when they've been modified, ensuring minimal performance impact.
+
 Using your translations from javascript
 =======================================
 
