@@ -97,7 +97,7 @@ Dynamic translations like `_("x"+"u")` cannot be found. You have 4 options:
  - add `N_('xu')` somewhere else in the code, so the parser sees it
  - add `N_('xu')` in a totally separate file like `locale/unfound_translations.rb`, so the parser sees it
  - use the [gettext_test_log rails plugin ](http://github.com/grosser/gettext_test_log) to find all translations that where used while testing
- - add a Logger to a translation Chain, so every unfound translations is logged ([example]((http://github.com/grosser/fast_gettext)))
+ - add a Logger to a translation Chain, so every unfound translations is logged ([example](http://github.com/grosser/fast_gettext))
 
 ### Option B: Traditional .po/.mo files
 
@@ -199,7 +199,7 @@ FastGettext supports pluralization
 n_('Apple','Apples',3) == 'Apples'
 ```
 
-Abnormal plurals like e.g. Polish that has 4 different can also be addressed, see [FastGettext Readme](http://github.com/grosser/fast_gettext)
+Languages with complex plural forms (such as Polish with its 4 different forms) can also be addressed, see [FastGettext Readme](http://github.com/grosser/fast_gettext)
 
 Customizing list of translatable files
 ======================================
