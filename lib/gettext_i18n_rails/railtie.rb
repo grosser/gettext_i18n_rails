@@ -5,7 +5,7 @@ module GettextI18nRails
     config.gettext_i18n_rails.msgcat = nil
     config.gettext_i18n_rails.xgettext = nil
     config.gettext_i18n_rails.use_for_active_record_attributes = true
-    config.gettext_i18n_rails.auto_reload_in_development = true
+    config.gettext_i18n_rails.auto_reload = Rails.env.development?
 
     rake_tasks do
       if Gem::Specification.find_all_by_name("gettext", ">= 3.0.2").any?
@@ -20,8 +20,8 @@ module GettextI18nRails
         end
       end
 
-      # Auto-reload .po files in development when they change
-      if app.config.gettext_i18n_rails.auto_reload_in_development && Rails.env.development?
+      # Auto-reload .po and .mo files when they change
+      if app.config.gettext_i18n_rails.auto_reload
         po_files = Dir[Rails.root.join("locale/**/*.{po,mo}")]
 
         reloader = ActiveSupport::FileUpdateChecker.new(po_files) do

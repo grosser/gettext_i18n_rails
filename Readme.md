@@ -301,10 +301,14 @@ Auto-reload translations in development
 
 By default, .po and .mo files are automatically reloaded in development mode when they change, so you don't need to restart the Rails server after editing translations.
 
-This feature is enabled by default. If you want to disable it, add the following to `config/environments/development.rb`:
+This feature is enabled by default in development. You can configure it in any environment file:
 
 ```Ruby
-config.gettext_i18n_rails.auto_reload_in_development = false
+# To disable in development
+config.gettext_i18n_rails.auto_reload = false
+
+# To enable in production (not recommended)
+config.gettext_i18n_rails.auto_reload = true
 ```
 
 The auto-reload feature uses `ActiveSupport::FileUpdateChecker` to monitor changes to translation files in your `locale/` directory and reloads them only when they've been modified, ensuring minimal performance impact.
