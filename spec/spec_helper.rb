@@ -23,6 +23,10 @@ module Rails
   def self.root
     File.dirname(__FILE__)
   end
+
+  def self.env
+    ActiveSupport::StringInquirer.new('test')
+  end
 end
 
 require 'gettext_i18n_rails'
