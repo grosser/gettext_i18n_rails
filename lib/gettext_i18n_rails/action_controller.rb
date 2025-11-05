@@ -10,10 +10,6 @@ path_controller = ->() {
     end
   end
 }
-if defined?(Rails) && Rails::VERSION::MAJOR >= 6
-  ActiveSupport.on_load(:action_controller_base) do
-    path_controller.call
-  end
-else
+ActiveSupport.on_load(:action_controller_base) do
   path_controller.call
 end
