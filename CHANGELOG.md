@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 2.1.0
+
 - Add automatic reloading of .po and .mo files in development mode
 
 ## 2.0.0
