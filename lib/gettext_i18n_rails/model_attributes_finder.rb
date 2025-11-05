@@ -1,5 +1,5 @@
 require 'rails/version'
-require 'rails' if Rails::VERSION::MAJOR > 2
+require 'rails'
 
 module GettextI18nRails
   #write all found models/columns to a file where GetTexts ruby parser can find them
@@ -43,29 +43,15 @@ module GettextI18nRails
     end
 
     def initialize
-      connection = ::ActiveRecord::Base.connection
-      @existing_tables = (Rails::VERSION::MAJOR >= 5 ? connection.data_sources : connection.tables)
-    end
-
-    # Rails 7.0 has deprecated direct_descendants in favor of subclasses.
-    # It was removed completely in Rails 7.1.
-    # This will maintain backwards compatibility with Rails 3.0 - 6.1
-    def subclass_method
-      if Rails::VERSION::MAJOR < 7
-        :direct_descendants
-      else
-        :subclasses
-      end
+      @existing_tables = ::ActiveRecord::Base.connection.data_sources
     end
 
     # Rails < 3.0 doesn't have DescendantsTracker.
     # Instead of iterating over ObjectSpace (slow) the decision was made NOT to support
     # class hierarchies with abstract base classes in Rails 2.x
     def model_attributes(model, ignored_tables, ignored_cols)
-      return [] if model.abstract_class? && Rails::VERSION::MAJOR < 3
-
       if model.abstract_class?
-        model.send(subclass_method).reject {|m| ignored?(m.table_name, ignored_tables)}.inject([]) do |attrs, m|
+        model.subclasses.reject {|m| ignored?(m.table_name, ignored_tables)}.inject([]) do |attrs, m|
           attrs.push(model_attributes(m, ignored_tables, ignored_cols)).flatten.uniq
         end
       elsif !ignored?(model.table_name, ignored_tables) && @existing_tables.include?(model.table_name)
@@ -76,25 +62,18 @@ module GettextI18nRails
     end
 
     def models
-      if Rails::VERSION::MAJOR >= 3
-        # Ensure autoloaders are set up before we attempt to eager load!
-        Rails.application.autoloaders.each(&:setup) if Rails.application.respond_to?(:autoloaders)
-        Rails.application.eager_load! # make sure that all models are loaded so that direct_descendants works
-        descendants = ::ActiveRecord::Base.send(subclass_method)
+      # Ensure autoloaders are set up before we attempt to eager load!
+      Rails.application.autoloaders.each(&:setup) if Rails.application.respond_to?(:autoloaders)
+      Rails.application.eager_load! # make sure that all models are loaded so that direct_descendants works
+      descendants = ::ActiveRecord::Base.subclasses
 
-        # In rails 5+ user models are supposed to inherit from ApplicationRecord
-        if defined?(::ApplicationRecord)
-          descendants += ApplicationRecord.send(subclass_method)
-          descendants.delete ApplicationRecord
-        end
+      # In rails 5+ user models are supposed to inherit from ApplicationRecord
+      if defined?(::ApplicationRecord)
+        descendants += ApplicationRecord.subclasses
+        descendants.delete ApplicationRecord
+      end
 
-        descendants
-      else
-        ::ActiveRecord::Base.connection.tables \
-          .map { |t| table_name_to_namespaced_model(t) } \
-          .compact \
-          .collect { |c| c.superclass.abstract_class? ? c.superclass : c }
-      end.uniq.sort_by(&:name)
+      descendants.uniq.sort_by(&:name)
     end
 
     def ignored?(name,patterns)

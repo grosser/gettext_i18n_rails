@@ -1,5 +1,5 @@
 PATH
-  remote: .
+  remote: ..
   specs:
     gettext_i18n_rails (2.1.0)
       fast_gettext (>= 0.9.0)
@@ -147,8 +147,6 @@ GEM
     nio4r (2.7.5)
     nokogiri (1.18.10-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.10-x86_64-darwin)
-      racc (~> 1.4)
     nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
     pp (0.6.3)
@@ -225,7 +223,6 @@ GEM
       temple (~> 0.10.0)
       tilt (>= 2.1.0)
     sqlite3 (2.7.4-arm64-darwin)
-    sqlite3 (2.7.4-x86_64-darwin)
     sqlite3 (2.7.4-x86_64-linux-gnu)
     stringio (3.1.7)
     temple (0.10.4)
@@ -245,11 +242,7 @@ GEM
     zeitwerk (2.7.3)
 
 PLATFORMS
-  arm64-darwin-21
-  arm64-darwin-23
   arm64-darwin-24
-  arm64-darwin-25
-  x86_64-darwin-22
   x86_64-linux
 
 DEPENDENCIES
@@ -258,7 +251,7 @@ DEPENDENCIES
   gettext_i18n_rails!
   haml
   hamlit
-  rails
+  rails (~> 8.0)
   rake
   rspec
   slim

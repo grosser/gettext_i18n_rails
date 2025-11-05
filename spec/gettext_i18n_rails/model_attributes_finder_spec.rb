@@ -2,10 +2,8 @@
 require "spec_helper"
 require "gettext_i18n_rails/model_attributes_finder"
 
-if Rails::VERSION::MAJOR > 2
-  module Test
-    class Application < Rails::Application
-    end
+module Test
+  class Application < Rails::Application
   end
 end
 
@@ -22,21 +20,17 @@ describe GettextI18nRails::ModelAttributesFinder do
   describe "#find" do
     it "returns all AR models" do
       keys = finder.find({}).keys
-      expected = [CarSeat, Part, StiParent]
-      expected.concat [AbstractParentClass, NotConventional] if Rails::VERSION::MAJOR >= 3
-      expected.concat [ActiveRecord::SchemaMigration] if Rails::VERSION::MAJOR >= 4 && !(Rails::VERSION::MAJOR == 7 && Rails::VERSION::MINOR > 0)
-      expected.concat [ActiveRecord::InternalMetadata] if Rails::VERSION::MAJOR >= 5 && !(Rails::VERSION::MAJOR == 7 && Rails::VERSION::MINOR > 0)
+      expected = [CarSeat, Part, StiParent, AbstractParentClass, NotConventional]
       keys.should =~ expected
     end
 
     it "returns all columns for each model" do
       attributes = finder.find({})
       attributes[CarSeat].should == ['id', 'seat_color']
-      attributes[NotConventional].should == ['id', 'name'] if Rails::VERSION::MAJOR > 2
+      attributes[NotConventional].should == ['id', 'name']
       attributes[Part].should == ['car_seat_id', 'id', 'name']
       attributes[StiParent].should == ['child_attribute', 'id', 'type']
-      attributes[AbstractParentClass].should ==
-        ['another_child_attribute', 'child_attribute', 'id'] if Rails::VERSION::MAJOR > 2
+      attributes[AbstractParentClass].should == ['another_child_attribute', 'child_attribute', 'id']
     end
   end
 end
