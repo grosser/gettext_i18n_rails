@@ -14,12 +14,7 @@ require 'action_mailer'
 require 'fast_gettext'
 
 # Define minimal Rails stub for library compatibility
-# Rails::VERSION::MAJOR is checked by action_controller.rb at load time
 module Rails
-  module VERSION
-    MAJOR = 7
-  end
-
   def self.root
     File.dirname(__FILE__)
   end
