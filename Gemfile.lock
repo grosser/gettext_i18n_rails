@@ -203,7 +203,7 @@ PLATFORMS
 
 DEPENDENCIES
   bump
-  gettext (>= 3.0.2)
+  gettext
   gettext_i18n_rails!
   haml
   hamlit
@@ -211,7 +211,7 @@ DEPENDENCIES
   rake
   rspec
   slim
-  sqlite3 (~> 1.7)
+  sqlite3
 
 BUNDLED WITH
    2.4.13
