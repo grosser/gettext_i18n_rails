@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Model name msgids now use the raw class name (`BigCar`, `Admin::User`) instead of the
+  humanized form (`Big car`), matching `human_attribute_name`. The humanized form is still
+  looked up as a deprecated fallback and warns once per msgid. See #207.
+
 ## 2.1.0
 
 - Add automatic reloading of .po and .mo files in development mode

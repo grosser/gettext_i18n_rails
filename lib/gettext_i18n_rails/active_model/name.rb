@@ -1,12 +1,12 @@
 module ActiveModel
   Name.class_eval do
     def human(options={})
-      human_name = @klass.humanize_class_name
+      msgid = @klass.gettext_model_name_msgid
 
       if count = options[:count]
-        n_(human_name, human_name.pluralize, count)
+        n_(msgid, msgid.pluralize, count)
       else
-        _(human_name)
+        _(msgid)
       end
     end
   end

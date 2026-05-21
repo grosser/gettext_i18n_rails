@@ -9,7 +9,7 @@ module GettextI18nRails
       File.open(file,'w') do |f|
         f.puts "#DO NOT MODIFY! AUTOMATICALLY GENERATED FILE!"
         ModelAttributesFinder.new.find(options).each do |model,column_names|
-          f.puts("_('#{model.humanize_class_name}')")
+          f.puts("_('#{model}')")
 
           #all columns namespaced under the model
           column_names.each do |attribute|
