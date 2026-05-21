@@ -17,6 +17,20 @@ describe GettextI18nRails::ModelAttributesFinder do
   # Rails < 3.0 doesn't have DescendantsTracker.
   # Instead of iterating over ObjectSpace (slow) the decision was made NOT to support
   # class hierarchies with abstract base classes in Rails 2.x
+  describe ".store_model_attributes" do
+    it "emits model names as n_() plural pairs and attributes as _()" do
+      FastGettext.silence_errors
+      content = with_file('') do |path|
+        GettextI18nRails.store_model_attributes(:to => path, :ignore_columns => [/_id$/, 'id', 'type'])
+        File.read(path)
+      end
+      content.should include("n_('CarSeat', 'CarSeats')")
+      content.should include("n_('Part', 'Parts')")
+      content.should include("_('CarSeat|Seat color')")
+      content.should_not include("_('CarSeat')")
+    end
+  end
+
   describe "#find" do
     it "returns all AR models" do
       keys = finder.find({}).keys

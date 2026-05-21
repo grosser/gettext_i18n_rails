@@ -177,6 +177,9 @@ warning. To migrate:
 
 The humanized fallback will be removed in a future major release.
 
+Model names are now extracted as `n_()` singular/plural pairs, so a translated
+`model_name.human(count:)` needs the `msgid_plural` filled in your `*.po` files.
+
 Error messages can be translated through FastGettext, if the ':message' is a translation-id or the matching Rails I18n key is translated.
 
 #### Option A:
