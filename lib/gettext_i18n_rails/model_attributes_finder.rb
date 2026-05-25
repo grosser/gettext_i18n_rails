@@ -9,12 +9,11 @@ module GettextI18nRails
       File.open(file,'w') do |f|
         f.puts "#DO NOT MODIFY! AUTOMATICALLY GENERATED FILE!"
         ModelAttributesFinder.new.find(options).each do |model,column_names|
-          f.puts("_('#{model.humanize_class_name}')")
+          f.puts(gettext_extraction_call(model.to_s))
 
           #all columns namespaced under the model
           column_names.each do |attribute|
-            translation = model.gettext_translation_for_attribute_name(attribute)
-            f.puts("_('#{translation}')")
+            f.puts(gettext_extraction_call(model.gettext_translation_for_attribute_name(attribute)))
           end
         end
         f.puts "#DO NOT MODIFY! AUTOMATICALLY GENERATED FILE!"
@@ -27,6 +26,18 @@ module GettextI18nRails
     end
   end
   module_function :store_model_attributes
+
+  # Model-name msgids (no '|') are emitted as an n_() singular/plural pair, so the
+  # .po file carries msgid_plural for `model_name.human(count:)`. Attribute msgids
+  # (scoped with '|') have no plural form and stay singular. See issue #207.
+  def gettext_extraction_call(msgid)
+    if msgid.include?('|')
+      "_('#{msgid}')"
+    else
+      "n_('#{msgid}', '#{msgid.pluralize}')"
+    end
+  end
+  module_function :gettext_extraction_call
 
   class ModelAttributesFinder
     # options:

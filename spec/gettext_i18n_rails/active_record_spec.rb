@@ -7,9 +7,21 @@ describe ActiveRecord::Base do
   end
 
   describe :human_name do
-    it "is translated through FastGettext" do
-      CarSeat.should_receive(:_).with('Car seat').and_return('Autositz')
+    it "is translated through FastGettext using the raw class name" do
+      CarSeat.should_receive(:_).with('CarSeat').and_return('Autositz')
       CarSeat.human_name.should == 'Autositz'
+    end
+  end
+
+  describe :gettext_model_name_msgid do
+    it "uses the raw class name" do
+      CarSeat.gettext_model_name_msgid.should == 'CarSeat'
+    end
+
+    it "falls back to the legacy humanized msgid and warns" do
+      FastGettext.stub(:current_repository).and_return('Car seat' => 'Autositz')
+      GettextI18nRails.should_receive(:warn_legacy_model_msgid).with('Car seat', 'CarSeat')
+      CarSeat.gettext_model_name_msgid.should == 'Car seat'
     end
   end
 
@@ -36,7 +48,13 @@ describe ActiveRecord::Base do
   end
 
   describe :gettext_translation_for_attribute_name do
-    it "translates foreign keys to model name keys" do
+    it "translates foreign keys to the raw model name key" do
+      Part.gettext_translation_for_attribute_name(:car_seat_id).should == 'CarSeat'
+    end
+
+    it "falls back to the legacy humanized foreign key msgid" do
+      FastGettext.stub(:current_repository).and_return('Car seat' => 'Autositz')
+      GettextI18nRails.stub(:warn_legacy_model_msgid)
       Part.gettext_translation_for_attribute_name(:car_seat_id).should == 'Car seat'
     end
   end

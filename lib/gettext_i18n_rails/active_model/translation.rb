@@ -8,7 +8,8 @@ module ActiveModel
     def gettext_translation_for_attribute_name(attribute)
       attribute = attribute.to_s
       if attribute.end_with?('_id')
-        humanize_class_name(attribute)
+        # foreign keys share the associated model's msgid (see #207)
+        gettext_resolve_legacy_msgid(attribute.sub(/_id\z/, '').camelize, humanize_class_name(attribute))
       else
         attribute_key = attribute.split('.').map! {|a| a.humanize }.join('|')
         root = inheritance_tree_root(self).to_s
@@ -39,6 +40,22 @@ module ActiveModel
     def humanize_class_name(name=nil)
       name ||= self.to_s
       name.underscore.humanize
+    end
+
+    # Canonical msgid for a model name is the raw class name (see #207),
+    # e.g. "SomeNamespace::SomeModel" -- consistent with human_attribute_name.
+    def gettext_model_name_msgid
+      gettext_resolve_legacy_msgid(to_s, humanize_class_name)
+    end
+
+    # Returns +current+, unless only the legacy msgid resolves to a
+    # translation -- then +legacy+ is returned and a deprecation is warned
+    # once. Keeps pre-#207 .po files working during the transition.
+    def gettext_resolve_legacy_msgid(current, legacy)
+      return current if current == legacy || FastGettext.cached_find(current) || !FastGettext.cached_find(legacy)
+
+      GettextI18nRails.warn_legacy_model_msgid(legacy, current)
+      legacy
     end
   end
 end

@@ -156,7 +156,7 @@ ActiveRecord - error messages
 =============================
 ActiveRecord error messages are translated through Rails::I18n, but
 model names and model attributes are translated through FastGettext.
-Therefore a validation error on a BigCar's wheels_size needs `_('big car')` and `_('BigCar|Wheels size')`
+Therefore a validation error on a BigCar's wheels_size needs `_('BigCar')` and `_('BigCar|Wheels size')`
 to display localized.
 
 The model/attribute translations can be found through `rake gettext:store_model_attributes`,

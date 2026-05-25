@@ -9,6 +9,6 @@ class ActiveRecord::Base
 
   # method deprecated in Rails 3.1
   def self.human_name(*args)
-    _(self.humanize_class_name)
+    _(gettext_model_name_msgid)
   end
 end
