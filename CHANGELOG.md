@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 2.2.0
+
 - Model name msgids now use the raw class name (`BigCar`, `Admin::User`) instead of the
   humanized form (`Big car`), matching `human_attribute_name`. The humanized form is still
   looked up as a deprecated fallback and warns once per msgid. See #207.
