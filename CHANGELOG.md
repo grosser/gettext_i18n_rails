@@ -9,6 +9,24 @@
   pairs, so model name plurals (`model_name.human(count:)`) can be translated via
   `msgid_plural`. Re-extract to pick up the plural entries. See #207.
 
+### Upgrading model name msgids (#207)
+
+Up to version 2.1.0 model names were looked up by their humanized form (`_('Big car')`),
+while attributes already used the raw class name (`_('BigCar|Wheels size')`). Model names
+now also use the raw class name (`_('BigCar')`, `_('Admin::User')`), so name and attribute
+lookups are consistent and greppable.
+
+The old humanized msgid is still looked up as a fallback and prints a one-time deprecation
+warning. To migrate:
+
+ - re-run `rake gettext:store_model_attributes` and `rake gettext:find`
+ - rename the affected `msgid`s in your `*.po` files (`Big car` -> `BigCar`)
+
+The humanized fallback will be removed in a future major release.
+
+Model names are now extracted as `n_()` singular/plural pairs, so a translated
+`model_name.human(count:)` needs the `msgid_plural` filled in your `*.po` files.
+
 ## 2.1.0
 
 - Add automatic reloading of .po and .mo files in development mode

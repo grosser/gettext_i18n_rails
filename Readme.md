@@ -162,24 +162,6 @@ to display localized.
 The model/attribute translations can be found through `rake gettext:store_model_attributes`,
 (which ignores some commonly untranslated columns like id,type,xxx_count,...).
 
-#### Upgrading model name msgids
-
-Up to version 2.1.0 model names were looked up by their humanized form (`_('Big car')`),
-while attributes already used the raw class name (`_('BigCar|Wheels size')`). Model names
-now also use the raw class name (`_('BigCar')`, `_('Admin::User')`), so name and attribute
-lookups are consistent and greppable.
-
-The old humanized msgid is still looked up as a fallback and prints a one-time deprecation
-warning. To migrate:
-
- - re-run `rake gettext:store_model_attributes` and `rake gettext:find`
- - rename the affected `msgid`s in your `*.po` files (`Big car` -> `BigCar`)
-
-The humanized fallback will be removed in a future major release.
-
-Model names are now extracted as `n_()` singular/plural pairs, so a translated
-`model_name.human(count:)` needs the `msgid_plural` filled in your `*.po` files.
-
 Error messages can be translated through FastGettext, if the ':message' is a translation-id or the matching Rails I18n key is translated.
 
 #### Option A:

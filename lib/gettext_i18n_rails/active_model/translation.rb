@@ -52,14 +52,10 @@ module ActiveModel
     # translation -- then +legacy+ is returned and a deprecation is warned
     # once. Keeps pre-#207 .po files working during the transition.
     def gettext_resolve_legacy_msgid(current, legacy)
-      return current if current == legacy || FastGettext.cached_find(current)
+      return current if current == legacy || FastGettext.cached_find(current) || !FastGettext.cached_find(legacy)
 
-      if FastGettext.cached_find(legacy)
-        GettextI18nRails.warn_legacy_model_msgid(legacy, current)
-        legacy
-      else
-        current
-      end
+      GettextI18nRails.warn_legacy_model_msgid(legacy, current)
+      legacy
     end
   end
 end
