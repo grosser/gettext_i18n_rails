@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Locale plural rules (e.g. from rails-i18n) now apply to non-gettext keys, so a `ja` or `ko` entry with only
+  `other:` no longer raises for `count: 1`.
+
 ## 2.2.0
 
 - Model name msgids now use the raw class name (`BigCar`, `Admin::User`) instead of the
