@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 2.3.0
+
 - Locale plural rules (e.g. from rails-i18n) now apply to non-gettext keys, so a `ja` or `ko` entry with only
   `other:` no longer raises for `count: 1`.
 
