@@ -5,8 +5,21 @@ module GettextI18nRails
     cattr_accessor :translate_defaults
     attr_accessor :backend
 
+    # rails-i18n includes Pluralization into this wrapper, but lookups run here.
+    class SimpleBackend < I18n::Backend::Simple
+      include I18n::Backend::Pluralization
+
+      protected
+
+      # default: nil, so a locale without a rule is not a missing translation.
+      def pluralizer(locale)
+        pluralizers[locale] ||= I18n.t(:"i18n.plural.rule", locale: locale, resolve: false, default: nil)
+      end
+    end
+    private_constant :SimpleBackend
+
     def initialize(*args)
-      self.backend = I18n::Backend::Simple.new(*args)
+      self.backend = SimpleBackend.new(*args)
     end
 
     def available_locales

@@ -122,6 +122,42 @@ describe GettextI18nRails::Backend do
     end
   end
 
+  describe "pluralization rules" do
+    around do |example|
+      # The rule is read through I18n.t.
+      original, I18n.backend = I18n.backend, subject
+      example.run
+    ensure
+      I18n.backend = original
+    end
+
+    before do
+      FastGettext.stub(:current_repository).and_return({})
+      subject.store_translations(:ja,
+        i18n: { plural: { keys: [:other], rule: lambda { |_n| :other } } },
+        apples: { other: "%{count} apples" })
+    end
+
+    it "applies the locale plural rule to non-gettext keys" do
+      subject.translate(:ja, :apples, count: 1).should == "1 apples"
+    end
+
+    it "does not report a missing rule as a missing translation" do
+      handler = I18n.exception_handler
+      I18n.exception_handler = lambda { |exception, *| raise exception.to_exception }
+      subject.store_translations(:xx, apples: { one: "one apple", other: "%{count} apples" })
+      subject.translate(:xx, :apples, count: 1).should == "one apple"
+    ensure
+      I18n.exception_handler = handler
+    end
+
+    it "keeps one/other for locales without a rule" do
+      subject.store_translations(:xx, apples: { one: "one apple", other: "%{count} apples" })
+      subject.translate(:xx, :apples, count: 1).should == "one apple"
+      subject.translate(:xx, :apples, count: 2).should == "2 apples"
+    end
+  end
+
   describe :interpolate do
     it "act as an identity function for an array" do
       translation = [:month, :day, :year]
