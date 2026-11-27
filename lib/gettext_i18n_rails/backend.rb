@@ -18,30 +18,35 @@ module GettextI18nRails
     end
     private_constant :SimpleBackend
 
+    module Translation
+      def translate(locale, key, options)
+        I18n.with_locale(locale) do
+          if gettext_key = gettext_key(key, options)
+            translation =
+              plural_translate(gettext_key, options) || FastGettext._(gettext_key)
+            interpolate(translation, options)
+          else
+            result = backend.translate(locale, key, options)
+            if result.is_a?(String)
+              result = result.dup if result.frozen?
+              result.force_encoding("UTF-8")
+            else
+              result
+            end
+          end
+        end
+      end
+    end
+    private_constant :Translation
+
+    include Translation
+
     def initialize(*args)
       self.backend = SimpleBackend.new(*args)
     end
 
     def available_locales
       FastGettext.available_locales || []
-    end
-
-    def translate(locale, key, options)
-      I18n.with_locale(locale) do
-        if gettext_key = gettext_key(key, options)
-          translation =
-            plural_translate(gettext_key, options) || FastGettext._(gettext_key)
-          interpolate(translation, options)
-        else
-          result = backend.translate(locale, key, options)
-          if result.is_a?(String)
-           result = result.dup if result.frozen?
-           result.force_encoding("UTF-8")
-          else
-            result
-          end
-        end
-      end
     end
 
     def method_missing(method, *args)
