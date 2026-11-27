@@ -96,6 +96,36 @@ describe GettextI18nRails::Backend do
       subject.translate('xx', 'c', {}).should == 'd'
     end
 
+    it "throws :exception for non-gettext keys missing in the locale" do
+      begin
+        original_fallbacks = I18n.fallbacks
+        I18n.fallbacks = [:de]
+
+        subject.store_translations(:de, greeting: "Hallo")
+        lambda { subject.translate(:en, :greeting, {}) }.should throw_symbol(:exception)
+      ensure
+        I18n.fallbacks = original_fallbacks
+      end
+    end
+
+    it "falls back to other locales for non-gettext keys when I18n::Backend::Fallbacks is included" do
+      backend = Class.new(GettextI18nRails::Backend) do
+        include I18n::Backend::Fallbacks
+      end
+
+      subject = backend.new
+
+      begin
+        original_fallbacks = I18n.fallbacks
+        I18n.fallbacks = [:de]
+
+        subject.store_translations(:de, greeting: "Hallo")
+        subject.translate(:en, :greeting, {}).should == "Hallo"
+      ensure
+        I18n.fallbacks = original_fallbacks
+      end
+    end
+
     if RUBY_VERSION > "1.9"
       it "produces UTF-8 when not using FastGettext to fix weird encoding bug" do
         subject.backend.should_receive(:translate).with('xx', 'c', {}).and_return 'ü'.force_encoding("US-ASCII")
